@@ -1,7 +1,7 @@
 /*************************************************/
-/* EVENT SORTING CODE FOR 89Y(p,p'), Ep = 17 MeV */
-/* Target thickness 2.25 mg/cm2, backward angles */
-/* Last update by Cecilie, March 28, 2014        */
+/* EVENT SORTING CODE FOR 186WY(a,d), Ea=30 MeV  */
+/* Target thickness 0.31 mg/cm2, backward angles */
+/* Last update by Cecilie, March 5, 2019         */
 /*************************************************/
 
 
@@ -141,7 +141,7 @@ UserXY::UserXY()
 
 void UserXY::CreateSpectra()
 {
-    const int max_e = 40000, max_de = 14000;
+    const int max_e = 24000, max_de = 12000;
     m_back = Mat( "m_back", "back detector energies",
                   2000, 0, max_e, "E(Si) [keV]", 8, 0, 8, "detector nr." );
     m_front = Mat( "m_front", "front detector energies",
