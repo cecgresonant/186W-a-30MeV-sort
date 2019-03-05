@@ -1,0 +1,82 @@
+#
+# sorting batch file example
+# 
+
+# where to load the gainshifts from; one can also use:
+#   parameter gain_e = ...
+# and so on
+gain file gainshifts_01.dat
+#gain file gainshifts_plain.dat
+
+# Two rectangles to cut away SiRi noise/electrons.
+# Contains E-minimum 1, DE-minimum 1, E-minimum 2, DE-minimum 2.
+# Including Z=1 
+parameter ede_rect = 500 250 30 500
+# Excluding Z=1
+#parameter ede_rect = 500 2500 2000 2500
+
+# cactus energy correction parameters for cactus time
+#parameter tnai_corr_enai  = 3.04485 15082.3 51.4706 -0.00123952
+parameter tnai_corr_enai = 0 0 1 0
+
+# siri energy correction parameters for cactus time
+#parameter tnai_corr_esi  = 7.53798e+00 -5.51500e+04 -2.83302e+03 1.10038e-03
+parameter tnai_corr_esi  = 0 0 1 0
+
+# Parameters for the range curve, 3He or alpha
+rangefile zrange_p.dat
+#rangefile zrange_he3.dat
+#rangefile zrange_a.dat
+
+# Thickness gate for alpha banana
+# for calibrated energies
+parameter thick_range = 130 15 0
+# for uncalibrated energies
+#parameter thick_range = 65 40 0
+
+# fit of rkinz column 1 as function of rkinz column 6
+#  192Os(a,a') @ 30 MeV, assumed thickness 0.5 mg/cm**2
+parameter ex_from_ede    = 27430.44 -0.984697 -0.000000735 \
+   27443.37 -0.983996 -0.000000740 \
+   27454.61 -0.983181 -0.000000745 \
+   27464.16 -0.982256 -0.000000753 \
+   27473.69 -0.981375 -0.000000758 \
+   27481.45 -0.980384 -0.000000765 \
+   27487.37 -0.979283 -0.000000773 \
+   27491.37 -0.978070 -0.000000782 
+
+
+# empirical excitation energy correction for the above, e.g. from known peaks
+parameter ex_corr_exp    = 0 1 \
+    0 1 \
+    0 1 \
+    0 1 \
+    0 1 \
+    0 1 \
+    0 1 \
+    0 1
+
+# maximum number of buffers to read for each file; for testing
+#max_buffers 10
+
+## now come all the datafiles ... (compressed or uncompressed)
+#data file datafiles/sirius-20101010-010101.data.gz
+
+# 192Os files
+data file datafiles/sirius-20170522-113743.data
+data file datafiles/sirius-20170522-225053.data
+#data file datafiles/sirius-20170523-072020.data
+data file datafiles/sirius-20170523-092841.data
+data file datafiles/sirius-20170523-092841-big-000.data
+data file datafiles/sirius-20170524-095143.data
+
+
+# Write to MAMA matrix 
+#export mama m_e_de_b5f0 m_e_de_b5f0_MAMA
+
+
+# at the end, spectra are dumped to the root file
+# root output file
+#export root offline_192Os_plain.root
+export root offline_192Os_proton.root
+
