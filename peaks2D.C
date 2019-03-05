@@ -507,7 +507,7 @@ void Peaks_EDE::ShowPeak(double px2d, double py2d, double pxp, double pyp)
     DrawPeakCross(px2d,  py2d, pxp, pyp);
 
     //const char* peakname[nPeaks] = {"12C_0M", "12C_4M", "12C_9M" };// three peaks
-    const char* peakname[nPeaks] = {"28Si_0", "28Si_4" }; // two peaks
+    const char* peakname[nPeaks] = {"188Re_0", "187Re_0" }; // two peaks
     //const char* peakname[nPeaks] = {"192Os_0gs" }; // one peak
     if( iPeak==0 )
         cout << "\tb(2d)=" << iBack << "\tf(2d)=" << iFront
