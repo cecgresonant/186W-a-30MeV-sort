@@ -1,12 +1,13 @@
 #
-# sorting batch file example
-# 
+# sorting batch file, 186W(a,d)188Re
+# 30-MeV alpha beam
+#
 
 # where to load the gainshifts from; one can also use:
 #   parameter gain_e = ...
 # and so on
-gain file gainshifts_01.dat
-#gain file gainshifts_plain.dat
+#gain file gainshifts_01.dat
+gain file gainshifts_plain.txt
 
 # Two rectangles to cut away SiRi noise/electrons.
 # Contains E-minimum 1, DE-minimum 1, E-minimum 2, DE-minimum 2.
@@ -24,7 +25,8 @@ parameter tnai_corr_enai = 0 0 1 0
 parameter tnai_corr_esi  = 0 0 1 0
 
 # Parameters for the range curve, 3He or alpha
-rangefile zrange_p.dat
+#rangefile zrange_p.dat
+rangefile zrange_d.dat
 #rangefile zrange_he3.dat
 #rangefile zrange_a.dat
 
@@ -35,15 +37,15 @@ parameter thick_range = 130 15 0
 #parameter thick_range = 65 40 0
 
 # fit of rkinz column 1 as function of rkinz column 6
-#  192Os(a,a') @ 30 MeV, assumed thickness 0.5 mg/cm**2
-parameter ex_from_ede    = 27430.44 -0.984697 -0.000000735 \
-   27443.37 -0.983996 -0.000000740 \
-   27454.61 -0.983181 -0.000000745 \
-   27464.16 -0.982256 -0.000000753 \
-   27473.69 -0.981375 -0.000000758 \
-   27481.45 -0.980384 -0.000000765 \
-   27487.37 -0.979283 -0.000000773 \
-   27491.37 -0.978070 -0.000000782 
+#  186W(a,d) @ 30 MeV, thickness 0.31 mg/cm**2
+parameter ex_from_ede    = 14551.283 -1.000915 -0.000000804 \
+   14556.803 -1.000073 -0.000000818 \
+   14561.938 -0.999144 -0.000000833 \
+   14567.338 -0.998259 -0.000000845 \
+   14572.350 -0.997292 -0.000000860 \
+   14576.298 -0.996112 -0.000000882 \
+   14580.493 -0.994982 -0.000000900 \
+   14584.253 -0.993772 -0.000000921 
 
 
 # empirical excitation energy correction for the above, e.g. from known peaks
@@ -62,13 +64,41 @@ parameter ex_corr_exp    = 0 1 \
 ## now come all the datafiles ... (compressed or uncompressed)
 #data file datafiles/sirius-20101010-010101.data.gz
 
-# 192Os files
-data file datafiles/sirius-20170522-113743.data
-data file datafiles/sirius-20170522-225053.data
-#data file datafiles/sirius-20170523-072020.data
-data file datafiles/sirius-20170523-092841.data
-data file datafiles/sirius-20170523-092841-big-000.data
-data file datafiles/sirius-20170524-095143.data
+# 186W files
+data file datafiles/sirius-20160420-135618.data
+data file datafiles/sirius-20160420-171400.data
+data file datafiles/sirius-20160420-182451.data
+data file datafiles/sirius-20160420-233716.data
+data file datafiles/sirius-20160421-091709.data
+data file datafiles/sirius-20160421-100724.data
+data file datafiles/sirius-20160421-224045.data
+data file datafiles/sirius-20160422-081940.data
+data file datafiles/sirius-20160422-122054.data
+data file datafiles/sirius-20160422-124416.data
+data file datafiles/sirius-20160422-180843.data
+data file datafiles/sirius-20160423-073059.data
+data file datafiles/sirius-20160423-160731.data
+data file datafiles/sirius-20160423-173835.data
+data file datafiles/sirius-20160423-213756.data
+data file datafiles/sirius-20160424-104217.data
+data file datafiles/sirius-20160424-160703.data
+data file datafiles/sirius-20160424-223103.data
+data file datafiles/sirius-20160425-075414.data
+data file datafiles/sirius-20160425-120131.data
+data file datafiles/sirius-20160425-203224.data
+data file datafiles/sirius-20160425-222023.data
+data file datafiles/sirius-20160426-104456.data
+data file datafiles/sirius-20160426-120853.data
+data file datafiles/sirius-20160426-141446.data
+data file datafiles/sirius-20160426-230123.data
+data file datafiles/sirius-20160427-033555-big-000.data
+data file datafiles/sirius-20160427-033555.data
+data file datafiles/sirius-20160428-091134.data
+data file datafiles/sirius-20160428-122211.data
+data file datafiles/sirius-20160428-173419.data
+data file datafiles/sirius-20160428-230248.data
+data file datafiles/sirius-20160429-070605.data
+
 
 
 # Write to MAMA matrix 
@@ -77,6 +107,6 @@ data file datafiles/sirius-20170524-095143.data
 
 # at the end, spectra are dumped to the root file
 # root output file
-#export root offline_192Os_plain.root
-export root offline_192Os_proton.root
+export root offline_186W_plain.root
+#export root offline_192Os_proton.root
 
