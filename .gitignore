@@ -2,3 +2,7 @@
 datafiles/
 QKinz_runs/
 calibration_186W_d.xlsx
+.depend-user_sort.dep
+offline_186W_plain.root
+sorting
+user_sort.o
