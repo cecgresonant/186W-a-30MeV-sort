@@ -141,7 +141,7 @@ UserXY::UserXY()
 
 void UserXY::CreateSpectra()
 {
-    const int max_e = 24000, max_de = 12000;
+    const int max_e = 20000, max_de = 10000;
     m_back = Mat( "m_back", "back detector energies",
                   2000, 0, max_e, "E(Si) [keV]", 8, 0, 8, "detector nr." );
     m_front = Mat( "m_front", "front detector energies",
@@ -153,16 +153,16 @@ void UserXY::CreateSpectra()
         for(int f=0; f<8; ++f ) {
             m_e_de_individual[b][f] = 
                 Mat( ioprintf("m_e_de_b%df%d", b, f), ioprintf("#DeltaE : E detector %d strip %d", b, f),
-                     2000, 0, max_e, "E(Si) [keV]", 2000, 0, max_de, "#DeltaE(Si) [keV]" );
+                     500, 0, max_e, "E(Si) [keV]", 500, 0, max_de, "#DeltaE(Si) [keV]" );
             h_ede_individual[b][f] =
                 Spec( ioprintf("h_ede_b%df%d", b, f), ioprintf("E+#DeltaE detector %d strip %d", b, f),
-                      2000, 0, max_e, "E+#DeltaE [keV]" );
+                      1000, 0, max_e, "E+#DeltaE [keV]" );
         }
     }
 #endif /* MAKE_INDIVIDUAL_E_DE_PLOTS */
     for(int f=0; f<8; ++f ) {
         m_e_de_strip[f] = Mat( ioprintf("m_e_de_f%d", f), ioprintf("E(NaI) : E(Si) strip %d", f),
-                               2000, 0, max_e, "E(Si) [keV]", 2000, 0, max_de, "#DeltaE(Si) [keV]" );
+                               1000, 0, max_e, "E(Si) [keV]", 1000, 0, max_de, "#DeltaE(Si) [keV]" );
     }
 
     m_e_de = Mat( "m_e_de", "#DeltaE : E for all detectors together",
