@@ -1,12 +1,12 @@
 #
-# sorting batch file example
+# sorting batch file 60Ni(a,a'), 30 MeV alphas
 # 
 
 # where to load the gainshifts from; one can also use:
 #   parameter gain_e = ...
 # and so on
-gain file gainshifts_01.dat
-#gain file gainshifts_plain.dat
+#gain file gainshifts_01.dat
+gain file gainshifts_plain.txt
 
 # Two rectangles to cut away SiRi noise/electrons.
 # Contains E-minimum 1, DE-minimum 1, E-minimum 2, DE-minimum 2.
@@ -63,8 +63,11 @@ parameter ex_corr_exp    = 0 1 \
 #data file datafiles/sirius-20101010-010101.data.gz
 
 # 60Ni files
-data file datafiles/sirius-20170522-094001.data
-
+data file datafiles/sirius-20160429-094446.data
+data file datafiles/sirius-20160429-094446-big-000.data
+data file datafiles/sirius-20160429-094446-big-001.data
+data file datafiles/sirius-20160429-094446-big-002.data
+data file datafiles/sirius-20160429-094446-big-003.data
 
 # Write to MAMA matrix 
 #export mama m_e_de_b5f0 m_e_de_b5f0_MAMA
@@ -73,6 +76,6 @@ data file datafiles/sirius-20170522-094001.data
 # at the end, spectra are dumped to the root file
 # root output file
 #export root offline_12C_plain.root
-#export root offline_60Ni_plain.root
-export root offline_60Ni.root
+export root offline_60Ni_plain.root
+#export root offline_60Ni.root
 
