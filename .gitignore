@@ -1,6 +1,7 @@
 *.data
 datafiles/
 QKinz_runs/
+figures/
 calibration_186W_d.xlsx
 ~$calibration_186W_d.xlsx
 .depend-user_sort.dep
