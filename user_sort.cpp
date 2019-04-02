@@ -1,5 +1,5 @@
 /*************************************************/
-/* EVENT SORTING CODE FOR 186WY(a,d), Ea=30 MeV  */
+/* EVENT SORTING CODE FOR 186W(a,d), Ea=30 MeV   */
 /* Target thickness 0.31 mg/cm2, backward angles */
 /* Last update by Cecilie, March 5, 2019         */
 /*************************************************/
