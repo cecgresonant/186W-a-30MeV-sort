@@ -1,5 +1,6 @@
 #
 # sorting batch file 60Ni(a,a'), 30 MeV alphas
+# Target thickness: 2.0 mg/cm2
 # 
 
 # where to load the gainshifts from; one can also use:
