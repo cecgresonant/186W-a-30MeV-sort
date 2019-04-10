@@ -76,7 +76,6 @@ data file datafiles/sirius-20160429-094446-big-003.data
 
 # at the end, spectra are dumped to the root file
 # root output file
-#export root offline_12C_plain.root
 export root offline_60Ni_plain.root
 #export root offline_60Ni.root
 
