@@ -1,6 +1,8 @@
 /*************************************************/
 /* EVENT SORTING CODE FOR 186W(a,d), Ea=30 MeV   */
 /* Target thickness 0.31 mg/cm2, backward angles */
+/* For 60Ni calibration run, compress the banana */
+/* spectra by a factor of 2 extra                */
 /* Last update by Cecilie, March 5, 2019         */
 /*************************************************/
 
@@ -154,6 +156,7 @@ void UserXY::CreateSpectra()
             m_e_de_individual[b][f] = 
                 Mat( ioprintf("m_e_de_b%df%d", b, f), ioprintf("#DeltaE : E detector %d strip %d", b, f),
                      500, 0, max_e, "E(Si) [keV]", 500, 0, max_de, "#DeltaE(Si) [keV]" );
+                     //250, 0, max_e, "E(Si) [keV]", 250, 0, max_de, "#DeltaE(Si) [keV]" );// For 60Ni
             h_ede_individual[b][f] =
                 Spec( ioprintf("h_ede_b%df%d", b, f), ioprintf("E+#DeltaE detector %d strip %d", b, f),
                       1000, 0, max_e, "E+#DeltaE [keV]" );
