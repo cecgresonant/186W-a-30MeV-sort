@@ -466,8 +466,8 @@ Peaks_EDE::Peaks_EDE(const char* on, int back, int front, int peak)
 // ------------------------------------------------------------------------
 
 //const int Peaks_EDE::nPeaks = 3;  // three peaks
-const int Peaks_EDE::nPeaks = 2;    // two peaks
-//const int Peaks_EDE::nPeaks = 1;    // one peak
+//const int Peaks_EDE::nPeaks = 2;    // two peaks
+const int Peaks_EDE::nPeaks = 1;    // one peak
 
 
 // ------------------------------------------------------------------------
@@ -509,8 +509,8 @@ void Peaks_EDE::ShowPeak(double px2d, double py2d, double pxp, double pyp)
     DrawPeakCross(px2d,  py2d, pxp, pyp);
 
     //const char* peakname[nPeaks] = {"12C_0M", "12C_4M", "12C_9M" };// three peaks
-    const char* peakname[nPeaks] = {"188Re_0", "19F_6" }; // two peaks, g.s. of 188Re and 6th Ex of 19F
-    //const char* peakname[nPeaks] = {"192Os_0gs" }; // one peak
+    //const char* peakname[nPeaks] = {"188Re_0", "19F_6" }; // two peaks, g.s. of 188Re and 6th Ex of 19F
+    const char* peakname[nPeaks] = {"186W_0gs" }; // one peak
     if( iPeak==0 )
         cout << "\tb(2d)=" << iBack << "\tf(2d)=" << iFront
              << "\tb(proj)=" << iBack << "\tf(proj)=" << iFront << endl;
