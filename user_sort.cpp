@@ -144,7 +144,7 @@ UserXY::UserXY()
 void UserXY::CreateSpectra()
 {
     //const int max_e = 20000, max_de = 10000; // For protons, deuterons, tritons
-    const int max_e = 24000, max_de = 20000; // For alphas
+    const int max_e = 40000, max_de = 20000; // For alphas
     m_back = Mat( "m_back", "back detector energies",
                   2000, 0, max_e, "E(Si) [keV]", 8, 0, 8, "detector nr." );
     m_front = Mat( "m_front", "front detector energies",
