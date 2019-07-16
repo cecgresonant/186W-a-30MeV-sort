@@ -2,6 +2,8 @@
 datafiles/
 QKinz_runs/
 figures/
+alpha_peaks_60Ni_b0.csv
+alpha_peaks_60Ni.csv
 calibration_186W_a.xlsx
 ~$calibration_186W_a.xlsx
 calibration_186W_d.xlsx
