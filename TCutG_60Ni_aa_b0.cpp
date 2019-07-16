@@ -1,12 +1,19 @@
-// Script to grab the m_e_de_b0fX matrices for the 60Ni(a,a') calibration data
+// Script to grab the m_e_de_b0fX matrices for the 60Ni(a,a) calibration data
 // and make graphical cuts of the ground-state peak, and fit the energy 
 // deposited in the E and Delta E detectors to be used for calibration
-// of the 186W(a,a') data set. This is now for the b0 
-// Cecilie, July 2, 2019
+// of the 186W(a,a') data set. This is for the b0 detector.
+// Cecilie, July 16, 2019
+
+#include <fstream>
+#include <iostream>
 
 void TCutG_60Ni_aa_b0(){
     // No stats shown
     gStyle->SetOptStat(0);
+
+    // Create output file to write the centroids of the 60Ni(a,a) peak in the Delta E and E detectors
+    ofstream outfile("alpha_peaks_60Ni_b0.csv");
+    outfile << " Ground-state peak positions for the elastic alpha scattering off 60Ni" << endl;
     
     // Grab input file
     TFile *file = TFile::Open("offline_60Ni_plain.root");
@@ -326,7 +333,7 @@ void TCutG_60Ni_aa_b0(){
     cutg_b0f7->SetPoint(23,12246.4,4696.89);
     cutg_b0f7->Draw("same");
 
-    // Plot the projection on the E detector axis (x axis)
+    // Plot the projection on the E detector axis (x axis), b0f0
     c1->cd(9);
     gPad->SetBottomMargin(0.13);
     gPad->SetLeftMargin(0.14);
@@ -337,155 +344,265 @@ void TCutG_60Ni_aa_b0(){
     projx_cutg_b0f0->Draw("");
     projx_cutg_b0f0->Fit("gaus");
 
-    c1->cd(10);
-    TH1D *projx_cutg_b0f1 = banana_b0f1->ProjectionX("projx_cutg_b0f1",1,banana_b0f1->GetNbinsX(),"[cutg_b0f1]");              
-    projx_cutg_b0f1->Rebin(2);
-    projx_cutg_b0f1->Draw("");
-    projx_cutg_b0f1->Fit("gaus");
-    gPad->SetBottomMargin(0.13);
-    gPad->SetLeftMargin(0.14);
-    gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);
-
-    c1->cd(11);
-    TH1D *projx_cutg_b0f2 = banana_b0f2->ProjectionX("projx_cutg_b0f2",1,banana_b0f2->GetNbinsX(),"[cutg_b0f2]");              
-    projx_cutg_b0f2->Rebin(2);
-    projx_cutg_b0f2->Draw("");
-    projx_cutg_b0f2->Fit("gaus");
-    gPad->SetBottomMargin(0.13);
-    gPad->SetLeftMargin(0.14);
-    gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);
-
-    c1->cd(12);
-    TH1D *projx_cutg_b0f3 = banana_b0f3->ProjectionX("projx_cutg_b0f3",1,banana_b0f3->GetNbinsX(),"[cutg_b0f3]");              
-    projx_cutg_b0f3->Rebin(2);
-    projx_cutg_b0f3->Draw("");
-    projx_cutg_b0f3->Fit("gaus");
-    gPad->SetBottomMargin(0.13);
-    gPad->SetLeftMargin(0.14);
-    gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);
-
-    c1->cd(13);
-    TH1D *projx_cutg_b0f4 = banana_b0f4->ProjectionX("projx_cutg_b0f4",1,banana_b0f4->GetNbinsX(),"[cutg_b0f4]");              
-    projx_cutg_b0f4->Rebin(2);
-    projx_cutg_b0f4->Draw("");
-    projx_cutg_b0f4->Fit("gaus");
-    gPad->SetBottomMargin(0.13);
-    gPad->SetLeftMargin(0.14);
-    gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);
-
-    c1->cd(14);
-    TH1D *projx_cutg_b0f5 = banana_b0f5->ProjectionX("projx_cutg_b0f5",1,banana_b0f5->GetNbinsX(),"[cutg_b0f5]");              
-    projx_cutg_b0f5->Rebin(2);
-    projx_cutg_b0f5->Draw("");
-    projx_cutg_b0f5->Fit("gaus");
-    gPad->SetBottomMargin(0.13);
-    gPad->SetLeftMargin(0.14);
-    gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);
-
-    c1->cd(15);
-    TH1D *projx_cutg_b0f6 = banana_b0f6->ProjectionX("projx_cutg_b0f6",1,banana_b0f6->GetNbinsX(),"[cutg_b0f6]");              
-    projx_cutg_b0f6->Rebin(2);
-    projx_cutg_b0f6->Draw("");
-    projx_cutg_b0f6->Fit("gaus");
-    gPad->SetBottomMargin(0.13);
-    gPad->SetLeftMargin(0.14);
-    gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);
-
-    c1->cd(16);
-    TH1D *projx_cutg_b0f7 = banana_b0f7->ProjectionX("projx_cutg_b0f7",1,banana_b0f7->GetNbinsX(),"[cutg_b0f7]");              
-    projx_cutg_b0f7->Rebin(2);
-    projx_cutg_b0f7->Draw("");
-    projx_cutg_b0f7->Fit("gaus");
-    gPad->SetBottomMargin(0.13);
-    gPad->SetLeftMargin(0.14);
-    gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);
+    // Grab the centroid for the E detector
+    TF1 *fitx = (TF1*)projx_cutg_b0f0->GetListOfFunctions()->FindObject("gaus");
+    double centroidx = fitx->GetParameter(1);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c1->cd(17);
+    gPad->SetBottomMargin(0.13);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.03);
+    gPad->SetTopMargin(0.07);
     TH1D *projy_cutg_b0f0 = banana_b0f0->ProjectionY("projy_cutg_b0f0",1,banana_b0f0->GetNbinsY(),"[cutg_b0f0]");              
     projy_cutg_b0f0->Rebin(2);
     projy_cutg_b0f0->Draw("");
     projy_cutg_b0f0->Fit("gaus");
+
+    // Grab the centroid for the Delta E detector
+    TF1 *fity = (TF1*)projy_cutg_b0f0->GetListOfFunctions()->FindObject("gaus");
+    double centroidy = fity->GetParameter(1);
+
+    // Write the two centroids to file
+    outfile << " b0f0" << endl;
+    outfile << centroidx <<  "," << centroidy << endl;
+    outfile << endl;
+
+
+    c1->cd(10);
     gPad->SetBottomMargin(0.13);
     gPad->SetLeftMargin(0.14);
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
+    TH1D *projx_cutg_b0f1 = banana_b0f1->ProjectionX("projx_cutg_b0f1",1,banana_b0f1->GetNbinsX(),"[cutg_b0f1]");              
+    projx_cutg_b0f1->Rebin(2);
+    projx_cutg_b0f1->Draw("");
+    projx_cutg_b0f1->Fit("gaus");
+
+    // Grab the centroid for the E detector
+    fitx = (TF1*)projx_cutg_b0f1->GetListOfFunctions()->FindObject("gaus");
+    centroidx = fitx->GetParameter(1);
 
     c1->cd(18);
+    gPad->SetBottomMargin(0.13);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.03);
+    gPad->SetTopMargin(0.07);
     TH1D *projy_cutg_b0f1 = banana_b0f1->ProjectionY("projy_cutg_b0f1",1,banana_b0f1->GetNbinsY(),"[cutg_b0f1]");              
     projy_cutg_b0f1->Rebin(2);
     projy_cutg_b0f1->Draw("");
     projy_cutg_b0f1->Fit("gaus");
+
+    // Grab the centroid for the Delta E detector
+    fity = (TF1*)projy_cutg_b0f1->GetListOfFunctions()->FindObject("gaus");
+    centroidy = fity->GetParameter(1);
+
+    // Write the two centroids to file
+    outfile << " b0f1" << endl;
+    outfile << centroidx <<  "," << centroidy << endl;
+    outfile << endl;
+
+    c1->cd(11);
     gPad->SetBottomMargin(0.13);
     gPad->SetLeftMargin(0.14);
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
+    TH1D *projx_cutg_b0f2 = banana_b0f2->ProjectionX("projx_cutg_b0f2",1,banana_b0f2->GetNbinsX(),"[cutg_b0f2]");              
+    projx_cutg_b0f2->Rebin(2);
+    projx_cutg_b0f2->Draw("");
+    projx_cutg_b0f2->Fit("gaus");
+
+    // Grab the centroid for the E detector
+    fitx = (TF1*)projx_cutg_b0f2->GetListOfFunctions()->FindObject("gaus");
+    centroidx = fitx->GetParameter(1);
 
     c1->cd(19);
+    gPad->SetBottomMargin(0.13);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.03);
+    gPad->SetTopMargin(0.07);
     TH1D *projy_cutg_b0f2 = banana_b0f2->ProjectionY("projy_cutg_b0f2",1,banana_b0f2->GetNbinsY(),"[cutg_b0f2]");              
     projy_cutg_b0f2->Rebin(2);
     projy_cutg_b0f2->Draw("");
     projy_cutg_b0f2->Fit("gaus");
+
+    // Grab the centroid for the Delta E detector
+    fity = (TF1*)projy_cutg_b0f2->GetListOfFunctions()->FindObject("gaus");
+    centroidy = fity->GetParameter(1);
+
+    // Write the two centroids to file
+    outfile << " b0f2" << endl;
+    outfile << centroidx <<  "," << centroidy << endl;
+    outfile << endl;
+
+    c1->cd(12);
     gPad->SetBottomMargin(0.13);
     gPad->SetLeftMargin(0.14);
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
+    TH1D *projx_cutg_b0f3 = banana_b0f3->ProjectionX("projx_cutg_b0f3",1,banana_b0f3->GetNbinsX(),"[cutg_b0f3]");              
+    projx_cutg_b0f3->Rebin(2);
+    projx_cutg_b0f3->Draw("");
+    projx_cutg_b0f3->Fit("gaus");
+
+    // Grab the centroid for the E detector
+    fitx = (TF1*)projx_cutg_b0f3->GetListOfFunctions()->FindObject("gaus");
+    centroidx = fitx->GetParameter(1);
 
     c1->cd(20);
-    TH1D *projy_cutg_b0f3 = banana_b0f3->ProjectionY("projy_cutg_b0f3",1,banana_b0f3->GetNbinsY(),"[cutg_b0f3]");              
-    projy_cutg_b0f3->Rebin(2);
-    projy_cutg_b0f3->Draw("");
-    projy_cutg_b0f3->Fit("gaus");
     gPad->SetBottomMargin(0.13);
     gPad->SetLeftMargin(0.14);
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);  
+    TH1D *projy_cutg_b0f3 = banana_b0f3->ProjectionY("projy_cutg_b0f3",1,banana_b0f3->GetNbinsY(),"[cutg_b0f3]");              
+    projy_cutg_b0f3->Rebin(2);
+    projy_cutg_b0f3->Draw("");
+    projy_cutg_b0f3->Fit("gaus");
 
+    // Grab the centroid for the Delta E detector
+    fity = (TF1*)projy_cutg_b0f3->GetListOfFunctions()->FindObject("gaus");
+    centroidy = fity->GetParameter(1);
+
+    // Write the two centroids to file
+    outfile << " b0f3" << endl;
+    outfile << centroidx <<  "," << centroidy << endl;
+    outfile << endl;
+
+    c1->cd(13);
+    gPad->SetBottomMargin(0.13);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.03);
+    gPad->SetTopMargin(0.07);
+    TH1D *projx_cutg_b0f4 = banana_b0f4->ProjectionX("projx_cutg_b0f4",1,banana_b0f4->GetNbinsX(),"[cutg_b0f4]");              
+    projx_cutg_b0f4->Rebin(2);
+    projx_cutg_b0f4->Draw("");
+    projx_cutg_b0f4->Fit("gaus");
+
+    // Grab the centroid for the E detector
+    fitx = (TF1*)projx_cutg_b0f4->GetListOfFunctions()->FindObject("gaus");
+    centroidx = fitx->GetParameter(1);
+ 
     c1->cd(21);
+    gPad->SetBottomMargin(0.13);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.03);
+    gPad->SetTopMargin(0.07);    
     TH1D *projy_cutg_b0f4 = banana_b0f4->ProjectionY("projy_cutg_b0f4",1,banana_b0f4->GetNbinsY(),"[cutg_b0f4]");              
     projy_cutg_b0f4->Rebin(2);
     projy_cutg_b0f4->Draw("");
     projy_cutg_b0f4->Fit("gaus");
+
+    // Grab the centroid for the Delta E detector
+    fity = (TF1*)projy_cutg_b0f4->GetListOfFunctions()->FindObject("gaus");
+    centroidy = fity->GetParameter(1);
+
+    // Write the two centroids to file
+    outfile << " b0f4" << endl;
+    outfile << centroidx <<  "," << centroidy << endl;
+    outfile << endl;
+
+    c1->cd(14);
+    gPad->SetBottomMargin(0.13);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.03);
+    gPad->SetTopMargin(0.07);
+    TH1D *projx_cutg_b0f5 = banana_b0f5->ProjectionX("projx_cutg_b0f5",1,banana_b0f5->GetNbinsX(),"[cutg_b0f5]");              
+    projx_cutg_b0f5->Rebin(2);
+    projx_cutg_b0f5->Draw("");
+    projx_cutg_b0f5->Fit("gaus");
+
+    // Grab the centroid for the E detector
+    fitx = (TF1*)projx_cutg_b0f5->GetListOfFunctions()->FindObject("gaus");
+    centroidx = fitx->GetParameter(1);
+
+    c1->cd(22);
     gPad->SetBottomMargin(0.13);
     gPad->SetLeftMargin(0.14);
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);    
-
-    c1->cd(22);
     TH1D *projy_cutg_b0f5 = banana_b0f5->ProjectionY("projy_cutg_b0f5",1,banana_b0f5->GetNbinsY(),"[cutg_b0f5]");              
     projy_cutg_b0f5->Rebin(2);
     projy_cutg_b0f5->Draw("");
     projy_cutg_b0f5->Fit("gaus");
+
+    // Grab the centroid for the Delta E detector
+    fity = (TF1*)projy_cutg_b0f5->GetListOfFunctions()->FindObject("gaus");
+    centroidy = fity->GetParameter(1);
+
+    // Write the two centroids to file
+    outfile << " b0f5" << endl;
+    outfile << centroidx <<  "," << centroidy << endl;
+    outfile << endl;
+
+
+    c1->cd(15);
+    gPad->SetBottomMargin(0.13);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.03);
+    gPad->SetTopMargin(0.07);
+    TH1D *projx_cutg_b0f6 = banana_b0f6->ProjectionX("projx_cutg_b0f6",1,banana_b0f6->GetNbinsX(),"[cutg_b0f6]");              
+    projx_cutg_b0f6->Rebin(2);
+    projx_cutg_b0f6->Draw("");
+    projx_cutg_b0f6->Fit("gaus");
+
+    // Grab the centroid for the E detector
+    fitx = (TF1*)projx_cutg_b0f6->GetListOfFunctions()->FindObject("gaus");
+    centroidx = fitx->GetParameter(1);
+
+    c1->cd(23);
     gPad->SetBottomMargin(0.13);
     gPad->SetLeftMargin(0.14);
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);    
-
-    c1->cd(23);
     TH1D *projy_cutg_b0f6 = banana_b0f6->ProjectionY("projy_cutg_b0f6",1,banana_b0f6->GetNbinsY(),"[cutg_b0f6]");              
     projy_cutg_b0f6->Rebin(2);
     projy_cutg_b0f6->Draw("");
     projy_cutg_b0f6->Fit("gaus");
+
+    // Grab the centroid for the Delta E detector
+    fity = (TF1*)projy_cutg_b0f6->GetListOfFunctions()->FindObject("gaus");
+    centroidy = fity->GetParameter(1);
+
+    // Write the two centroids to file
+    outfile << " b0f6" << endl;
+    outfile << centroidx <<  "," << centroidy << endl;
+    outfile << endl;
+
+    c1->cd(16);
     gPad->SetBottomMargin(0.13);
     gPad->SetLeftMargin(0.14);
     gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);    
+    gPad->SetTopMargin(0.07);
+    TH1D *projx_cutg_b0f7 = banana_b0f7->ProjectionX("projx_cutg_b0f7",1,banana_b0f7->GetNbinsX(),"[cutg_b0f7]");              
+    projx_cutg_b0f7->Rebin(2);
+    projx_cutg_b0f7->Draw("");
+    projx_cutg_b0f7->Fit("gaus");
+
+    // Grab the centroid for the E detector
+    fitx = (TF1*)projx_cutg_b0f7->GetListOfFunctions()->FindObject("gaus");
+    centroidx = fitx->GetParameter(1);
 
     c1->cd(24);
+    gPad->SetBottomMargin(0.13);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.03);
+    gPad->SetTopMargin(0.07);   
     TH1D *projy_cutg_b0f7 = banana_b0f7->ProjectionY("projy_cutg_b0f7",1,banana_b0f7->GetNbinsY(),"[cutg_b0f7]");              
     projy_cutg_b0f7->Rebin(2);
     projy_cutg_b0f7->Draw("");
     projy_cutg_b0f7->Fit("gaus");
-    gPad->SetBottomMargin(0.13);
-    gPad->SetLeftMargin(0.14);
-    gPad->SetRightMargin(0.03);
-    gPad->SetTopMargin(0.07);    
+
+    // Grab the centroid for the Delta E detector
+    fity = (TF1*)projy_cutg_b0f7->GetListOfFunctions()->FindObject("gaus");
+    centroidy = fity->GetParameter(1);
+
+    // Write the two centroids to file
+    outfile << " b0f7" << endl;
+    outfile << centroidx <<  "," << centroidy << endl;
+    outfile << endl;
+
+    outfile.close();
+
+    c1->Print("fit_60Ni_aa_peaks.png"); 
 
 }
