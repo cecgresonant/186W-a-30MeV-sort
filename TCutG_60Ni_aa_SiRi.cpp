@@ -9,7 +9,7 @@
 
 void TCutG_60Ni_aa_SiRi(){
     // No stats shown
-    gStyle->SetOptStat(0);
+    //gStyle->SetOptStat(0);
 
     // Create output file to write the centroids of the 60Ni(a,a) peak in the Delta E and E detectors
     ofstream outfile("alpha_peaks_60Ni.csv");
@@ -679,7 +679,7 @@ void TCutG_60Ni_aa_SiRi(){
     ///////////////////
     // E DETECTOR b1 //
     ///////////////////
-
+  
     // Make canvas to plot the 2D banana plots in the range of the elastic peak
     TCanvas *c2 = new TCanvas("c2","c2:b1 bananas",1400,800);
     c2->Divide(8,3,0,0);
