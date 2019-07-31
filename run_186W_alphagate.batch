@@ -32,7 +32,7 @@ rangefile zrange_a.dat
 
 # Thickness gate for alpha banana
 # for calibrated energies
-parameter thick_range = 125 15 0
+parameter thick_range = 130 12 0
 # for uncalibrated energies
 #parameter thick_range = 65 40 0
 
