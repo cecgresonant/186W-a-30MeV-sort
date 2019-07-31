@@ -1,5 +1,6 @@
 /*************************************************/
-/* EVENT SORTING CODE FOR 186W(a,d), Ea=30 MeV   */
+/* EVENT SORTING CODE FOR 186W(a,d), (a,t) and   */
+/* (a,a') reactions;  Ea=30 MeV; exp. April 2019 */
 /* Target thickness 0.31 mg/cm2, backward angles */
 /* For 60Ni calibration run, compress the banana */
 /* spectra by a factor of 2 extra                */
