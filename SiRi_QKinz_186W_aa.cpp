@@ -1,4 +1,4 @@
-// Script to grab the m_e_de_b0fX matrices for the 60Ni(a,a) calibration data
+// Script to grab the m_e_de_b0fX matrices for the 186W(a,a) calibration data
 // and compare to the QKinz calculated values to check the calibration
 // Cecilie, July 30, 2019
 
@@ -155,7 +155,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b1f0->GetYaxis()->SetRangeUser(5600,9500);
     banana_b1f0->Draw();
 
-    QKinz_f0_graph->Draw("same");
+    QKinz_f0_graph->Draw("p same");
 
 
     c1->cd(3);
@@ -170,7 +170,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b2f0->GetYaxis()->SetRangeUser(5600,9500);
     banana_b2f0->Draw();
 
-    QKinz_f0_graph->Draw("same");
+    QKinz_f0_graph->Draw("p same");
 
     c1->cd(4);
     gPad->SetLogz();
@@ -184,7 +184,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b3f0->GetYaxis()->SetRangeUser(5600,9500);
     banana_b3f0->Draw();
 
-    QKinz_f0_graph->Draw("same");
+    QKinz_f0_graph->Draw("p same");
 
 
     c1->cd(5);
@@ -199,7 +199,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b4f0->GetYaxis()->SetRangeUser(5600,9500);
     banana_b4f0->Draw();
 
-    QKinz_f0_graph->Draw("same");
+    QKinz_f0_graph->Draw("p same");
 
 
     c1->cd(6);
@@ -214,7 +214,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b5f0->GetYaxis()->SetRangeUser(5600,9500);
     banana_b5f0->Draw();
 
-    QKinz_f0_graph->Draw("same");
+    QKinz_f0_graph->Draw("p same");
 
 
     c1->cd(7);
@@ -229,7 +229,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b6f0->GetYaxis()->SetRangeUser(5600,9500);
     banana_b6f0->Draw();
 
-    QKinz_f0_graph->Draw("same");
+    QKinz_f0_graph->Draw("p same");
 
 
     c1->cd(8);
@@ -244,7 +244,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f0->GetYaxis()->SetRangeUser(5600,9500);
     banana_b7f0->Draw();
 
-    QKinz_f0_graph->Draw("same");
+    QKinz_f0_graph->Draw("p same");
 
     c1->Update();
     //c1->Print("comparison_QKinz_data_f0.png");
@@ -291,7 +291,7 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f1_graph->SetMarkerStyle(2);
     QKinz_f1_graph->SetMarkerSize(1.);
-    QKinz_f1_graph->Draw("same");
+    QKinz_f1_graph->Draw("p same");
 
     c2->cd(2);
     gPad->SetLogz();
@@ -305,7 +305,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b1f1->GetYaxis()->SetRangeUser(5600,9500);
     banana_b1f1->Draw();
 
-    QKinz_f1_graph->Draw("same");
+    QKinz_f1_graph->Draw("p same");
 
 
     c2->cd(3);
@@ -320,7 +320,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b2f1->GetYaxis()->SetRangeUser(5600,9500);
     banana_b2f1->Draw();
 
-    QKinz_f1_graph->Draw("same");
+    QKinz_f1_graph->Draw("p same");
 
     c2->cd(4);
     gPad->SetLogz();
@@ -334,7 +334,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b3f1->GetYaxis()->SetRangeUser(5600,9500);
     banana_b3f1->Draw();
 
-    QKinz_f1_graph->Draw("same");
+    QKinz_f1_graph->Draw("p same");
 
 
     c2->cd(5);
@@ -349,7 +349,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b4f1->GetYaxis()->SetRangeUser(5600,9500);
     banana_b4f1->Draw();
 
-    QKinz_f1_graph->Draw("same");
+    QKinz_f1_graph->Draw("p same");
 
 
     c2->cd(6);
@@ -364,7 +364,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b5f1->GetYaxis()->SetRangeUser(5600,9500);
     banana_b5f1->Draw();
 
-    QKinz_f1_graph->Draw("same");
+    QKinz_f1_graph->Draw("p same");
 
 
     c2->cd(7);
@@ -379,7 +379,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b6f1->GetYaxis()->SetRangeUser(5600,9500);
     banana_b6f1->Draw();
 
-    QKinz_f1_graph->Draw("same");
+    QKinz_f1_graph->Draw("p same");
 
 
     c2->cd(8);
@@ -394,7 +394,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f1->GetYaxis()->SetRangeUser(5600,9500);
     banana_b7f1->Draw();
 
-    QKinz_f1_graph->Draw("same");
+    QKinz_f1_graph->Draw("p same");
 
 
     ///////////////////////////
@@ -438,7 +438,7 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f2_graph->SetMarkerStyle(2);
     QKinz_f2_graph->SetMarkerSize(1.);
-    QKinz_f2_graph->Draw("same");
+    QKinz_f2_graph->Draw("p same");
 
     c3->cd(2);
     gPad->SetLogz();
@@ -452,7 +452,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b1f2->GetYaxis()->SetRangeUser(5600,9500);
     banana_b1f2->Draw();
 
-    QKinz_f2_graph->Draw("same");
+    QKinz_f2_graph->Draw("p same");
 
 
     c3->cd(3);
@@ -467,7 +467,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b2f2->GetYaxis()->SetRangeUser(5600,9500);
     banana_b2f2->Draw();
 
-    QKinz_f2_graph->Draw("same");
+    QKinz_f2_graph->Draw("p same");
 
     c3->cd(4);
     gPad->SetLogz();
@@ -481,7 +481,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b3f2->GetYaxis()->SetRangeUser(5600,9500);
     banana_b3f2->Draw();
 
-    QKinz_f2_graph->Draw("same");
+    QKinz_f2_graph->Draw("p same");
 
 
     c3->cd(5);
@@ -496,7 +496,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b4f2->GetYaxis()->SetRangeUser(5600,9500);
     banana_b4f2->Draw();
 
-    QKinz_f2_graph->Draw("same");
+    QKinz_f2_graph->Draw("p same");
 
 
     c3->cd(6);
@@ -511,7 +511,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b5f2->GetYaxis()->SetRangeUser(5600,9500);
     banana_b5f2->Draw();
 
-    QKinz_f2_graph->Draw("same");
+    QKinz_f2_graph->Draw("p same");
 
 
     c3->cd(7);
@@ -526,7 +526,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b6f2->GetYaxis()->SetRangeUser(5600,9500);
     banana_b6f2->Draw();
 
-    QKinz_f2_graph->Draw("same");
+    QKinz_f2_graph->Draw("p same");
 
 
     c3->cd(8);
@@ -541,7 +541,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f2->GetYaxis()->SetRangeUser(5600,9500);
     banana_b7f2->Draw();
 
-    QKinz_f2_graph->Draw("same");
+    QKinz_f2_graph->Draw("p same");
 
 
     ///////////////////////////
@@ -585,7 +585,7 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f3_graph->SetMarkerStyle(2);
     QKinz_f3_graph->SetMarkerSize(1.);
-    QKinz_f3_graph->Draw("same");
+    QKinz_f3_graph->Draw("p same");
 
     c4->cd(2);
     gPad->SetLogz();
@@ -599,7 +599,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b1f3->GetYaxis()->SetRangeUser(5600,9500);
     banana_b1f3->Draw();
 
-    QKinz_f3_graph->Draw("same");
+    QKinz_f3_graph->Draw("p same");
 
 
     c4->cd(3);
@@ -614,7 +614,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b2f3->GetYaxis()->SetRangeUser(5600,9500);
     banana_b2f3->Draw();
 
-    QKinz_f3_graph->Draw("same");
+    QKinz_f3_graph->Draw("p same");
 
     c4->cd(4);
     gPad->SetLogz();
@@ -628,7 +628,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b3f3->GetYaxis()->SetRangeUser(5600,9500);
     banana_b3f3->Draw();
 
-    QKinz_f3_graph->Draw("same");
+    QKinz_f3_graph->Draw("p same");
 
 
     c4->cd(5);
@@ -643,7 +643,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b4f3->GetYaxis()->SetRangeUser(5600,9500);
     banana_b4f3->Draw();
 
-    QKinz_f3_graph->Draw("same");
+    QKinz_f3_graph->Draw("p same");
 
 
     c4->cd(6);
@@ -658,7 +658,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b5f3->GetYaxis()->SetRangeUser(5600,9500);
     banana_b5f3->Draw();
 
-    QKinz_f3_graph->Draw("same");
+    QKinz_f3_graph->Draw("p same");
 
 
     c4->cd(7);
@@ -673,7 +673,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b6f3->GetYaxis()->SetRangeUser(5600,9500);
     banana_b6f3->Draw();
 
-    QKinz_f3_graph->Draw("same");
+    QKinz_f3_graph->Draw("p same");
 
 
     c4->cd(8);
@@ -688,7 +688,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f3->GetYaxis()->SetRangeUser(5600,9500);
     banana_b7f3->Draw();
 
-    QKinz_f3_graph->Draw("same");
+    QKinz_f3_graph->Draw("p same");
 
 
     ///////////////////////////
@@ -733,7 +733,7 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f4_graph->SetMarkerStyle(2);
     QKinz_f4_graph->SetMarkerSize(1.);
-    QKinz_f4_graph->Draw("same");
+    QKinz_f4_graph->Draw("p same");
 
     c5->cd(2);
     gPad->SetLogz();
@@ -747,7 +747,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b1f4->GetYaxis()->SetRangeUser(5600,9500);
     banana_b1f4->Draw();
 
-    QKinz_f4_graph->Draw("same");
+    QKinz_f4_graph->Draw("p same");
 
 
     c5->cd(3);
@@ -762,7 +762,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b2f4->GetYaxis()->SetRangeUser(5600,9500);
     banana_b2f4->Draw();
 
-    QKinz_f4_graph->Draw("same");
+    QKinz_f4_graph->Draw("p same");
 
     c5->cd(4);
     gPad->SetLogz();
@@ -776,7 +776,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b3f4->GetYaxis()->SetRangeUser(5600,9500);
     banana_b3f4->Draw();
 
-    QKinz_f4_graph->Draw("same");
+    QKinz_f4_graph->Draw("p same");
 
 
     c5->cd(5);
@@ -791,7 +791,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b4f4->GetYaxis()->SetRangeUser(5600,9500);
     banana_b4f4->Draw();
 
-    QKinz_f4_graph->Draw("same");
+    QKinz_f4_graph->Draw("p same");
 
 
     c5->cd(6);
@@ -806,7 +806,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b5f4->GetYaxis()->SetRangeUser(5600,9500);
     banana_b5f4->Draw();
 
-    QKinz_f4_graph->Draw("same");
+    QKinz_f4_graph->Draw("p same");
 
 
     c5->cd(7);
@@ -821,7 +821,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b6f4->GetYaxis()->SetRangeUser(5600,9500);
     banana_b6f4->Draw();
 
-    QKinz_f4_graph->Draw("same");
+    QKinz_f4_graph->Draw("p same");
 
 
     c5->cd(8);
@@ -836,7 +836,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f4->GetYaxis()->SetRangeUser(5600,9500);
     banana_b7f4->Draw();
 
-    QKinz_f4_graph->Draw("same");
+    QKinz_f4_graph->Draw("p same");
 
 
     ///////////////////////////
@@ -880,7 +880,7 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f5_graph->SetMarkerStyle(2);
     QKinz_f5_graph->SetMarkerSize(1.);
-    QKinz_f5_graph->Draw("same");
+    QKinz_f5_graph->Draw("p same");
 
     c6->cd(2);
     gPad->SetLogz();
@@ -894,7 +894,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b1f5->GetYaxis()->SetRangeUser(5600,9500);
     banana_b1f5->Draw();
 
-    QKinz_f5_graph->Draw("same");
+    QKinz_f5_graph->Draw("p same");
 
 
     c6->cd(3);
@@ -909,7 +909,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b2f5->GetYaxis()->SetRangeUser(5600,9500);
     banana_b2f5->Draw();
 
-    QKinz_f5_graph->Draw("same");
+    QKinz_f5_graph->Draw("p same");
 
     c6->cd(4);
     gPad->SetLogz();
@@ -923,7 +923,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b3f5->GetYaxis()->SetRangeUser(5600,9500);
     banana_b3f5->Draw();
 
-    QKinz_f5_graph->Draw("same");
+    QKinz_f5_graph->Draw("p same");
 
 
     c6->cd(5);
@@ -938,7 +938,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b4f5->GetYaxis()->SetRangeUser(5600,9500);
     banana_b4f5->Draw();
 
-    QKinz_f5_graph->Draw("same");
+    QKinz_f5_graph->Draw("p same");
 
 
     c6->cd(6);
@@ -953,7 +953,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b5f5->GetYaxis()->SetRangeUser(5600,9500);
     banana_b5f5->Draw();
 
-    QKinz_f5_graph->Draw("same");
+    QKinz_f5_graph->Draw("p same");
 
 
     c6->cd(7);
@@ -968,7 +968,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b6f5->GetYaxis()->SetRangeUser(5600,9500);
     banana_b6f5->Draw();
 
-    QKinz_f5_graph->Draw("same");
+    QKinz_f5_graph->Draw("p same");
 
 
     c6->cd(8);
@@ -983,7 +983,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f5->GetYaxis()->SetRangeUser(5600,9500);
     banana_b7f5->Draw();
 
-    QKinz_f5_graph->Draw("same");
+    QKinz_f5_graph->Draw("p same");
 
 
     ///////////////////////////
@@ -1027,7 +1027,7 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f6_graph->SetMarkerStyle(2);
     QKinz_f6_graph->SetMarkerSize(1.);
-    QKinz_f6_graph->Draw("same");
+    QKinz_f6_graph->Draw("p same");
 
     c7->cd(2);
     gPad->SetLogz();
@@ -1041,7 +1041,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b1f6->GetYaxis()->SetRangeUser(5600,9500);
     banana_b1f6->Draw();
 
-    QKinz_f6_graph->Draw("same");
+    QKinz_f6_graph->Draw("p same");
 
 
     c7->cd(3);
@@ -1056,7 +1056,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b2f6->GetYaxis()->SetRangeUser(5600,9500);
     banana_b2f6->Draw();
 
-    QKinz_f6_graph->Draw("same");
+    QKinz_f6_graph->Draw("p same");
 
     c7->cd(4);
     gPad->SetLogz();
@@ -1070,7 +1070,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b3f6->GetYaxis()->SetRangeUser(5600,9500);
     banana_b3f6->Draw();
 
-    QKinz_f6_graph->Draw("same");
+    QKinz_f6_graph->Draw("p same");
 
 
     c7->cd(5);
@@ -1085,7 +1085,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b4f6->GetYaxis()->SetRangeUser(5600,9500);
     banana_b4f6->Draw();
 
-    QKinz_f6_graph->Draw("same");
+    QKinz_f6_graph->Draw("p same");
 
 
     c7->cd(6);
@@ -1100,7 +1100,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b5f6->GetYaxis()->SetRangeUser(5600,9500);
     banana_b5f6->Draw();
 
-    QKinz_f6_graph->Draw("same");
+    QKinz_f6_graph->Draw("p same");
 
 
     c7->cd(7);
@@ -1115,7 +1115,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b6f6->GetYaxis()->SetRangeUser(5600,9500);
     banana_b6f6->Draw();
 
-    QKinz_f6_graph->Draw("same");
+    QKinz_f6_graph->Draw("p same");
 
 
     c7->cd(8);
@@ -1130,7 +1130,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f6->GetYaxis()->SetRangeUser(5600,9500);
     banana_b7f6->Draw();
 
-    QKinz_f6_graph->Draw("same");
+    QKinz_f6_graph->Draw("p same");
 
 
     ///////////////////////////
@@ -1174,7 +1174,7 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f7_graph->SetMarkerStyle(2);
     QKinz_f7_graph->SetMarkerSize(1.);
-    QKinz_f7_graph->Draw("same");
+    QKinz_f7_graph->Draw("p same");
 
     c8->cd(2);
     gPad->SetLogz();
@@ -1188,7 +1188,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b1f7->GetYaxis()->SetRangeUser(5600,9500);
     banana_b1f7->Draw();
 
-    QKinz_f7_graph->Draw("same");
+    QKinz_f7_graph->Draw("p same");
 
 
     c8->cd(3);
@@ -1203,7 +1203,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b2f7->GetYaxis()->SetRangeUser(5600,9500);
     banana_b2f7->Draw();
 
-    QKinz_f7_graph->Draw("same");
+    QKinz_f7_graph->Draw("p same");
 
     c8->cd(4);
     gPad->SetLogz();
@@ -1217,7 +1217,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b3f7->GetYaxis()->SetRangeUser(5600,9500);
     banana_b3f7->Draw();
 
-    QKinz_f7_graph->Draw("same");
+    QKinz_f7_graph->Draw("p same");
 
 
     c8->cd(5);
@@ -1232,7 +1232,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b4f7->GetYaxis()->SetRangeUser(5600,9500);
     banana_b4f7->Draw();
 
-    QKinz_f7_graph->Draw("same");
+    QKinz_f7_graph->Draw("p same");
 
 
     c8->cd(6);
@@ -1247,7 +1247,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b5f7->GetYaxis()->SetRangeUser(5600,9500);
     banana_b5f7->Draw();
 
-    QKinz_f7_graph->Draw("same");
+    QKinz_f7_graph->Draw("p same");
 
 
     c8->cd(7);
@@ -1262,7 +1262,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b6f7->GetYaxis()->SetRangeUser(5600,9500);
     banana_b6f7->Draw();
 
-    QKinz_f7_graph->Draw("same");
+    QKinz_f7_graph->Draw("p same");
 
 
     c8->cd(8);
@@ -1277,7 +1277,7 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f7->GetYaxis()->SetRangeUser(5600,9500);
     banana_b7f7->Draw();
 
-    QKinz_f7_graph->Draw("same");
+    QKinz_f7_graph->Draw("p same");
 
 
 
