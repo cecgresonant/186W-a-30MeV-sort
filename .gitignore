@@ -19,3 +19,4 @@ user_sort.o
 peaks2D_C.d
 peaks2D_C.so
 peaks2D_C_ACLiC_dict_rdict.pcm
+newgains.txt
