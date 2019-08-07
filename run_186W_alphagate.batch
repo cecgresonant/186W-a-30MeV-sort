@@ -49,14 +49,14 @@ parameter ex_from_ede    = 27433.603 -0.987008 -0.000000720 \
 
 
 # empirical excitation energy correction for the above, e.g. from known peaks
-parameter ex_corr_exp    = 0 1 \
-    0 1 \
-    0 1 \
-    0 1 \
-    0 1 \
-    0 1 \
-    0 1 \
-    0 1
+parameter ex_corr_exp    = 18.7 1 \
+    2.9 1 \
+    -11.6 1 \
+    14.4 1 \
+    10.1 1 \
+    2.4 1 \
+    7 1 \
+    7.5 1
 
 # maximum number of buffers to read for each file; for testing
 #max_buffers 10
