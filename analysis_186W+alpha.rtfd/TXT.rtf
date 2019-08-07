@@ -1,8 +1,10 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 Helvetica-Bold;
+\f3\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red11\green33\blue100;\red102\green255\blue255;\red0\green0\blue0;
 }
-{\colortbl;\red255\green255\blue255;\red11\green33\blue100;}
-{\*\expandedcolortbl;;\cssrgb\c4305\c18938\c46806;}
+{\*\expandedcolortbl;;\cssrgb\c4305\c18938\c46806;\csgenericrgb\c40000\c100000\c100000;\csgenericrgb\c0\c0\c0;
+}
 \paperw11900\paperh16840\margl1440\margr1440\vieww27840\viewh13780\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
@@ -174,12 +176,290 @@ Plot for back detector 0 (b0):\
 \
 => Things look much nicer, but the Delta E detectors seem to get a somewhat too low gain, see the ROOT script SiRi_QKinz_186W_aa.cpp where the 186W(a,a\'92) bananas are plotted against the QKinz values. As a consequence, I scaled the gain of the Delta E detectors a bit extra (% correction), see calibration_186W_a.xlsx and cell M7. This is probably reasonable, as the energy range for the Delta E detectors is large (from about 6500 keV to at least 9000 keV in the interesting region up to S_n), and the fit points are only about 1 MeV apart (the elastic scattering off 60Ni and 186W).\
 \
+HOWEVER - this was not good enough\'85 Ended up using just gains to match the elastic peak of the 186W(a,a) data, see fits_TCutG_186W_aa_bananas.cpp and the file new gains.txt, added to the gain shift file for 186W (all shifts are assumed to be zero). \
+This is also not perfect, but much better than before. Also, it\'92s possible fine-tune for some of the strips that are a bit off, but will first run through the comparison script h_ede_comp_186W_aa.cpp to check that the spectra are well aligned.  \
 \
+The centroids for the ground state should be (Delta E + E): \
+\
+Ring	Centroid (keV)\
+f0	27256\
+f1	27285\
+f2	27315\
+f3	27345\
+f4	27375\
+f5	27406\
+f6	27437\
+f7	27468\
+\
+\
+
+\f2\b\fs28 Results for f0: 
+\f0\b0\fs24 \
+From fits_TCutG_186W_aa_bananas.cpp:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic f0_bananas_SiRi_Qkinz.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+I wonder if there are some non-linearities for some of the strips?\
+\
+From h_ede_comp_186W_aa.cpp:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic h_ede_f0_186W_aa.png \width19960 \height13500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+Output diff between Qkinz and the measured elastic peak:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs26 \cf3 \cb4 \CocoaLigature0  Qkinz value - fitted centroids for f0: \
+ b0f0: -16.2681 keV \
+ b1f0: -25.9757 keV \
+ b2f0: -6.20566 keV \
+ b3f0: -9.59492 keV \
+ b4f0: -21.0616 keV \
+ b5f0: -29.2611 keV \
+ b6f0: -45.1089 keV \
+ b7f0: -34.224 keV \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+This is okay since the peak is often difficult to fit (quite bad resolution also, from 310 to 463 keV FWHM)\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 Results for f1: 
+\f0\b0\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic f1_bananas_SiRi_Qkinz_186W_aa.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic h_ede_f1_186W_aa.png \width19960 \height13500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 Output diff between Qkinz and the measured elastic peak:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs26 \cf3 \cb4 \CocoaLigature0  Qkinz value - fitted centroids for f1: \
+ b0f1: 14.7573 keV \
+ b1f1: -11.6607 keV \
+ b2f1: 2.39923 keV \
+ b3f1: 7.01116 keV \
+ b4f1: -7.24844 keV \
+ b5f1: -26.8581 keV \
+ b6f1: -16.2598 keV \
+ b7f1: -24.7172 keV \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 Results for f2: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic f2_bananas_SiRi_Qkinz_186W_aa.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf0 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic h_ede_f2_186W_aa.png \width19960 \height13500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+Output diff between Qkinz and the measured elastic peak:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs26 \cf3 \cb4 \CocoaLigature0  Qkinz value - fitted centroids for f2: \
+ b0f2: 14.5769 keV \
+ b1f2: 3.75409 keV \
+ b2f2: 12.5637 keV \
+ b3f2: 31.0604 keV \
+ b4f2: 6.70879 keV \
+ b5f2: -1.57503 keV \
+ b6f2: 11.4893 keV \
+ b7f2: 1.33354 keV \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \cb1 \CocoaLigature1 \
 \
 \
+Results for f3: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic f3_bananas_SiRi_Qkinz_186W_aa.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}
+\f2\b\fs28 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic h_ede_f3_186W_aa.png \width19960 \height13500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 Output diff between Qkinz and the measured elastic peak:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs26 \cf3 \cb4 \CocoaLigature0  Qkinz value - fitted centroids for f3: \
+ b0f3: -1.68289 keV \
+ b1f3: -7.87548 keV \
+ b2f3: -16.2797 keV \
+ b3f3: -12.6977 keV \
+ b4f3: -5.09528 keV \
+ b5f3: 0.317995 keV \
+ b6f3: -17.2672 keV \
+ b7f3: -18.6213 keV \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \cb1 \CocoaLigature1 \
+\
+Results for f4: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic f4_bananas_SiRi_Qkinz_186W_aa.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic h_ede_f4_186W_aa.png \width19960 \height13500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 Output diff between Qkinz and the measured elastic peak:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs26 \cf3 \cb4 \CocoaLigature0  Qkinz value - fitted centroids for f4: \
+ b0f4: 2.64944 keV \
+ b1f4: -10.3487 keV \
+ b2f4: 4.94832 keV \
+ b3f4: -19.7394 keV \
+ b4f4: -18.9497 keV \
+ b5f4: -20.8022 keV \
+ b6f4: -16.8905 keV \
+ b7f4: -19.0902 keV \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \cb1 \CocoaLigature1 \
+\
+Results for f5: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic f5_bananas_SiRi_Qkinz_186W_aa.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic h_ede_f5_186W_aa.png \width19960 \height13500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 Output diff between Qkinz and the measured elastic peak:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs26 \cf3 \cb4 \CocoaLigature0  Qkinz value - fitted centroids for f5: \
+ b0f5: -13.0471 keV \
+ b1f5: -11.122 keV \
+ b2f5: -14.2947 keV \
+ b3f5: -10.8546 keV \
+ b4f5: -7.69078 keV \
+ b5f5: 3.92328 keV \
+ b6f5: -2.74247 keV \
+ b7f5: -12.915 keV \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \cb1 \CocoaLigature1 \
+Results for f6: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic f6_bananas_SiRi_Qkinz_186W_aa.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic h_ede_f6_186W_aa.png \width19960 \height13500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 Output diff between Qkinz and the measured elastic peak:
+\f2\b\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\b0\fs26 \cf3 \cb4 \CocoaLigature0  Qkinz value - fitted centroids for f6: \
+ b0f6: -12.5134 keV \
+ b1f6: -12.1646 keV \
+ b2f6: -9.27797 keV \
+ b3f6: -3.03704 keV \
+ b4f6: -23.8148 keV \
+ b5f6: -22.0894 keV \
+ b6f6: -18.1662 keV \
+ b7f6: -18.59 keV \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \cb1 \CocoaLigature1 \
+Results for f7 (quite bad detectors!): \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic f7_bananas_SiRi_Qkinz_186W_aa.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 {{\NeXTGraphic h_ede_f7_186W_aa.png \width19960 \height13500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0\fs24 \cf0 Output diff between Qkinz and the measured elastic peak:
+\f2\b\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\b0\fs26 \cf3 \cb4 \CocoaLigature0  Qkinz value - fitted centroids for f7: \
+ b0f7: -8.094 keV \
+ b1f7: -17.7543 keV \
+ b2f7: -9.57027 keV \
+ b3f7: -15.2846 keV \
+ b4f7: -28.6967 keV \
+ b5f7: -27.1333 keV \
+ b6f7: 4.71097 keV \
+ b7f7: -20.4863 keV \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \cb1 \CocoaLigature1 \
+\
+CHECKING h_ex:\
 \
 }
