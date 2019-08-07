@@ -1,11 +1,14 @@
 // Script to grab the m_e_de_b0fX matrices for the 186W(a,a')  data
 // and make graphical cuts around the alpha channel. 
 // This is for calibration of the alpha particles. 
-// Must first fix the energy of the ground state peak, and then find the maximum "ridge"
-// along the banana and get the Delta E and E centroids. 
-// These should then be fitted to the Qkinz calculations to get the calibration coefficients
-// of the 186W(a,a') data set. 
+// Must first fix the energy of the ground state peak, and then check the maximum "ridge"
+// along the banana to see that the gains are okay. 
+// These should then be compared to the Qkinz calculations to check the calibration coefficients
+// of the 186W(a,a') data set, with SiRi_QKinz_186W_aa.cpp
+// NOTE: the E detectors are sometimes quite bad and instead of a Gaussian fit,
+// I just took the bin with the maximum value.
 // Cecilie, July 31, 2019
+// Last update: August 6, 2019
 
 #include <fstream>
 #include <iostream>
@@ -13,9 +16,6 @@
 void fits_TCutG_186W_aa_bananas(){
     // No stats shown
     gStyle->SetOptStat(0);
-
-    // Open output file to write the gains
-    //ofstream newgainsfile("newgains.txt");
 
     // Grab input file
     TFile *file = TFile::Open("offline_186W_plain.root");
@@ -283,6 +283,7 @@ void fits_TCutG_186W_aa_bananas(){
     QKinz_f7_graph->SetMarkerStyle(2);
     QKinz_f7_graph->SetMarkerSize(0.8);
 
+    // START THE FITS
 
     /////////////////////
     // Back detector 0 //
@@ -297,6 +298,7 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetLeftMargin(0.14);
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
+    
 
     // The b0f0 186W(a,a') channel
     banana_b0f0->GetXaxis()->SetRangeUser(0,24000);
@@ -305,35 +307,41 @@ void fits_TCutG_186W_aa_bananas(){
     QKinz_f0_graph->Draw("p same");
 
     // Make a graphical cut around the elastic peak
-    TCutG *cutg_b0f0 = new TCutG("cutg_b0f0",23);
+    TCutG *cutg_b0f0 = new TCutG("cutg_b0f0",17);
     cutg_b0f0->SetVarX(" E detector 0 strip 0");
     cutg_b0f0->SetVarY("#DeltaE ");
     cutg_b0f0->SetTitle("Graphb0f0");
     cutg_b0f0->SetFillStyle(1000);
-    cutg_b0f0->SetPoint(0,15143.9,3638.84);
-    cutg_b0f0->SetPoint(1,15273.5,3587.31);
-    cutg_b0f0->SetPoint(2,15440.8,3543.51);
-    cutg_b0f0->SetPoint(3,15553.4,3507.44);
-    cutg_b0f0->SetPoint(4,15713.8,3461.06);
-    cutg_b0f0->SetPoint(5,15833.2,3453.33);
-    cutg_b0f0->SetPoint(6,15928.8,3471.37);
-    cutg_b0f0->SetPoint(7,15962.9,3543.51);
-    cutg_b0f0->SetPoint(8,15939,3677.49);
-    cutg_b0f0->SetPoint(9,15867.3,3777.97);
-    cutg_b0f0->SetPoint(10,15754.7,3868.15);
-    cutg_b0f0->SetPoint(11,15573.8,3950.6);
-    cutg_b0f0->SetPoint(12,15416.9,4009.86);
-    cutg_b0f0->SetPoint(13,15215.5,4051.08);
-    cutg_b0f0->SetPoint(14,15109.7,4030.47);
-    cutg_b0f0->SetPoint(15,15003.9,3991.82);
-    cutg_b0f0->SetPoint(16,14969.8,3927.41);
-    cutg_b0f0->SetPoint(17,14959.6,3881.03);
-    cutg_b0f0->SetPoint(18,14969.8,3821.77);
-    cutg_b0f0->SetPoint(19,15031.2,3734.17);
-    cutg_b0f0->SetPoint(20,15143.9,3641.42);
-    cutg_b0f0->SetPoint(21,15154.1,3633.69);
-    cutg_b0f0->SetPoint(22,15143.9,3638.84);
+    cutg_b0f0->SetPoint(0,15008.2,3643.85);
+    cutg_b0f0->SetPoint(1,15161.2,3565.84);
+    cutg_b0f0->SetPoint(2,15325.9,3504.09);
+    cutg_b0f0->SetPoint(3,15567.1,3448.83);
+    cutg_b0f0->SetPoint(4,15811.2,3448.83);
+    cutg_b0f0->SetPoint(5,15878.8,3504.09);
+    cutg_b0f0->SetPoint(6,15875.9,3686.11);
+    cutg_b0f0->SetPoint(7,15802.4,3816.12);
+    cutg_b0f0->SetPoint(8,15611.2,3965.64);
+    cutg_b0f0->SetPoint(9,15375.9,4017.64);
+    cutg_b0f0->SetPoint(10,15187.6,4056.65);
+    cutg_b0f0->SetPoint(11,15008.2,4050.15);
+    cutg_b0f0->SetPoint(12,14949.4,3936.38);
+    cutg_b0f0->SetPoint(13,14940.6,3770.62);
+    cutg_b0f0->SetPoint(14,15002.4,3650.35);
+    cutg_b0f0->SetPoint(15,15005.3,3647.1);
+    cutg_b0f0->SetPoint(16,15008.2,3643.85);
     cutg_b0f0->Draw("same");
+
+
+    int bin_max_counts = banana_b0f0->GetMaximumBin();
+    int binx, biny, binz;
+    banana_b0f0->GetBinXYZ(bin_max_counts, binx, biny, binz);
+    double maxcounts = banana_b0f0->GetBinContent(binx,biny);
+    cout << " Pixel with the most counts: "<< endl;
+    cout << " binx = " << binx << ", biny = " << biny << endl;
+    cout << " energy_x = " << banana_b0f0->GetXaxis()->GetBinCenter(binx) << " keV" << endl;
+    cout << " energy_y = " << banana_b0f0->GetYaxis()->GetBinCenter(biny) << " keV" << endl;
+    cout << " Counts = " << maxcounts << endl;
+
 
 
     c1->cd(9);
@@ -344,10 +352,10 @@ void fits_TCutG_186W_aa_bananas(){
     // Make the projection on the E detector axis (x axis)
     TH1D *projx_cutg_b0f0 = banana_b0f0->ProjectionX("projx_cutg_b0f0",1,banana_b0f0->GetNbinsX(),"[cutg_b0f0]");              
     projx_cutg_b0f0->GetXaxis()->SetRangeUser(14000,17000);
-    projx_cutg_b0f0->Fit("gaus");
-    // Grab the centroid for the E detector
-    TF1 *fitx = (TF1*)projx_cutg_b0f0->GetListOfFunctions()->FindObject("gaus");
-    double centroidx = fitx->GetParameter(1);
+    projx_cutg_b0f0->Draw();
+    // Now finding the bin with the maximum number of counts, and use that as the peak
+    int binmax = projx_cutg_b0f0->GetMaximumBin(); 
+    double centroidx = projx_cutg_b0f0->GetXaxis()->GetBinCenter(binmax);
 
 
     c1->cd(17);
@@ -358,11 +366,11 @@ void fits_TCutG_186W_aa_bananas(){
     // Make the projection on the Delta E detector axis (y axis)
     TH1D *projy_cutg_b0f0 = banana_b0f0->ProjectionY("projy_cutg_b0f0",1,banana_b0f0->GetNbinsY(),"[cutg_b0f0]");              
     projy_cutg_b0f0->GetXaxis()->SetRangeUser(2000,5000);
+    projy_cutg_b0f0->Draw();
     projy_cutg_b0f0->Fit("gaus");
-
-    // Grab the centroid for the Delta E detector
     TF1 *fity = (TF1*)projy_cutg_b0f0->GetListOfFunctions()->FindObject("gaus");
     double centroidy = fity->GetParameter(1);
+
 
     cout << " b0f0 centroids: " << endl;
     cout << " E detector: " << centroidx << " keV " << endl;
@@ -428,8 +436,11 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b0f1->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b0f1->Fit("gaus");
     // Grab the centroid for the E detector
-    fitx = (TF1*)projx_cutg_b0f1->GetListOfFunctions()->FindObject("gaus");
+    TF1 *fitx = (TF1*)projx_cutg_b0f1->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax = projx_cutg_b0f1->GetMaximumBin(); 
+    centroidx = projx_cutg_b0f1->GetXaxis()->GetBinCenter(binmax);
 
     c1->cd(18);
     gPad->SetBottomMargin(0.13);
@@ -509,6 +520,9 @@ void fits_TCutG_186W_aa_bananas(){
     // Grab the centroid for the E detector
     fitx = (TF1*)projx_cutg_b0f2->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax = projx_cutg_b0f2->GetMaximumBin(); 
+    centroidx = projx_cutg_b0f2->GetXaxis()->GetBinCenter(binmax);
 
     c1->cd(19);
     gPad->SetBottomMargin(0.13);
@@ -585,6 +599,9 @@ void fits_TCutG_186W_aa_bananas(){
     // Grab the centroid for the E detector
     fitx = (TF1*)projx_cutg_b0f3->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b0f3->GetMaximumBin(); 
+    centroidx = projx_cutg_b0f3->GetXaxis()->GetBinCenter(binmax);
 
     c1->cd(20);
     gPad->SetBottomMargin(0.13);
@@ -667,6 +684,9 @@ void fits_TCutG_186W_aa_bananas(){
     // Grab the centroid for the E detector
     fitx = (TF1*)projx_cutg_b0f4->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b0f4->GetMaximumBin(); 
+    centroidx = projx_cutg_b0f4->GetXaxis()->GetBinCenter(binmax);
  
     c1->cd(21);
     gPad->SetBottomMargin(0.13);
@@ -743,6 +763,9 @@ void fits_TCutG_186W_aa_bananas(){
     // Grab the centroid for the E detector
     fitx = (TF1*)projx_cutg_b0f5->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b0f5->GetMaximumBin(); 
+    centroidx = projx_cutg_b0f5->GetXaxis()->GetBinCenter(binmax);
 
     c1->cd(22);
     gPad->SetBottomMargin(0.13);
@@ -814,6 +837,9 @@ void fits_TCutG_186W_aa_bananas(){
     // Grab the centroid for the E detector
     fitx = (TF1*)projx_cutg_b0f6->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b0f6->GetMaximumBin(); 
+    centroidx = projx_cutg_b0f6->GetXaxis()->GetBinCenter(binmax);
 
     c1->cd(23);
     gPad->SetBottomMargin(0.13);
@@ -888,6 +914,9 @@ void fits_TCutG_186W_aa_bananas(){
     // Grab the centroid for the E detector
     fitx = (TF1*)projx_cutg_b0f7->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b0f7->GetMaximumBin(); 
+    centroidx = projx_cutg_b0f7->GetXaxis()->GetBinCenter(binmax);
 
     c1->cd(24);
     gPad->SetBottomMargin(0.13);
@@ -969,6 +998,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b1f0->Fit("gaus");
     fitx = (TF1*)projx_cutg_b1f0->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b1f0->GetMaximumBin(); 
+    centroidx = projx_cutg_b1f0->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c2->cd(17);
@@ -1045,6 +1077,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b1f1->Fit("gaus");
     fitx = (TF1*)projx_cutg_b1f1->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b1f1->GetMaximumBin(); 
+    centroidx = projx_cutg_b1f1->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c2->cd(18);
@@ -1116,6 +1151,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b1f2->Fit("gaus");
     fitx = (TF1*)projx_cutg_b1f2->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b1f2->GetMaximumBin(); 
+    centroidx = projx_cutg_b1f2->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c2->cd(19);
@@ -1188,6 +1226,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b1f3->Fit("gaus");
     fitx = (TF1*)projx_cutg_b1f3->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b1f3->GetMaximumBin(); 
+    centroidx = projx_cutg_b1f3->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c2->cd(20);
@@ -1262,6 +1303,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b1f4->Fit("gaus");
     fitx = (TF1*)projx_cutg_b1f4->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b1f4->GetMaximumBin(); 
+    centroidx = projx_cutg_b1f4->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c2->cd(21);
@@ -1340,6 +1384,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b1f5->Fit("gaus");
     fitx = (TF1*)projx_cutg_b1f5->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b1f5->GetMaximumBin(); 
+    centroidx = projx_cutg_b1f5->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c2->cd(22);
@@ -1418,6 +1465,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b1f6->Fit("gaus");
     fitx = (TF1*)projx_cutg_b1f6->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b1f6->GetMaximumBin(); 
+    centroidx = projx_cutg_b1f6->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c2->cd(23);
@@ -1494,6 +1544,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b1f7->Fit("gaus");
     fitx = (TF1*)projx_cutg_b1f7->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b1f7->GetMaximumBin(); 
+    centroidx = projx_cutg_b1f7->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c2->cd(24);
@@ -1576,6 +1629,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b2f0->Fit("gaus");
     fitx = (TF1*)projx_cutg_b2f0->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b2f0->GetMaximumBin(); 
+    centroidx = projx_cutg_b2f0->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c3->cd(17);
@@ -1650,6 +1706,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b2f1->Fit("gaus");
     fitx = (TF1*)projx_cutg_b2f1->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b2f1->GetMaximumBin(); 
+    centroidx = projx_cutg_b2f1->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c3->cd(18);
@@ -1725,6 +1784,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b2f2->Fit("gaus");
     fitx = (TF1*)projx_cutg_b2f2->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b2f2->GetMaximumBin(); 
+    centroidx = projx_cutg_b2f2->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c3->cd(19);
@@ -1798,6 +1860,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b2f3->Fit("gaus");
     fitx = (TF1*)projx_cutg_b2f3->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b2f3->GetMaximumBin(); 
+    centroidx = projx_cutg_b2f3->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c3->cd(20);
@@ -1875,6 +1940,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b2f4->Fit("gaus");
     fitx = (TF1*)projx_cutg_b2f4->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b2f4->GetMaximumBin(); 
+    centroidx = projx_cutg_b2f4->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c3->cd(21);
@@ -1949,6 +2017,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b2f5->Fit("gaus");
     fitx = (TF1*)projx_cutg_b2f5->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b2f5->GetMaximumBin(); 
+    centroidx = projx_cutg_b2f5->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c3->cd(22);
@@ -2026,6 +2097,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b2f6->Fit("gaus");
     fitx = (TF1*)projx_cutg_b2f6->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b2f6->GetMaximumBin(); 
+    centroidx = projx_cutg_b2f6->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c3->cd(23);
@@ -2107,6 +2181,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b2f7->Fit("gaus");
     fitx = (TF1*)projx_cutg_b2f7->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b2f7->GetMaximumBin(); 
+    centroidx = projx_cutg_b2f7->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c3->cd(24);
@@ -2191,6 +2268,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b3f0->Fit("gaus");
     fitx = (TF1*)projx_cutg_b3f0->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b3f0->GetMaximumBin(); 
+    centroidx = projx_cutg_b3f0->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c4->cd(17);
@@ -2268,6 +2348,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b3f1->Fit("gaus");
     fitx = (TF1*)projx_cutg_b3f1->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b3f1->GetMaximumBin(); 
+    centroidx = projx_cutg_b3f1->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c4->cd(18);
@@ -2342,6 +2425,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b3f2->Fit("gaus");
     fitx = (TF1*)projx_cutg_b3f2->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b3f2->GetMaximumBin(); 
+    centroidx = projx_cutg_b3f2->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c4->cd(19);
@@ -2417,6 +2503,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b3f3->Fit("gaus");
     fitx = (TF1*)projx_cutg_b3f3->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b3f3->GetMaximumBin(); 
+    centroidx = projx_cutg_b3f3->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c4->cd(20);
@@ -2493,6 +2582,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b3f4->Fit("gaus");
     fitx = (TF1*)projx_cutg_b3f4->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b3f4->GetMaximumBin(); 
+    centroidx = projx_cutg_b3f4->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c4->cd(21);
@@ -2568,6 +2660,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b3f5->Fit("gaus");
     fitx = (TF1*)projx_cutg_b3f5->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b3f5->GetMaximumBin(); 
+    centroidx = projx_cutg_b3f5->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c4->cd(22);
@@ -2645,6 +2740,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b3f6->Fit("gaus");
     fitx = (TF1*)projx_cutg_b3f6->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b3f6->GetMaximumBin(); 
+    centroidx = projx_cutg_b3f6->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c4->cd(23);
@@ -2717,6 +2815,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b3f7->Fit("gaus");
     fitx = (TF1*)projx_cutg_b3f7->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b3f7->GetMaximumBin(); 
+    centroidx = projx_cutg_b3f7->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c4->cd(24);
@@ -2796,6 +2897,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b4f0->Fit("gaus");
     fitx = (TF1*)projx_cutg_b4f0->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b4f0->GetMaximumBin(); 
+    centroidx = projx_cutg_b4f0->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c5->cd(17);
@@ -2868,6 +2972,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b4f1->Fit("gaus");
     fitx = (TF1*)projx_cutg_b4f1->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b4f1->GetMaximumBin(); 
+    centroidx = projx_cutg_b4f1->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c5->cd(18);
@@ -2940,6 +3047,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b4f2->Fit("gaus");
     fitx = (TF1*)projx_cutg_b4f2->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b4f2->GetMaximumBin(); 
+    centroidx = projx_cutg_b4f2->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c5->cd(19);
@@ -3012,6 +3122,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b4f3->Fit("gaus");
     fitx = (TF1*)projx_cutg_b4f3->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b4f3->GetMaximumBin(); 
+    centroidx = projx_cutg_b4f3->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c5->cd(20);
@@ -3087,6 +3200,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b4f4->Fit("gaus");
     fitx = (TF1*)projx_cutg_b4f4->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b4f4->GetMaximumBin(); 
+    centroidx = projx_cutg_b4f4->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c5->cd(21);
@@ -3160,6 +3276,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b4f5->Fit("gaus");
     fitx = (TF1*)projx_cutg_b4f5->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b4f5->GetMaximumBin(); 
+    centroidx = projx_cutg_b4f5->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c5->cd(22);
@@ -3234,6 +3353,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b4f6->Fit("gaus");
     fitx = (TF1*)projx_cutg_b4f6->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b4f6->GetMaximumBin(); 
+    centroidx = projx_cutg_b4f6->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c5->cd(23);
@@ -3308,6 +3430,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b4f7->Fit("gaus");
     fitx = (TF1*)projx_cutg_b4f7->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b4f7->GetMaximumBin(); 
+    centroidx = projx_cutg_b4f7->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c5->cd(24);
@@ -3386,6 +3511,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b5f0->Fit("gaus");
     fitx = (TF1*)projx_cutg_b5f0->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b5f0->GetMaximumBin(); 
+    centroidx = projx_cutg_b5f0->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c6->cd(17);
@@ -3459,6 +3587,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b5f1->Fit("gaus");
     fitx = (TF1*)projx_cutg_b5f1->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b5f1->GetMaximumBin(); 
+    centroidx = projx_cutg_b5f1->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c6->cd(18);
@@ -3531,6 +3662,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b5f2->Fit("gaus");
     fitx = (TF1*)projx_cutg_b5f2->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b5f2->GetMaximumBin(); 
+    centroidx = projx_cutg_b5f2->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c6->cd(19);
@@ -3603,6 +3737,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b5f3->Fit("gaus");
     fitx = (TF1*)projx_cutg_b5f3->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b5f3->GetMaximumBin(); 
+    centroidx = projx_cutg_b5f3->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c6->cd(20);
@@ -3677,6 +3814,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b5f4->Fit("gaus");
     fitx = (TF1*)projx_cutg_b5f4->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b5f4->GetMaximumBin(); 
+    centroidx = projx_cutg_b5f4->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c6->cd(21);
@@ -3750,6 +3890,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b5f5->Fit("gaus");
     fitx = (TF1*)projx_cutg_b5f5->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b5f5->GetMaximumBin(); 
+    centroidx = projx_cutg_b5f5->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c6->cd(22);
@@ -3821,6 +3964,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b5f6->Fit("gaus");
     fitx = (TF1*)projx_cutg_b5f6->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b5f6->GetMaximumBin(); 
+    centroidx = projx_cutg_b5f6->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c6->cd(23);
@@ -3895,6 +4041,9 @@ void fits_TCutG_186W_aa_bananas(){
     projx_cutg_b5f7->Fit("gaus");
     fitx = (TF1*)projx_cutg_b5f7->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b5f7->GetMaximumBin(); 
+    centroidx = projx_cutg_b5f7->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c6->cd(24);
@@ -3921,8 +4070,8 @@ void fits_TCutG_186W_aa_bananas(){
     ///////////////////
     // E DETECTOR b6 //
     ///////////////////
-/*
-    // Make canvas to plot the 2D banana plots in the range of the elastic peak
+
+    // Make canvas to plot the 2D banana plots 
     TCanvas *c7 = new TCanvas("c7","c7:b6 bananas",1400,800);
     c7->Divide(8,3,0,0);
     c7->cd(1);
@@ -3932,41 +4081,33 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b6f0 60Ni(a,a) elastic peak
-    banana_b6f0->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b6f0->GetYaxis()->SetRangeUser(3500,6000);
+    // The b6f0 186W(a,a') channel
+    banana_b6f0->GetXaxis()->SetRangeUser(0,24000);
+    banana_b6f0->GetYaxis()->SetRangeUser(2000,10000);
     banana_b6f0->Draw();
+    QKinz_f0_graph->Draw("p same");
 
-    TCutG *cutg_b6f0 = new TCutG("cutg_b6f0",25);
+    TCutG *cutg_b6f0 = new TCutG("cutg_b6f0",16);
     cutg_b6f0->SetVarX(" E detector 6 strip 0");
     cutg_b6f0->SetVarY("#DeltaE ");
     cutg_b6f0->SetTitle("Graph");
     cutg_b6f0->SetFillStyle(1000);
-    cutg_b6f0->SetPoint(0,11272.7,4379.19);
-    cutg_b6f0->SetPoint(1,11502.5,4300.37);
-    cutg_b6f0->SetPoint(2,11739.9,4251.1);
-    cutg_b6f0->SetPoint(3,12031,4216.62);
-    cutg_b6f0->SetPoint(4,12253.1,4182.13);
-    cutg_b6f0->SetPoint(5,12459.9,4191.99);
-    cutg_b6f0->SetPoint(6,12544.2,4226.47);
-    cutg_b6f0->SetPoint(7,12620.7,4329.93);
-    cutg_b6f0->SetPoint(8,12613.1,4462.94);
-    cutg_b6f0->SetPoint(9,12528.8,4551.62);
-    cutg_b6f0->SetPoint(10,12452.2,4645.22);
-    cutg_b6f0->SetPoint(11,12322,4704.34);
-    cutg_b6f0->SetPoint(12,12061.6,4753.6);
-    cutg_b6f0->SetPoint(13,11801.2,4788.09);
-    cutg_b6f0->SetPoint(14,11571.4,4802.87);
-    cutg_b6f0->SetPoint(15,11402.9,4797.94);
-    cutg_b6f0->SetPoint(16,11226.8,4783.16);
-    cutg_b6f0->SetPoint(17,11111.9,4738.82);
-    cutg_b6f0->SetPoint(18,11096.6,4605.81);
-    cutg_b6f0->SetPoint(19,11119.6,4517.13);
-    cutg_b6f0->SetPoint(20,11173.2,4418.6);
-    cutg_b6f0->SetPoint(21,11234.4,4389.04);
-    cutg_b6f0->SetPoint(22,11280.4,4379.19);
-    cutg_b6f0->SetPoint(23,11280.4,4379.19);
-    cutg_b6f0->SetPoint(24,11272.7,4379.19);
+    cutg_b6f0->SetPoint(0,16418,3709.86);
+   	cutg_b6f0->SetPoint(1,16266.2,3849.54);
+   	cutg_b6f0->SetPoint(2,16042.1,3964.15);
+   	cutg_b6f0->SetPoint(3,15839.8,3999.97);
+   	cutg_b6f0->SetPoint(4,15594,4014.3);
+   	cutg_b6f0->SetPoint(5,15485.6,4014.3);
+   	cutg_b6f0->SetPoint(6,15413.3,3931.92);
+   	cutg_b6f0->SetPoint(7,15449.5,3792.23);
+   	cutg_b6f0->SetPoint(8,15543.4,3699.11);
+   	cutg_b6f0->SetPoint(9,15760.2,3638.22);
+   	cutg_b6f0->SetPoint(10,16013.2,3573.75);
+   	cutg_b6f0->SetPoint(11,16193.9,3548.68);
+   	cutg_b6f0->SetPoint(12,16331.2,3563.01);
+   	cutg_b6f0->SetPoint(13,16410.7,3613.15);
+   	cutg_b6f0->SetPoint(14,16410.7,3734.93);
+   	cutg_b6f0->SetPoint(15,16418,3709.86);
     cutg_b6f0->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b6f0
@@ -3977,11 +4118,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b6f0 = banana_b6f0->ProjectionX("projx_cutg_b6f0",1,banana_b6f0->GetNbinsX(),"[cutg_b6f0]");              
-    projx_cutg_b6f0->Rebin(2);
-    projx_cutg_b6f0->Draw("");
+    projx_cutg_b6f0->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b6f0->Fit("gaus");
     fitx = (TF1*)projx_cutg_b6f0->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b6f0->GetMaximumBin(); 
+    centroidx = projx_cutg_b6f0->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c7->cd(17);
@@ -3991,16 +4134,18 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b6f0 = banana_b6f0->ProjectionY("projy_cutg_b6f0",1,banana_b6f0->GetNbinsY(),"[cutg_b6f0]");              
-    projy_cutg_b6f0->Rebin(2);
-    projy_cutg_b6f0->Draw("");
+    projy_cutg_b6f0->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b6f0->Fit("gaus");
     fity = (TF1*)projy_cutg_b6f0->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b6f0" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb6f0_E  = 5.0*f0_e_energy[0]/centroidx;
+    double gainb6f0_dE = 2.5*f0_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb6f0_E = " <<  gainb6f0_E << " keV/ch" << endl;
+    cout << " gainb6f0_dE = " << gainb6f0_dE << " keV/ch"<< endl;
+    cout << endl;
 
     c7->cd(2);
     gPad->SetLogz();
@@ -4009,36 +4154,37 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b6f1 60Ni(a,a) elastic peak
-    banana_b6f1->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b6f1->GetYaxis()->SetRangeUser(3500,6000);
+    // The b6f1 186W(a,a') elastic peak
+    banana_b6f1->GetXaxis()->SetRangeUser(0,24000);
+    banana_b6f1->GetYaxis()->SetRangeUser(2000,10000);
     banana_b6f1->Draw();
+    QKinz_f1_graph->Draw("p same");
    
     TCutG *cutg_b6f1 = new TCutG("cutg_b6f1",20);
     cutg_b6f1->SetVarX(" E detector 6 strip 1");
     cutg_b6f1->SetVarY("#DeltaE ");
     cutg_b6f1->SetTitle("Graph");
     cutg_b6f1->SetFillStyle(1000);
-    cutg_b6f1->SetPoint(0,11154.1,4792.94);
-    cutg_b6f1->SetPoint(1,11315.9,4672.5);
-    cutg_b6f1->SetPoint(2,11612.5,4557.79);
-    cutg_b6f1->SetPoint(3,11882.2,4483.24);
-    cutg_b6f1->SetPoint(4,12286.7,4460.29);
-    cutg_b6f1->SetPoint(5,12556.4,4488.97);
-    cutg_b6f1->SetPoint(6,12677.8,4580.74);
-    cutg_b6f1->SetPoint(7,12623.9,4741.32);
-    cutg_b6f1->SetPoint(8,12462,4856.03);
-    cutg_b6f1->SetPoint(9,12246.3,4987.94);
-    cutg_b6f1->SetPoint(10,11990.1,5056.76);
-    cutg_b6f1->SetPoint(11,11787.8,5085.44);
-    cutg_b6f1->SetPoint(12,11585.6,5091.18);
-    cutg_b6f1->SetPoint(13,11396.8,5079.71);
-    cutg_b6f1->SetPoint(14,11235,5039.56);
-    cutg_b6f1->SetPoint(15,11113.6,4930.59);
-    cutg_b6f1->SetPoint(16,11113.6,4861.76);
-    cutg_b6f1->SetPoint(17,11127.1,4815.88);
-    cutg_b6f1->SetPoint(18,11140.6,4787.21);
-    cutg_b6f1->SetPoint(19,11154.1,4792.94);
+    cutg_b6f1->SetPoint(0,16409.1,3920);
+   	cutg_b6f1->SetPoint(1,16314.7,3979.89);
+   	cutg_b6f1->SetPoint(2,16224,4083.32);
+   	cutg_b6f1->SetPoint(3,16099.4,4148.65);
+   	cutg_b6f1->SetPoint(4,15929.5,4222.15);
+   	cutg_b6f1->SetPoint(5,15669,4279.31);
+   	cutg_b6f1->SetPoint(6,15487.8,4257.54);
+   	cutg_b6f1->SetPoint(7,15431.2,4170.43);
+   	cutg_b6f1->SetPoint(8,15446.3,4075.16);
+   	cutg_b6f1->SetPoint(9,15487.8,3960.83);
+   	cutg_b6f1->SetPoint(10,15597.3,3873.72);
+   	cutg_b6f1->SetPoint(11,15789.8,3794.79);
+   	cutg_b6f1->SetPoint(12,15952.2,3718.57);
+   	cutg_b6f1->SetPoint(13,16186.3,3666.85);
+   	cutg_b6f1->SetPoint(14,16329.8,3675.01);
+   	cutg_b6f1->SetPoint(15,16439.3,3718.57);
+   	cutg_b6f1->SetPoint(16,16473.2,3819.28);
+   	cutg_b6f1->SetPoint(17,16431.7,3892.78);
+   	cutg_b6f1->SetPoint(18,16397.7,3930.89);
+   	cutg_b6f1->SetPoint(19,16409.1,3920);
     cutg_b6f1->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b6f1
@@ -4049,11 +4195,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b6f1 = banana_b6f1->ProjectionX("projx_cutg_b6f1",1,banana_b6f1->GetNbinsX(),"[cutg_b6f1]");              
-    projx_cutg_b6f1->Rebin(2);
-    projx_cutg_b6f1->Draw("");
+    projx_cutg_b6f1->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b6f1->Fit("gaus");
     fitx = (TF1*)projx_cutg_b6f1->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b6f1->GetMaximumBin(); 
+    centroidx = projx_cutg_b6f1->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c7->cd(18);
@@ -4063,16 +4211,18 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b6f1 = banana_b6f1->ProjectionY("projy_cutg_b6f1",1,banana_b6f1->GetNbinsY(),"[cutg_b6f1]");              
-    projy_cutg_b6f1->Rebin(2);
-    projy_cutg_b6f1->Draw("");
+    projy_cutg_b6f1->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b6f1->Fit("gaus");
     fity = (TF1*)projy_cutg_b6f1->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b6f1" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb6f1_E  = 5.0*f1_e_energy[0]/centroidx;
+    double gainb6f1_dE = 2.5*f1_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb6f1_E = " <<  gainb6f1_E << " keV/ch" << endl;
+    cout << " gainb6f1_dE = " << gainb6f1_dE << " keV/ch"<< endl;
+    cout << endl;
 
 
     c7->cd(3);
@@ -4082,37 +4232,35 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b6f2 60Ni(a,a) elastic peak
-    banana_b6f2->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b6f2->GetYaxis()->SetRangeUser(3500,6000);
+    // The b6f2 186W(a,a') channel
+    banana_b6f2->GetXaxis()->SetRangeUser(0,24000);
+    banana_b6f2->GetYaxis()->SetRangeUser(2000,10000);
     banana_b6f2->Draw();
+    QKinz_f2_graph->Draw("p same");
 
-    TCutG *cutg_b6f2 = new TCutG("cutg_b6f2",21);
+    TCutG *cutg_b6f2 = new TCutG("cutg_b6f2",18);
     cutg_b6f2->SetVarX(" E detector 6 strip 2");
     cutg_b6f2->SetVarY("#DeltaE ");
     cutg_b6f2->SetTitle("Graph");
     cutg_b6f2->SetFillStyle(1000);
-    cutg_b6f2->SetPoint(0,11317.6,4770.59);
-    cutg_b6f2->SetPoint(1,11560.3,4605.88);
-    cutg_b6f2->SetPoint(2,11851.6,4529.41);
-    cutg_b6f2->SetPoint(3,12223.8,4482.35);
-    cutg_b6f2->SetPoint(4,12482.7,4464.71);
-    cutg_b6f2->SetPoint(5,12709.2,4464.71);
-    cutg_b6f2->SetPoint(6,12903.4,4511.76);
-    cutg_b6f2->SetPoint(7,12951.9,4576.47);
-    cutg_b6f2->SetPoint(8,12903.4,4694.12);
-    cutg_b6f2->SetPoint(9,12773.9,4764.71);
-    cutg_b6f2->SetPoint(10,12579.7,4841.18);
-    cutg_b6f2->SetPoint(11,12434.1,4900);
-    cutg_b6f2->SetPoint(12,12256.1,4970.59);
-    cutg_b6f2->SetPoint(13,11932.5,5035.29);
-    cutg_b6f2->SetPoint(14,11592.7,5047.06);
-    cutg_b6f2->SetPoint(15,11350,5041.18);
-    cutg_b6f2->SetPoint(16,11220.5,4976.47);
-    cutg_b6f2->SetPoint(17,11301.4,4847.06);
-    cutg_b6f2->SetPoint(18,11301.4,4794.12);
-    cutg_b6f2->SetPoint(19,11317.6,4758.82);
-    cutg_b6f2->SetPoint(20,11317.6,4770.59);
+    cutg_b6f2->SetPoint(0,16507.2,3912.06);
+   	cutg_b6f2->SetPoint(1,16413.2,4009.84);
+   	cutg_b6f2->SetPoint(2,16239.8,4121.59);
+   	cutg_b6f2->SetPoint(3,16008.5,4247.31);
+   	cutg_b6f2->SetPoint(4,15806.1,4303.18);
+   	cutg_b6f2->SetPoint(5,15596.5,4345.09);
+   	cutg_b6f2->SetPoint(6,15408.6,4303.18);
+   	cutg_b6f2->SetPoint(7,15386.9,4140.21);
+   	cutg_b6f2->SetPoint(8,15495.3,3991.22);
+   	cutg_b6f2->SetPoint(9,15639.9,3921.38);
+   	cutg_b6f2->SetPoint(10,15885.6,3823.6);
+   	cutg_b6f2->SetPoint(11,16044.6,3786.35);
+   	cutg_b6f2->SetPoint(12,16203.6,3763.07);
+   	cutg_b6f2->SetPoint(13,16355.4,3786.35);
+   	cutg_b6f2->SetPoint(14,16492.7,3828.25);
+   	cutg_b6f2->SetPoint(15,16499.9,3874.81);
+   	cutg_b6f2->SetPoint(16,16485.5,3949.31);
+   	cutg_b6f2->SetPoint(17,16507.2,3912.06);
     cutg_b6f2->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b6f2
@@ -4123,11 +4271,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b6f2 = banana_b6f2->ProjectionX("projx_cutg_b6f2",1,banana_b6f2->GetNbinsX(),"[cutg_b6f2]");              
-    projx_cutg_b6f2->Rebin(2);
-    projx_cutg_b6f2->Draw("");
+    projx_cutg_b6f2->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b6f2->Fit("gaus");
     fitx = (TF1*)projx_cutg_b6f2->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b6f2->GetMaximumBin(); 
+    centroidx = projx_cutg_b6f2->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c7->cd(19);
@@ -4137,16 +4287,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b6f2 = banana_b6f2->ProjectionY("projy_cutg_b6f2",1,banana_b6f2->GetNbinsY(),"[cutg_b6f2]");              
-    projy_cutg_b6f2->Rebin(2);
-    projy_cutg_b6f2->Draw("");
+    projy_cutg_b6f2->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b6f2->Fit("gaus");
     fity = (TF1*)projy_cutg_b6f2->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b6f2" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb6f2_E  = 5.0*f2_e_energy[0]/centroidx;
+    double gainb6f2_dE = 2.5*f2_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb6f2_E = " <<  gainb6f2_E << " keV/ch" << endl;
+    cout << " gainb6f2_dE = " << gainb6f2_dE << " keV/ch"<< endl;
+    cout << endl;
+
 
     c7->cd(4);
     gPad->SetLogz();
@@ -4155,34 +4308,38 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b6f3 60Ni(a,a) elastic peak
-    banana_b6f3->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b6f3->GetYaxis()->SetRangeUser(3500,6000);
+    // The b6f3 186W(a,a') channel
+    banana_b6f3->GetXaxis()->SetRangeUser(0,24000);
+    banana_b6f3->GetYaxis()->SetRangeUser(2000,10000);
     banana_b6f3->Draw();
+    QKinz_f3_graph->Draw("p same");
 
-    TCutG *cutg_b6f3 = new TCutG("cutg_b6f3",18);
+    TCutG *cutg_b6f3 = new TCutG("cutg_b6f3",21);
     cutg_b6f3->SetVarX(" E detector 6 strip 3");
     cutg_b6f3->SetVarY("#DeltaE ");
     cutg_b6f3->SetTitle("Graph");
     cutg_b6f3->SetFillStyle(1000);
-    cutg_b6f3->SetPoint(0,11575.1,4594.41);
-    cutg_b6f3->SetPoint(1,11782.3,4396.76);
-    cutg_b6f3->SetPoint(2,11989.4,4378.24);
-    cutg_b6f3->SetPoint(3,12279.4,4322.65);
-    cutg_b6f3->SetPoint(4,12496.8,4322.65);
-    cutg_b6f3->SetPoint(5,12724.7,4341.18);
-    cutg_b6f3->SetPoint(6,12786.8,4458.53);
-    cutg_b6f3->SetPoint(7,12786.8,4594.41);
-    cutg_b6f3->SetPoint(8,12631.5,4730.29);
-    cutg_b6f3->SetPoint(9,12331.1,4903.24);
-    cutg_b6f3->SetPoint(10,12041.2,4940.29);
-    cutg_b6f3->SetPoint(11,11699.4,4971.18);
-    cutg_b6f3->SetPoint(12,11575.1,4927.94);
-    cutg_b6f3->SetPoint(13,11492.3,4816.76);
-    cutg_b6f3->SetPoint(14,11502.7,4724.12);
-    cutg_b6f3->SetPoint(15,11544.1,4643.82);
-    cutg_b6f3->SetPoint(16,11564.8,4600.59);
-    cutg_b6f3->SetPoint(17,11575.1,4594.41);
+    cutg_b6f3->SetPoint(0,16555.3,3822.12);
+   	cutg_b6f3->SetPoint(1,16482.8,3895.83);
+   	cutg_b6f3->SetPoint(2,16353.4,3980.07);
+   	cutg_b6f3->SetPoint(3,16208.4,4039.74);
+   	cutg_b6f3->SetPoint(4,16042.7,4095.9);
+   	cutg_b6f3->SetPoint(5,15887.4,4116.96);
+   	cutg_b6f3->SetPoint(6,15726.9,4127.49);
+   	cutg_b6f3->SetPoint(7,15581.9,4095.9);
+   	cutg_b6f3->SetPoint(8,15561.2,3983.58);
+   	cutg_b6f3->SetPoint(9,15576.7,3892.32);
+   	cutg_b6f3->SetPoint(10,15654.4,3794.04);
+   	cutg_b6f3->SetPoint(11,15804.5,3730.86);
+   	cutg_b6f3->SetPoint(12,15975.4,3660.66);
+   	cutg_b6f3->SetPoint(13,16125.6,3604.5);
+   	cutg_b6f3->SetPoint(14,16275.7,3597.48);
+   	cutg_b6f3->SetPoint(15,16451.8,3608.01);
+   	cutg_b6f3->SetPoint(16,16508.7,3643.11);
+   	cutg_b6f3->SetPoint(17,16560.5,3720.33);
+   	cutg_b6f3->SetPoint(18,16565.7,3783.51);
+   	cutg_b6f3->SetPoint(19,16555.3,3832.65);
+   	cutg_b6f3->SetPoint(20,16555.3,3822.12);
     cutg_b6f3->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b6f3
@@ -4193,11 +4350,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b6f3 = banana_b6f3->ProjectionX("projx_cutg_b6f3",1,banana_b6f3->GetNbinsX(),"[cutg_b6f3]");              
-    projx_cutg_b6f3->Rebin(2);
-    projx_cutg_b6f3->Draw("");
+    projx_cutg_b6f3->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b6f3->Fit("gaus");
     fitx = (TF1*)projx_cutg_b6f3->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b6f3->GetMaximumBin(); 
+    centroidx = projx_cutg_b6f3->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c7->cd(20);
@@ -4207,16 +4366,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b6f3 = banana_b6f3->ProjectionY("projy_cutg_b6f3",1,banana_b6f3->GetNbinsY(),"[cutg_b6f3]");              
-    projy_cutg_b6f3->Rebin(2);
-    projy_cutg_b6f3->Draw("");
+    projy_cutg_b6f3->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b6f3->Fit("gaus");
     fity = (TF1*)projy_cutg_b6f3->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b6f3" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb6f3_E  = 5.0*f3_e_energy[0]/centroidx;
+    double gainb6f3_dE = 2.5*f3_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb6f3_E = " <<  gainb6f3_E << " keV/ch" << endl;
+    cout << " gainb6f3_dE = " << gainb6f3_dE << " keV/ch"<< endl;
+    cout << endl;
+
 
     c7->cd(5);
     gPad->SetLogz();
@@ -4225,37 +4387,37 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b6f4 60Ni(a,a) elastic peak
-    banana_b6f4->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b6f4->GetYaxis()->SetRangeUser(3500,6000);
+    // The b6f4 186W(a,a') channel
+    banana_b6f4->GetXaxis()->SetRangeUser(0,24000);
+    banana_b6f4->GetYaxis()->SetRangeUser(2000,10000);
     banana_b6f4->Draw();
+    QKinz_f4_graph->Draw("p same");
 
-    TCutG *cutg_b6f4 = new TCutG("cutg_b6f4",21);
+    TCutG *cutg_b6f4 = new TCutG("cutg_b6f4",20);
     cutg_b6f4->SetVarX(" E detector 6 strip 4");
     cutg_b6f4->SetVarY("#DeltaE ");
     cutg_b6f4->SetTitle("Graph");
     cutg_b6f4->SetFillStyle(1000);
-    cutg_b6f4->SetPoint(0,11530.3,4759.56);
-    cutg_b6f4->SetPoint(1,11623.2,4661.76);
-    cutg_b6f4->SetPoint(2,11782.4,4584.93);
-    cutg_b6f4->SetPoint(3,11994.7,4522.06);
-    cutg_b6f4->SetPoint(4,12313.2,4459.19);
-    cutg_b6f4->SetPoint(5,12591.8,4452.21);
-    cutg_b6f4->SetPoint(6,12910.3,4473.16);
-    cutg_b6f4->SetPoint(7,12976.6,4529.04);
-    cutg_b6f4->SetPoint(8,13042.9,4647.79);
-    cutg_b6f4->SetPoint(9,12976.6,4773.53);
-    cutg_b6f4->SetPoint(10,12751,4878.31);
-    cutg_b6f4->SetPoint(11,12565.3,4990.07);
-    cutg_b6f4->SetPoint(12,12339.7,5073.9);
-    cutg_b6f4->SetPoint(13,12127.4,5094.85);
-    cutg_b6f4->SetPoint(14,11888.6,5101.84);
-    cutg_b6f4->SetPoint(15,11742.6,5073.9);
-    cutg_b6f4->SetPoint(16,11663,5011.03);
-    cutg_b6f4->SetPoint(17,11583.4,4899.26);
-    cutg_b6f4->SetPoint(18,11503.8,4808.46);
-    cutg_b6f4->SetPoint(19,11530.3,4752.57);
-    cutg_b6f4->SetPoint(20,11530.3,4759.56);
+    cutg_b6f4->SetPoint(0,16540.3,3976.92);
+   	cutg_b6f4->SetPoint(1,16460.2,4047.77);
+   	cutg_b6f4->SetPoint(2,16368.7,4121.69);
+   	cutg_b6f4->SetPoint(3,16202.9,4211.02);
+   	cutg_b6f4->SetPoint(4,16020,4260.3);
+   	cutg_b6f4->SetPoint(5,15825.6,4294.18);
+   	cutg_b6f4->SetPoint(6,15636.9,4291.1);
+   	cutg_b6f4->SetPoint(7,15511.1,4204.86);
+   	cutg_b6f4->SetPoint(8,15528.3,4093.97);
+   	cutg_b6f4->SetPoint(9,15614.1,3998.48);
+   	cutg_b6f4->SetPoint(10,15797,3896.83);
+   	cutg_b6f4->SetPoint(11,15980,3816.75);
+   	cutg_b6f4->SetPoint(12,16208.7,3761.3);
+   	cutg_b6f4->SetPoint(13,16420.2,3730.5);
+   	cutg_b6f4->SetPoint(14,16586,3764.38);
+   	cutg_b6f4->SetPoint(15,16637.5,3850.63);
+   	cutg_b6f4->SetPoint(16,16603.2,3918.4);
+   	cutg_b6f4->SetPoint(17,16528.8,3989.24);
+   	cutg_b6f4->SetPoint(18,16528.8,3989.24);
+   	cutg_b6f4->SetPoint(19,16540.3,3976.92);
     cutg_b6f4->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b6f4
@@ -4266,11 +4428,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b6f4 = banana_b6f4->ProjectionX("projx_cutg_b6f4",1,banana_b6f4->GetNbinsX(),"[cutg_b6f4]");              
-    projx_cutg_b6f4->Rebin(2);
-    projx_cutg_b6f4->Draw("");
+    projx_cutg_b6f4->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b6f4->Fit("gaus");
     fitx = (TF1*)projx_cutg_b6f4->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b6f4->GetMaximumBin(); 
+    centroidx = projx_cutg_b6f4->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c7->cd(21);
@@ -4280,17 +4444,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b6f4 = banana_b6f4->ProjectionY("projy_cutg_b6f4",1,banana_b6f4->GetNbinsY(),"[cutg_b6f4]");              
-    projy_cutg_b6f4->Rebin(2);
-    projy_cutg_b6f4->Draw("");
+    projy_cutg_b6f4->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b6f4->Fit("gaus");
     fity = (TF1*)projy_cutg_b6f4->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b6f4" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb6f4_E  = 5.0*f4_e_energy[0]/centroidx;
+    double gainb6f4_dE = 2.5*f4_delta_e_energy[0]/centroidy;
 
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb6f4_E = " <<  gainb6f4_E << " keV/ch" << endl;
+    cout << " gainb6f4_dE = " << gainb6f4_dE << " keV/ch"<< endl;
+    cout << endl;
+  
     c7->cd(6);
     gPad->SetLogz();
     gPad->SetBottomMargin(0.13);
@@ -4298,39 +4464,34 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b6f5 60Ni(a,a) elastic peak
-    banana_b6f5->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b6f5->GetYaxis()->SetRangeUser(3500,6000);
+    // The b6f5 186W(a,a') channel
+    banana_b6f5->GetXaxis()->SetRangeUser(0,24000);
+    banana_b6f5->GetYaxis()->SetRangeUser(2000,10000);
     banana_b6f5->Draw();
+    QKinz_f5_graph->Draw("p same");
 
-    TCutG *cutg_b6f5 = new TCutG("cutg_b6f5",23);
+    TCutG *cutg_b6f5 = new TCutG("cutg_b6f5",17);
     cutg_b6f5->SetVarX(" E detector 6 strip 5");
     cutg_b6f5->SetVarY("#DeltaE ");
     cutg_b6f5->SetTitle("Graph");
     cutg_b6f5->SetFillStyle(1000);
-    cutg_b6f5->SetPoint(0,11595.4,4770.96);
-    cutg_b6f5->SetPoint(1,11775.7,4635.44);
-    cutg_b6f5->SetPoint(2,12021.7,4542.72);
-    cutg_b6f5->SetPoint(3,12275.9,4435.74);
-    cutg_b6f5->SetPoint(4,12530,4392.94);
-    cutg_b6f5->SetPoint(5,12767.8,4392.94);
-    cutg_b6f5->SetPoint(6,12948.1,4457.13);
-    cutg_b6f5->SetPoint(7,13013.7,4556.99);
-    cutg_b6f5->SetPoint(8,12997.3,4699.63);
-    cutg_b6f5->SetPoint(9,12915.3,4835.15);
-    cutg_b6f5->SetPoint(10,12800.6,4927.87);
-    cutg_b6f5->SetPoint(11,12620.2,5006.32);
-    cutg_b6f5->SetPoint(12,12480.8,5099.04);
-    cutg_b6f5->SetPoint(13,12234.9,5234.56);
-    cutg_b6f5->SetPoint(14,11997.1,5255.96);
-    cutg_b6f5->SetPoint(15,11751.2,5227.43);
-    cutg_b6f5->SetPoint(16,11652.8,5170.37);
-    cutg_b6f5->SetPoint(17,11554.4,5027.72);
-    cutg_b6f5->SetPoint(18,11505.2,4949.26);
-    cutg_b6f5->SetPoint(19,11538,4870.81);
-    cutg_b6f5->SetPoint(20,11562.6,4806.62);
-    cutg_b6f5->SetPoint(21,11603.6,4770.96);
-    cutg_b6f5->SetPoint(22,11595.4,4770.96);
+    cutg_b6f5->SetPoint(0,16612.4,3964.1);
+   	cutg_b6f5->SetPoint(1,16508.8,4056.86);
+   	cutg_b6f5->SetPoint(2,16282.3,4202.64);
+   	cutg_b6f5->SetPoint(3,16055.7,4332.51);
+   	cutg_b6f5->SetPoint(4,15842.1,4372.26);
+   	cutg_b6f5->SetPoint(5,15599.4,4351.06);
+   	cutg_b6f5->SetPoint(6,15515.3,4213.24);
+   	cutg_b6f5->SetPoint(7,15547.6,4083.37);
+   	cutg_b6f5->SetPoint(8,15631.8,3950.85);
+   	cutg_b6f5->SetPoint(9,15793.6,3879.28);
+   	cutg_b6f5->SetPoint(10,16110.7,3752.06);
+   	cutg_b6f5->SetPoint(11,16337.3,3661.95);
+   	cutg_b6f5->SetPoint(12,16515.3,3712.31);
+   	cutg_b6f5->SetPoint(13,16648,3781.22);
+   	cutg_b6f5->SetPoint(14,16622.1,3903.14);
+   	cutg_b6f5->SetPoint(15,16596.2,3982.65);
+   	cutg_b6f5->SetPoint(16,16612.4,3964.1);
     cutg_b6f5->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b6f5
@@ -4341,11 +4502,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b6f5 = banana_b6f5->ProjectionX("projx_cutg_b6f5",1,banana_b6f5->GetNbinsX(),"[cutg_b6f5]");              
-    projx_cutg_b6f5->Rebin(2);
-    projx_cutg_b6f5->Draw("");
+    projx_cutg_b6f5->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b6f5->Fit("gaus");
     fitx = (TF1*)projx_cutg_b6f5->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b6f5->GetMaximumBin(); 
+    centroidx = projx_cutg_b6f5->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c7->cd(22);
@@ -4355,16 +4518,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b6f5 = banana_b6f5->ProjectionY("projy_cutg_b6f5",1,banana_b6f5->GetNbinsY(),"[cutg_b6f5]");              
-    projy_cutg_b6f5->Rebin(2);
-    projy_cutg_b6f5->Draw("");
+    projy_cutg_b6f5->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b6f5->Fit("gaus");
     fity = (TF1*)projy_cutg_b6f5->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b6f5" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb6f5_E  = 5.0*f5_e_energy[0]/centroidx;
+    double gainb6f5_dE = 2.5*f5_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb6f5_E = " <<  gainb6f5_E << " keV/ch" << endl;
+    cout << " gainb6f5_dE = " << gainb6f5_dE << " keV/ch"<< endl;
+    cout << endl;
+
 
     c7->cd(7);
     gPad->SetLogz();
@@ -4373,37 +4539,33 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b6f6 60Ni(a,a) elastic peak
-    banana_b6f6->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b6f6->GetYaxis()->SetRangeUser(3500,6000);
+    // The b6f6 186W(a,a') channel
+    banana_b6f6->GetXaxis()->SetRangeUser(0,24000);
+    banana_b6f6->GetYaxis()->SetRangeUser(2000,10000);
     banana_b6f6->Draw();
+    QKinz_f6_graph->Draw("p same");
 
-    TCutG *cutg_b6f6 = new TCutG("cutg_b6f6",21);
+    TCutG *cutg_b6f6 = new TCutG("cutg_b6f6",16);
     cutg_b6f6->SetVarX(" E detector 6 strip 6");
     cutg_b6f6->SetVarY("#DeltaE ");
     cutg_b6f6->SetTitle("Graph");
     cutg_b6f6->SetFillStyle(1000);
-    cutg_b6f6->SetPoint(0,11700.5,4751.4);
-    cutg_b6f6->SetPoint(1,11819.7,4679.71);
-    cutg_b6f6->SetPoint(2,11975.6,4602.5);
-    cutg_b6f6->SetPoint(3,12287.4,4525.29);
-    cutg_b6f6->SetPoint(4,12590,4470.15);
-    cutg_b6f6->SetPoint(5,12819.2,4464.63);
-    cutg_b6f6->SetPoint(6,13020.9,4580.44);
-    cutg_b6f6->SetPoint(7,13011.7,4740.37);
-    cutg_b6f6->SetPoint(8,12892.5,4883.75);
-    cutg_b6f6->SetPoint(9,12690.8,5038.16);
-    cutg_b6f6->SetPoint(10,12424.9,5120.88);
-    cutg_b6f6->SetPoint(11,12177.3,5176.03);
-    cutg_b6f6->SetPoint(12,11948.1,5170.51);
-    cutg_b6f6->SetPoint(13,11819.7,5153.97);
-    cutg_b6f6->SetPoint(14,11682.2,5115.37);
-    cutg_b6f6->SetPoint(15,11572.2,5054.71);
-    cutg_b6f6->SetPoint(16,11535.5,4955.44);
-    cutg_b6f6->SetPoint(17,11544.6,4867.21);
-    cutg_b6f6->SetPoint(18,11618,4795.51);
-    cutg_b6f6->SetPoint(19,11709.7,4751.4);
-    cutg_b6f6->SetPoint(20,11700.5,4751.4);
+    cutg_b6f6->SetPoint(0,16643,3958.17);
+   	cutg_b6f6->SetPoint(1,16404.5,4135.46);
+   	cutg_b6f6->SetPoint(2,16231,4233.95);
+   	cutg_b6f6->SetPoint(3,15978.1,4320.63);
+   	cutg_b6f6->SetPoint(4,15761.2,4371.85);
+   	cutg_b6f6->SetPoint(5,15558.9,4320.63);
+   	cutg_b6f6->SetPoint(6,15515.5,4190.62);
+   	cutg_b6f6->SetPoint(7,15580.6,4064.54);
+   	cutg_b6f6->SetPoint(8,15746.8,3938.47);
+   	cutg_b6f6->SetPoint(9,16028.7,3859.67);
+   	cutg_b6f6->SetPoint(10,16202.1,3812.39);
+   	cutg_b6f6->SetPoint(11,16433.4,3788.75);
+   	cutg_b6f6->SetPoint(12,16599.6,3832.09);
+   	cutg_b6f6->SetPoint(13,16650.2,3910.89);
+   	cutg_b6f6->SetPoint(14,16628.6,3966.05);
+   	cutg_b6f6->SetPoint(15,16643,3958.17);
     cutg_b6f6->Draw("same");
 
 
@@ -4415,11 +4577,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b6f6 = banana_b6f6->ProjectionX("projx_cutg_b6f6",1,banana_b6f6->GetNbinsX(),"[cutg_b6f6]");              
-    projx_cutg_b6f6->Rebin(2);
-    projx_cutg_b6f6->Draw("");
+    projx_cutg_b6f6->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b6f6->Fit("gaus");
     fitx = (TF1*)projx_cutg_b6f6->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b6f6->GetMaximumBin(); 
+    centroidx = projx_cutg_b6f6->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c7->cd(23);
@@ -4429,16 +4593,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b6f6 = banana_b6f6->ProjectionY("projy_cutg_b6f6",1,banana_b6f6->GetNbinsY(),"[cutg_b6f6]");              
-    projy_cutg_b6f6->Rebin(2);
-    projy_cutg_b6f6->Draw("");
+    projy_cutg_b6f6->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b6f6->Fit("gaus");
     fity = (TF1*)projy_cutg_b6f6->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b6f6" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb6f6_E  = 5.0*f6_e_energy[0]/centroidx;
+    double gainb6f6_dE = 2.5*f6_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb6f6_E = " <<  gainb6f6_E << " keV/ch" << endl;
+    cout << " gainb6f6_dE = " << gainb6f6_dE << " keV/ch"<< endl;
+    cout << endl;
+
 
     c7->cd(8);
     gPad->SetLogz();
@@ -4447,39 +4614,35 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b6f7 60Ni(a,a) elastic peak
-    banana_b6f7->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b6f7->GetYaxis()->SetRangeUser(3500,6000);
+    // The b6f7 186W(a,a') channel
+    banana_b6f7->GetXaxis()->SetRangeUser(0,24000);
+    banana_b6f7->GetYaxis()->SetRangeUser(2000,10000);
     banana_b6f7->Draw();
+    QKinz_f7_graph->Draw("p same");
 
-    TCutG *cutg_b6f7 = new TCutG("cutg_b6f7",23);
+    TCutG *cutg_b6f7 = new TCutG("cutg_b6f7",18);
     cutg_b6f7->SetVarX(" E detector 6 strip 7");
     cutg_b6f7->SetVarY("#DeltaE ");
     cutg_b6f7->SetTitle("Graph");
     cutg_b6f7->SetFillStyle(1000);
-    cutg_b6f7->SetPoint(0,11674.4,4522.21);
-    cutg_b6f7->SetPoint(1,11863,4418.53);
-    cutg_b6f7->SetPoint(2,12150.8,4390.88);
-    cutg_b6f7->SetPoint(3,12458.5,4377.06);
-    cutg_b6f7->SetPoint(4,12666.9,4383.97);
-    cutg_b6f7->SetPoint(5,12885.2,4377.06);
-    cutg_b6f7->SetPoint(6,13093.6,4460);
-    cutg_b6f7->SetPoint(7,13192.9,4598.24);
-    cutg_b6f7->SetPoint(8,13103.6,4743.38);
-    cutg_b6f7->SetPoint(9,12736.4,4923.09);
-    cutg_b6f7->SetPoint(10,12468.4,5033.68);
-    cutg_b6f7->SetPoint(11,12131,5144.26);
-    cutg_b6f7->SetPoint(12,11922.5,5165);
-    cutg_b6f7->SetPoint(13,11714.1,5165);
-    cutg_b6f7->SetPoint(14,11614.9,5075.15);
-    cutg_b6f7->SetPoint(15,11485.9,5019.85);
-    cutg_b6f7->SetPoint(16,11426.3,4923.09);
-    cutg_b6f7->SetPoint(17,11426.3,4784.85);
-    cutg_b6f7->SetPoint(18,11505.7,4639.71);
-    cutg_b6f7->SetPoint(19,11555.3,4591.32);
-    cutg_b6f7->SetPoint(20,11664.5,4522.21);
-    cutg_b6f7->SetPoint(21,11694.3,4508.38);
-    cutg_b6f7->SetPoint(22,11674.4,4522.21);
+    cutg_b6f7->SetPoint(0,16511.9,3910.99);
+   	cutg_b6f7->SetPoint(1,16366,4021.23);
+   	cutg_b6f7->SetPoint(2,16164.1,4156.62);
+   	cutg_b6f7->SetPoint(3,16029.4,4212.71);
+   	cutg_b6f7->SetPoint(4,15810.7,4278.47);
+   	cutg_b6f7->SetPoint(5,15656.4,4280.4);
+   	cutg_b6f7->SetPoint(6,15575.1,4235.92);
+   	cutg_b6f7->SetPoint(7,15507.8,4094.73);
+   	cutg_b6f7->SetPoint(8,15577.9,3953.54);
+   	cutg_b6f7->SetPoint(9,15698.5,3874.24);
+   	cutg_b6f7->SetPoint(10,15956.5,3769.8);
+   	cutg_b6f7->SetPoint(11,16200.5,3704.04);
+   	cutg_b6f7->SetPoint(12,16335.2,3702.11);
+   	cutg_b6f7->SetPoint(13,16472.6,3729.18);
+   	cutg_b6f7->SetPoint(14,16506.3,3771.73);
+   	cutg_b6f7->SetPoint(15,16520.3,3849.1);
+   	cutg_b6f7->SetPoint(16,16509.1,3922.59);
+   	cutg_b6f7->SetPoint(17,16511.9,3910.99);
     cutg_b6f7->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b6f7
@@ -4490,11 +4653,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b6f7 = banana_b6f7->ProjectionX("projx_cutg_b6f7",1,banana_b6f7->GetNbinsX(),"[cutg_b6f7]");              
-    projx_cutg_b6f7->Rebin(2);
-    projx_cutg_b6f7->Draw("");
+    projx_cutg_b6f7->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b6f7->Fit("gaus");
     fitx = (TF1*)projx_cutg_b6f7->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b6f7->GetMaximumBin(); 
+    centroidx = projx_cutg_b6f7->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c7->cd(24);
@@ -4504,23 +4669,25 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b6f7 = banana_b6f7->ProjectionY("projy_cutg_b6f7",1,banana_b6f7->GetNbinsY(),"[cutg_b6f7]");              
-    projy_cutg_b6f7->Rebin(2);
-    projy_cutg_b6f7->Draw("");
+    projy_cutg_b6f7->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b6f7->Fit("gaus");
     fity = (TF1*)projy_cutg_b6f7->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b6f7" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;    
+    double gainb6f7_E  = 5.0*f7_e_energy[0]/centroidx;
+    double gainb6f7_dE = 2.5*f7_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb6f7_E = " <<  gainb6f7_E << " keV/ch" << endl;
+    cout << " gainb6f7_dE = " << gainb6f7_dE << " keV/ch"<< endl;
+    cout << endl;
 
 
     ///////////////////
     // E DETECTOR b7 //
     ///////////////////
 
-    // Make canvas to plot the 2D banana plots in the range of the elastic peak
+    // Make canvas to plot the 2D banana plots 
     TCanvas *c8 = new TCanvas("c8","c8:b7 bananas",1400,800);
     c8->Divide(8,3,0,0);
     c8->cd(1);
@@ -4530,39 +4697,33 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b7f0 60Ni(a,a) elastic peak
-    banana_b7f0->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b7f0->GetYaxis()->SetRangeUser(3700,6200);
+    // The b7f0 186W(a,a') channel
+    banana_b7f0->GetXaxis()->SetRangeUser(0,24000);
+    banana_b7f0->GetYaxis()->SetRangeUser(2000,10000);
     banana_b7f0->Draw();
+    QKinz_f0_graph->Draw("p same");
 
-    TCutG *cutg_b7f0 = new TCutG("cutg_b7f0",23);
+    TCutG *cutg_b7f0 = new TCutG("cutg_b7f0",16);
     cutg_b7f0->SetVarX(" E detector 7 strip 0");
     cutg_b7f0->SetVarY("#DeltaE ");
     cutg_b7f0->SetTitle("Graph");
     cutg_b7f0->SetFillStyle(1000);
-    cutg_b7f0->SetPoint(0,10929.8,4790.15);
-    cutg_b7f0->SetPoint(1,11047.6,4676.4);
-    cutg_b7f0->SetPoint(2,11192.6,4602.79);
-    cutg_b7f0->SetPoint(3,11428.2,4562.65);
-    cutg_b7f0->SetPoint(4,11736.3,4562.65);
-    cutg_b7f0->SetPoint(5,11990,4596.1);
-    cutg_b7f0->SetPoint(6,12135,4723.24);
-    cutg_b7f0->SetPoint(7,12153.1,4944.04);
-    cutg_b7f0->SetPoint(8,11999.1,5124.71);
-    cutg_b7f0->SetPoint(9,11826.9,5258.53);
-    cutg_b7f0->SetPoint(10,11582.3,5345.51);
-    cutg_b7f0->SetPoint(11,11401,5378.97);
-    cutg_b7f0->SetPoint(12,11219.8,5445.88);
-    cutg_b7f0->SetPoint(13,11056.7,5452.57);
-    cutg_b7f0->SetPoint(14,10920.8,5385.66);
-    cutg_b7f0->SetPoint(15,10721.4,5318.75);
-    cutg_b7f0->SetPoint(16,10658,5178.24);
-    cutg_b7f0->SetPoint(17,10658,5064.49);
-    cutg_b7f0->SetPoint(18,10685.2,4990.88);
-    cutg_b7f0->SetPoint(19,10748.6,4897.21);
-    cutg_b7f0->SetPoint(20,10875.5,4796.84);
-    cutg_b7f0->SetPoint(21,10938.9,4770.07);
-    cutg_b7f0->SetPoint(22,10929.8,4790.15);
+    cutg_b7f0->SetPoint(0,15938.4,4176.72);
+   	cutg_b7f0->SetPoint(1,15773.9,4253.44);
+   	cutg_b7f0->SetPoint(2,15648.8,4326.5);
+   	cutg_b7f0->SetPoint(3,15484.3,4395.92);
+   	cutg_b7f0->SetPoint(4,15181.6,4443.41);
+   	cutg_b7f0->SetPoint(5,15004,4388.61);
+   	cutg_b7f0->SetPoint(6,15017.1,4275.36);
+   	cutg_b7f0->SetPoint(7,15221.1,4100);
+   	cutg_b7f0->SetPoint(8,15392.2,4030.59);
+   	cutg_b7f0->SetPoint(9,15668.6,3939.26);
+   	cutg_b7f0->SetPoint(10,15846.2,3913.68);
+   	cutg_b7f0->SetPoint(11,16004.2,3968.48);
+   	cutg_b7f0->SetPoint(12,16056.8,4056.16);
+   	cutg_b7f0->SetPoint(13,15964.7,4132.88);
+   	cutg_b7f0->SetPoint(14,15905.5,4187.68);
+   	cutg_b7f0->SetPoint(15,15938.4,4176.72);
     cutg_b7f0->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b7f0
@@ -4573,11 +4734,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b7f0 = banana_b7f0->ProjectionX("projx_cutg_b7f0",1,banana_b7f0->GetNbinsX(),"[cutg_b7f0]");              
-    projx_cutg_b7f0->Rebin(2);
-    projx_cutg_b7f0->Draw("");
+    projx_cutg_b7f0->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b7f0->Fit("gaus");
     fitx = (TF1*)projx_cutg_b7f0->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b7f0->GetMaximumBin(); 
+    centroidx = projx_cutg_b7f0->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c8->cd(17);
@@ -4587,16 +4750,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b7f0 = banana_b7f0->ProjectionY("projy_cutg_b7f0",1,banana_b7f0->GetNbinsY(),"[cutg_b7f0]");              
-    projy_cutg_b7f0->Rebin(2);
-    projy_cutg_b7f0->Draw("");
+    projy_cutg_b7f0->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b7f0->Fit("gaus");
     fity = (TF1*)projy_cutg_b7f0->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b7f0" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb7f0_E  = 5.0*f0_e_energy[0]/centroidx;
+    double gainb7f0_dE = 2.5*f0_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb7f0_E = " <<  gainb7f0_E << " keV/ch" << endl;
+    cout << " gainb7f0_dE = " << gainb7f0_dE << " keV/ch"<< endl;
+    cout << endl;
+
 
     c8->cd(2);
     gPad->SetLogz();
@@ -4605,37 +4771,32 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b7f1 60Ni(a,a) elastic peak
-    banana_b7f1->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b7f1->GetYaxis()->SetRangeUser(3700,6200);
+    // The b7f1 186W(a,a') channel
+    banana_b7f1->GetXaxis()->SetRangeUser(0,24000);
+    banana_b7f1->GetYaxis()->SetRangeUser(2000,10000);
     banana_b7f1->Draw();
+    QKinz_f1_graph->Draw("p same");
    
-    TCutG *cutg_b7f1 = new TCutG("cutg_b7f1",21);
+    TCutG *cutg_b7f1 = new TCutG("cutg_b7f1",15);
     cutg_b7f1->SetVarX(" E detector 7 strip 1");
     cutg_b7f1->SetVarY("#DeltaE ");
     cutg_b7f1->SetTitle("Graph");
     cutg_b7f1->SetFillStyle(1000);
-    cutg_b7f1->SetPoint(0,10984.8,4908.82);
-    cutg_b7f1->SetPoint(1,11230.7,4809.41);
-    cutg_b7f1->SetPoint(2,11452.1,4702.35);
-    cutg_b7f1->SetPoint(3,11722.7,4641.18);
-    cutg_b7f1->SetPoint(4,12030.1,4602.94);
-    cutg_b7f1->SetPoint(5,12312.9,4648.82);
-    cutg_b7f1->SetPoint(6,12337.5,4794.12);
-    cutg_b7f1->SetPoint(7,12239.2,4985.29);
-    cutg_b7f1->SetPoint(8,12091.6,5084.71);
-    cutg_b7f1->SetPoint(9,11784.1,5268.24);
-    cutg_b7f1->SetPoint(10,11550.5,5382.94);
-    cutg_b7f1->SetPoint(11,11243,5421.18);
-    cutg_b7f1->SetPoint(12,10997.1,5421.18);
-    cutg_b7f1->SetPoint(13,10800.3,5375.29);
-    cutg_b7f1->SetPoint(14,10726.5,5275.88);
-    cutg_b7f1->SetPoint(15,10701.9,5153.53);
-    cutg_b7f1->SetPoint(16,10714.2,5038.82);
-    cutg_b7f1->SetPoint(17,10800.3,4977.65);
-    cutg_b7f1->SetPoint(18,10898.7,4939.41);
-    cutg_b7f1->SetPoint(19,10984.8,4916.47);
-    cutg_b7f1->SetPoint(20,10984.8,4908.82);
+    cutg_b7f1->SetPoint(0,15947.4,4127.68);
+   	cutg_b7f1->SetPoint(1,15805,4227.97);
+   	cutg_b7f1->SetPoint(2,15577.2,4364.36);
+   	cutg_b7f1->SetPoint(3,15356.4,4452.61);
+   	cutg_b7f1->SetPoint(4,15128.6,4480.69);
+   	cutg_b7f1->SetPoint(5,14972,4452.61);
+   	cutg_b7f1->SetPoint(6,15021.8,4256.05);
+   	cutg_b7f1->SetPoint(7,15114.4,4143.72);
+   	cutg_b7f1->SetPoint(8,15263.9,4031.4);
+   	cutg_b7f1->SetPoint(9,15491.7,3963.21);
+   	cutg_b7f1->SetPoint(10,15733.8,3955.19);
+   	cutg_b7f1->SetPoint(11,15947.4,3987.28);
+   	cutg_b7f1->SetPoint(12,15961.6,4087.56);
+   	cutg_b7f1->SetPoint(13,15926,4143.72);
+   	cutg_b7f1->SetPoint(14,15947.4,4127.68);
     cutg_b7f1->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b7f1
@@ -4646,11 +4807,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b7f1 = banana_b7f1->ProjectionX("projx_cutg_b7f1",1,banana_b7f1->GetNbinsX(),"[cutg_b7f1]");              
-    projx_cutg_b7f1->Rebin(2);
-    projx_cutg_b7f1->Draw("");
+    projx_cutg_b7f1->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b7f1->Fit("gaus");
     fitx = (TF1*)projx_cutg_b7f1->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b7f1->GetMaximumBin(); 
+    centroidx = projx_cutg_b7f1->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c8->cd(18);
@@ -4660,16 +4823,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b7f1 = banana_b7f1->ProjectionY("projy_cutg_b7f1",1,banana_b7f1->GetNbinsY(),"[cutg_b7f1]");              
-    projy_cutg_b7f1->Rebin(2);
-    projy_cutg_b7f1->Draw("");
+    projy_cutg_b7f1->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b7f1->Fit("gaus");
     fity = (TF1*)projy_cutg_b7f1->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b7f1" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb7f1_E  = 5.0*f1_e_energy[0]/centroidx;
+    double gainb7f1_dE = 2.5*f1_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb7f1_E = " <<  gainb7f1_E << " keV/ch" << endl;
+    cout << " gainb7f1_dE = " << gainb7f1_dE << " keV/ch"<< endl;
+    cout << endl;
+
 
     c8->cd(3);
     gPad->SetLogz();
@@ -4678,37 +4844,34 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b7f2 60Ni(a,a) elastic peak
-    banana_b7f2->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b7f2->GetYaxis()->SetRangeUser(3700,6200);
+    // The b7f2 186W(a,a') channel
+    banana_b7f2->GetXaxis()->SetRangeUser(0,24000);
+    banana_b7f2->GetYaxis()->SetRangeUser(2000,10000);
     banana_b7f2->Draw();
+    QKinz_f2_graph->Draw("p same");
 
-    TCutG *cutg_b7f2 = new TCutG("cutg_b7f2",21);
+    TCutG *cutg_b7f2 = new TCutG("cutg_b7f2",17);
     cutg_b7f2->SetVarX(" E detector 7 strip 2");
     cutg_b7f2->SetVarY("#DeltaE ");
     cutg_b7f2->SetTitle("Graph");
     cutg_b7f2->SetFillStyle(1000);
-    cutg_b7f2->SetPoint(0,11001.5,4965);
-    cutg_b7f2->SetPoint(1,11177.5,4850.74);
-    cutg_b7f2->SetPoint(2,11342.6,4790.88);
-    cutg_b7f2->SetPoint(3,11606.7,4752.79);
-    cutg_b7f2->SetPoint(4,11914.8,4720.15);
-    cutg_b7f2->SetPoint(5,12123.8,4752.79);
-    cutg_b7f2->SetPoint(6,12222.8,4828.97);
-    cutg_b7f2->SetPoint(7,12244.9,4986.76);
-    cutg_b7f2->SetPoint(8,12200.8,5101.03);
-    cutg_b7f2->SetPoint(9,12002.8,5242.5);
-    cutg_b7f2->SetPoint(10,11672.7,5302.35);
-    cutg_b7f2->SetPoint(11,11507.6,5335);
-    cutg_b7f2->SetPoint(12,11254.6,5356.76);
-    cutg_b7f2->SetPoint(13,11045.5,5351.32);
-    cutg_b7f2->SetPoint(14,10891.5,5318.68);
-    cutg_b7f2->SetPoint(15,10847.4,5215.29);
-    cutg_b7f2->SetPoint(16,10847.4,5117.35);
-    cutg_b7f2->SetPoint(17,10891.5,5062.94);
-    cutg_b7f2->SetPoint(18,10946.5,5019.41);
-    cutg_b7f2->SetPoint(19,11012.5,4965);
-    cutg_b7f2->SetPoint(20,11001.5,4965);
+    cutg_b7f2->SetPoint(0,15967.7,4230.97);
+   	cutg_b7f2->SetPoint(1,15811.3,4390.86);
+   	cutg_b7f2->SetPoint(2,15665.7,4457.48);
+   	cutg_b7f2->SetPoint(3,15428.3,4546.3);
+   	cutg_b7f2->SetPoint(4,15174.8,4572.95);
+   	cutg_b7f2->SetPoint(5,15040,4546.3);
+   	cutg_b7f2->SetPoint(6,14975.3,4417.51);
+   	cutg_b7f2->SetPoint(7,14991.4,4270.95);
+   	cutg_b7f2->SetPoint(8,15142.5,4146.59);
+   	cutg_b7f2->SetPoint(9,15449.9,4000.03);
+   	cutg_b7f2->SetPoint(10,15671,3920.09);
+   	cutg_b7f2->SetPoint(11,15854.4,3920.09);
+   	cutg_b7f2->SetPoint(12,16043.2,4000.03);
+   	cutg_b7f2->SetPoint(13,16037.8,4097.74);
+   	cutg_b7f2->SetPoint(14,16005.5,4191);
+   	cutg_b7f2->SetPoint(15,15951.5,4248.74);
+   	cutg_b7f2->SetPoint(16,15967.7,4230.97);
     cutg_b7f2->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b7f2
@@ -4719,11 +4882,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b7f2 = banana_b7f2->ProjectionX("projx_cutg_b7f2",1,banana_b7f2->GetNbinsX(),"[cutg_b7f2]");              
-    projx_cutg_b7f2->Rebin(2);
-    projx_cutg_b7f2->Draw("");
+    projx_cutg_b7f2->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b7f2->Fit("gaus");
     fitx = (TF1*)projx_cutg_b7f2->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b7f2->GetMaximumBin(); 
+    centroidx = projx_cutg_b7f2->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c8->cd(19);
@@ -4733,16 +4898,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b7f2 = banana_b7f2->ProjectionY("projy_cutg_b7f2",1,banana_b7f2->GetNbinsY(),"[cutg_b7f2]");              
-    projy_cutg_b7f2->Rebin(2);
-    projy_cutg_b7f2->Draw("");
+    projy_cutg_b7f2->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b7f2->Fit("gaus");
     fity = (TF1*)projy_cutg_b7f2->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b7f2" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb7f2_E  = 5.0*f2_e_energy[0]/centroidx;
+    double gainb7f2_dE = 2.5*f2_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb7f2_E = " <<  gainb7f2_E << " keV/ch" << endl;
+    cout << " gainb7f2_dE = " << gainb7f2_dE << " keV/ch"<< endl;
+    cout << endl;
+
 
     c8->cd(4);
     gPad->SetLogz();
@@ -4751,37 +4919,32 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b7f3 60Ni(a,a) elastic peak
-    banana_b7f3->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b7f3->GetYaxis()->SetRangeUser(3500,6000);
+    // The b7f3 186W(a,a') elastic peak
+    banana_b7f3->GetXaxis()->SetRangeUser(0,24000);
+    banana_b7f3->GetYaxis()->SetRangeUser(2000,10000);
     banana_b7f3->Draw();
+    QKinz_f3_graph->Draw("p same");
 
-    TCutG *cutg_b7f3 = new TCutG("cutg_b7f3",21);
+    TCutG *cutg_b7f3 = new TCutG("cutg_b7f3",15);
     cutg_b7f3->SetVarX(" E detector 7 strip 3");
     cutg_b7f3->SetVarY("#DeltaE ");
     cutg_b7f3->SetTitle("Graph");
     cutg_b7f3->SetFillStyle(1000);
-    cutg_b7f3->SetPoint(0,10955.6,4755);
-    cutg_b7f3->SetPoint(1,11144.2,4642.5);
-    cutg_b7f3->SetPoint(2,11308.2,4592.5);
-    cutg_b7f3->SetPoint(3,11586.9,4548.75);
-    cutg_b7f3->SetPoint(4,11824.7,4523.75);
-    cutg_b7f3->SetPoint(5,11996.9,4517.5);
-    cutg_b7f3->SetPoint(6,12160.8,4580);
-    cutg_b7f3->SetPoint(7,12201.8,4705);
-    cutg_b7f3->SetPoint(8,12185.4,4792.5);
-    cutg_b7f3->SetPoint(9,12111.6,4917.5);
-    cutg_b7f3->SetPoint(10,11980.5,5036.25);
-    cutg_b7f3->SetPoint(11,11816.5,5130);
-    cutg_b7f3->SetPoint(12,11537.7,5173.75);
-    cutg_b7f3->SetPoint(13,11275.4,5173.75);
-    cutg_b7f3->SetPoint(14,11013,5136.25);
-    cutg_b7f3->SetPoint(15,10939.2,5080);
-    cutg_b7f3->SetPoint(16,10898.3,4967.5);
-    cutg_b7f3->SetPoint(17,10898.3,4848.75);
-    cutg_b7f3->SetPoint(18,10988.4,4748.75);
-    cutg_b7f3->SetPoint(19,11004.8,4730);
-    cutg_b7f3->SetPoint(20,10955.6,4755);
+    cutg_b7f3->SetPoint(0,16034.5,3956.68);
+   	cutg_b7f3->SetPoint(1,15856.5,4102.81);
+   	cutg_b7f3->SetPoint(2,15692.8,4197.36);
+   	cutg_b7f3->SetPoint(3,15429.3,4322.01);
+   	cutg_b7f3->SetPoint(4,15137.4,4334.9);
+   	cutg_b7f3->SetPoint(5,14973.7,4261.83);
+   	cutg_b7f3->SetPoint(6,14980.8,4115.7);
+   	cutg_b7f3->SetPoint(7,15059.1,3978.17);
+   	cutg_b7f3->SetPoint(8,15279.8,3875.01);
+   	cutg_b7f3->SetPoint(9,15621.6,3793.35);
+   	cutg_b7f3->SetPoint(10,15763.9,3776.16);
+   	cutg_b7f3->SetPoint(11,15984.7,3823.44);
+   	cutg_b7f3->SetPoint(12,16048.7,3905.1);
+   	cutg_b7f3->SetPoint(13,16027.4,3973.87);
+   	cutg_b7f3->SetPoint(14,16034.5,3956.68);
     cutg_b7f3->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b7f3
@@ -4792,11 +4955,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b7f3 = banana_b7f3->ProjectionX("projx_cutg_b7f3",1,banana_b7f3->GetNbinsX(),"[cutg_b7f3]");              
-    projx_cutg_b7f3->Rebin(2);
-    projx_cutg_b7f3->Draw("");
+    projx_cutg_b7f3->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b7f3->Fit("gaus");
     fitx = (TF1*)projx_cutg_b7f3->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b7f3->GetMaximumBin(); 
+    centroidx = projx_cutg_b7f3->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c8->cd(20);
@@ -4806,16 +4971,18 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b7f3 = banana_b7f3->ProjectionY("projy_cutg_b7f3",1,banana_b7f3->GetNbinsY(),"[cutg_b7f3]");              
-    projy_cutg_b7f3->Rebin(2);
-    projy_cutg_b7f3->Draw("");
+    projy_cutg_b7f3->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b7f3->Fit("gaus");
     fity = (TF1*)projy_cutg_b7f3->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b7f3" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb7f3_E  = 5.0*f3_e_energy[0]/centroidx;
+    double gainb7f3_dE = 2.5*f3_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb7f3_E = " <<  gainb7f3_E << " keV/ch" << endl;
+    cout << " gainb7f3_dE = " << gainb7f3_dE << " keV/ch"<< endl;
+    cout << endl;
 
     c8->cd(5);
     gPad->SetLogz();
@@ -4824,32 +4991,35 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b7f4 60Ni(a,a) elastic peak
-    banana_b7f4->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b7f4->GetYaxis()->SetRangeUser(3700,6200);
+    // The b7f4 186W(a,a') channel
+    banana_b7f4->GetXaxis()->SetRangeUser(0,24000);
+    banana_b7f4->GetYaxis()->SetRangeUser(2000,10000);
     banana_b7f4->Draw();
+    QKinz_f4_graph->Draw("p same");
 
-    TCutG *cutg_b7f4 = new TCutG("cutg_b7f4",16);
+    TCutG *cutg_b7f4 = new TCutG("cutg_b7f4",18);
     cutg_b7f4->SetVarX(" E detector 7 strip 4");
     cutg_b7f4->SetVarY("#DeltaE ");
     cutg_b7f4->SetTitle("Graph");
     cutg_b7f4->SetFillStyle(1000);
-    cutg_b7f4->SetPoint(0,11022.5,4911.1);
-    cutg_b7f4->SetPoint(1,11292.9,4796.99);
-    cutg_b7f4->SetPoint(2,11575.1,4739.93);
-    cutg_b7f4->SetPoint(3,11974.9,4739.93);
-    cutg_b7f4->SetPoint(4,12245.3,4775.59);
-    cutg_b7f4->SetPoint(5,12257.1,4939.63);
-    cutg_b7f4->SetPoint(6,12163,5089.41);
-    cutg_b7f4->SetPoint(7,11939.6,5217.79);
-    cutg_b7f4->SetPoint(8,11586.9,5324.78);
-    cutg_b7f4->SetPoint(9,11351.7,5396.1);
-    cutg_b7f4->SetPoint(10,11093,5367.57);
-    cutg_b7f4->SetPoint(11,10940.2,5289.12);
-    cutg_b7f4->SetPoint(12,10940.2,5160.74);
-    cutg_b7f4->SetPoint(13,10951.9,4975.29);
-    cutg_b7f4->SetPoint(14,11034.2,4911.1);
-    cutg_b7f4->SetPoint(15,11022.5,4911.1);
+    cutg_b7f4->SetPoint(0,15974.2,4206.98);
+   	cutg_b7f4->SetPoint(1,15879.1,4305.47);
+   	cutg_b7f4->SetPoint(2,15752.2,4376.39);
+   	cutg_b7f4->SetPoint(3,15598.9,4439.43);
+   	cutg_b7f4->SetPoint(4,15524.9,4467.01);
+   	cutg_b7f4->SetPoint(5,15350.5,4510.34);
+   	cutg_b7f4->SetPoint(6,15154.9,4498.52);
+   	cutg_b7f4->SetPoint(7,15006.9,4403.97);
+   	cutg_b7f4->SetPoint(8,14996.3,4313.35);
+   	cutg_b7f4->SetPoint(9,15038.6,4199.1);
+   	cutg_b7f4->SetPoint(10,15160.2,4057.26);
+   	cutg_b7f4->SetPoint(11,15487.9,3962.71);
+   	cutg_b7f4->SetPoint(12,15630.6,3931.19);
+   	cutg_b7f4->SetPoint(13,15815.7,3935.13);
+   	cutg_b7f4->SetPoint(14,15963.7,3982.41);
+   	cutg_b7f4->SetPoint(15,16011.2,4073.02);
+   	cutg_b7f4->SetPoint(16,15968.9,4226.68);
+   	cutg_b7f4->SetPoint(17,15974.2,4206.98);
     cutg_b7f4->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b7f4
@@ -4860,11 +5030,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b7f4 = banana_b7f4->ProjectionX("projx_cutg_b7f4",1,banana_b7f4->GetNbinsX(),"[cutg_b7f4]");              
-    projx_cutg_b7f4->Rebin(2);
-    projx_cutg_b7f4->Draw("");
+    projx_cutg_b7f4->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b7f4->Fit("gaus");
     fitx = (TF1*)projx_cutg_b7f4->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b7f4->GetMaximumBin(); 
+    centroidx = projx_cutg_b7f4->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c8->cd(21);
@@ -4874,16 +5046,18 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b7f4 = banana_b7f4->ProjectionY("projy_cutg_b7f4",1,banana_b7f4->GetNbinsY(),"[cutg_b7f4]");              
-    projy_cutg_b7f4->Rebin(2);
-    projy_cutg_b7f4->Draw("");
+    projy_cutg_b7f4->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b7f4->Fit("gaus");
     fity = (TF1*)projy_cutg_b7f4->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b7f4" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb7f4_E  = 5.0*f4_e_energy[0]/centroidx;
+    double gainb7f4_dE = 2.5*f4_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb7f4_E = " <<  gainb7f4_E << " keV/ch" << endl;
+    cout << " gainb7f4_dE = " << gainb7f4_dE << " keV/ch"<< endl;
+    cout << endl;
 
 
     c8->cd(6);
@@ -4894,34 +5068,34 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
 
     // The b7f5 60Ni(a,a) elastic peak
-    banana_b7f5->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b7f5->GetYaxis()->SetRangeUser(3700,6200);
+    banana_b7f5->GetXaxis()->SetRangeUser(0,24000);
+    banana_b7f5->GetYaxis()->SetRangeUser(2000,10000);
     banana_b7f5->Draw();
+    QKinz_f5_graph->Draw("p same");
 
-    TCutG *cutg_b7f5 = new TCutG("cutg_b7f5",19);
+    TCutG *cutg_b7f5 = new TCutG("cutg_b7f5",18);
     cutg_b7f5->SetVarX(" E detector 7 strip 5");
     cutg_b7f5->SetVarY("#DeltaE ");
     cutg_b7f5->SetTitle("Graph");
     cutg_b7f5->SetFillStyle(1000);
-    cutg_b7f5->SetPoint(0,11089,4792.94);
-    cutg_b7f5->SetPoint(1,11367.6,4705);
-    cutg_b7f5->SetPoint(2,11566.6,4610.29);
-    cutg_b7f5->SetPoint(3,11752.4,4576.47);
-    cutg_b7f5->SetPoint(4,11964.7,4549.41);
-    cutg_b7f5->SetPoint(5,12163.7,4583.24);
-    cutg_b7f5->SetPoint(6,12362.8,4718.53);
-    cutg_b7f5->SetPoint(7,12322.9,4867.35);
-    cutg_b7f5->SetPoint(8,12150.5,4968.82);
-    cutg_b7f5->SetPoint(9,11924.9,5083.82);
-    cutg_b7f5->SetPoint(10,11633,5185.29);
-    cutg_b7f5->SetPoint(11,11380.9,5198.82);
-    cutg_b7f5->SetPoint(12,11089,5205.59);
-    cutg_b7f5->SetPoint(13,10943,5097.35);
-    cutg_b7f5->SetPoint(14,10943,4948.53);
-    cutg_b7f5->SetPoint(15,10982.8,4874.12);
-    cutg_b7f5->SetPoint(16,11049.2,4813.24);
-    cutg_b7f5->SetPoint(17,11115.5,4792.94);
-    cutg_b7f5->SetPoint(18,11089,4792.94);
+    cutg_b7f5->SetPoint(0,16012.7,3991.86);
+   	cutg_b7f5->SetPoint(1,15807.7,4170.66);
+   	cutg_b7f5->SetPoint(2,15667.5,4225.67);
+   	cutg_b7f5->SetPoint(3,15521.8,4301.32);
+   	cutg_b7f5->SetPoint(4,15252.1,4387.28);
+   	cutg_b7f5->SetPoint(5,15165.8,4387.28);
+   	cutg_b7f5->SetPoint(6,15009.4,4342.58);
+   	cutg_b7f5->SetPoint(7,14987.9,4291);
+   	cutg_b7f5->SetPoint(8,14987.9,4201.6);
+   	cutg_b7f5->SetPoint(9,15084.9,4050.32);
+   	cutg_b7f5->SetPoint(10,15262.9,3954.04);
+   	cutg_b7f5->SetPoint(11,15521.8,3874.96);
+   	cutg_b7f5->SetPoint(12,15732.2,3819.94);
+   	cutg_b7f5->SetPoint(13,15899.4,3833.7);
+   	cutg_b7f5->SetPoint(14,15969.5,3892.15);
+   	cutg_b7f5->SetPoint(15,16007.3,3964.36);
+   	cutg_b7f5->SetPoint(16,15991.1,4015.93);
+   	cutg_b7f5->SetPoint(17,16012.7,3991.86);
     cutg_b7f5->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b7f5
@@ -4932,11 +5106,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b7f5 = banana_b7f5->ProjectionX("projx_cutg_b7f5",1,banana_b7f5->GetNbinsX(),"[cutg_b7f5]");              
-    projx_cutg_b7f5->Rebin(2);
-    projx_cutg_b7f5->Draw("");
+    projx_cutg_b7f5->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b7f5->Fit("gaus");
     fitx = (TF1*)projx_cutg_b7f5->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b7f5->GetMaximumBin(); 
+    centroidx = projx_cutg_b7f5->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c8->cd(22);
@@ -4946,16 +5122,19 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b7f5 = banana_b7f5->ProjectionY("projy_cutg_b7f5",1,banana_b7f5->GetNbinsY(),"[cutg_b7f5]");              
-    projy_cutg_b7f5->Rebin(2);
-    projy_cutg_b7f5->Draw("");
+    projy_cutg_b7f5->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b7f5->Fit("gaus");
     fity = (TF1*)projy_cutg_b7f5->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b7f5" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb7f5_E  = 5.0*f5_e_energy[0]/centroidx;
+    double gainb7f5_dE = 2.5*f5_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb7f5_E = " <<  gainb7f5_E << " keV/ch" << endl;
+    cout << " gainb7f5_dE = " << gainb7f5_dE << " keV/ch"<< endl;
+    cout << endl;
+
 
     c8->cd(7);
     gPad->SetLogz();
@@ -4964,37 +5143,38 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b7f6 60Ni(a,a) elastic peak
-    banana_b7f6->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b7f6->GetYaxis()->SetRangeUser(3700,6200);
+    // The b7f6 186W(a,a') channel
+    banana_b7f6->GetXaxis()->SetRangeUser(0,24000);
+    banana_b7f6->GetYaxis()->SetRangeUser(2000,10000);
     banana_b7f6->Draw();
+    QKinz_f6_graph->Draw("p same");
 
     TCutG *cutg_b7f6 = new TCutG("cutg_b7f6",21);
     cutg_b7f6->SetVarX(" E detector 7 strip 6");
     cutg_b7f6->SetVarY("#DeltaE ");
     cutg_b7f6->SetTitle("Graph");
     cutg_b7f6->SetFillStyle(1000);
-    cutg_b7f6->SetPoint(0,10953.3,5087.72);
-    cutg_b7f6->SetPoint(1,11116,4947.35);
-    cutg_b7f6->SetPoint(2,11253.6,4868.01);
-    cutg_b7f6->SetPoint(3,11591.5,4794.78);
-    cutg_b7f6->SetPoint(4,11891.8,4776.47);
-    cutg_b7f6->SetPoint(5,12154.6,4770.37);
-    cutg_b7f6->SetPoint(6,12442.4,4825.29);
-    cutg_b7f6->SetPoint(7,12530,4904.63);
-    cutg_b7f6->SetPoint(8,12530,5002.28);
-    cutg_b7f6->SetPoint(9,12392.4,5118.24);
-    cutg_b7f6->SetPoint(10,12317.3,5173.16);
-    cutg_b7f6->SetPoint(11,12104.6,5289.12);
-    cutg_b7f6->SetPoint(12,11829.3,5374.56);
-    cutg_b7f6->SetPoint(13,11591.5,5466.1);
-    cutg_b7f6->SetPoint(14,11353.7,5466.1);
-    cutg_b7f6->SetPoint(15,11065.9,5460);
-    cutg_b7f6->SetPoint(16,10953.3,5325.74);
-    cutg_b7f6->SetPoint(17,10940.8,5234.19);
-    cutg_b7f6->SetPoint(18,10940.8,5142.65);
-    cutg_b7f6->SetPoint(19,10978.3,5075.51);
-    cutg_b7f6->SetPoint(20,10953.3,5087.72);
+    cutg_b7f6->SetPoint(0,15898.5,4319.93);
+   	cutg_b7f6->SetPoint(1,15801.8,4400.52);
+   	cutg_b7f6->SetPoint(2,15658.7,4481.1);
+   	cutg_b7f6->SetPoint(3,15494.7,4561.69);
+   	cutg_b7f6->SetPoint(4,15334.8,4616.49);
+   	cutg_b7f6->SetPoint(5,15204.4,4629.38);
+   	cutg_b7f6->SetPoint(6,15065.5,4603.6);
+   	cutg_b7f6->SetPoint(7,14977.2,4558.47);
+   	cutg_b7f6->SetPoint(8,14935.1,4487.55);
+   	cutg_b7f6->SetPoint(9,14951.9,4377.95);
+   	cutg_b7f6->SetPoint(10,14994,4294.14);
+   	cutg_b7f6->SetPoint(11,15187.5,4168.42);
+   	cutg_b7f6->SetPoint(12,15326.4,4107.18);
+   	cutg_b7f6->SetPoint(13,15570.4,4016.92);
+   	cutg_b7f6->SetPoint(14,15831.2,3975.01);
+   	cutg_b7f6->SetPoint(15,15919.6,4016.92);
+   	cutg_b7f6->SetPoint(16,16020.6,4113.62);
+   	cutg_b7f6->SetPoint(17,16003.7,4207.11);
+   	cutg_b7f6->SetPoint(18,15936.4,4284.47);
+   	cutg_b7f6->SetPoint(19,15890.1,4326.38);
+   	cutg_b7f6->SetPoint(20,15898.5,4319.93);
     cutg_b7f6->Draw("same");
 
 
@@ -5006,11 +5186,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b7f6 = banana_b7f6->ProjectionX("projx_cutg_b7f6",1,banana_b7f6->GetNbinsX(),"[cutg_b7f6]");              
-    projx_cutg_b7f6->Rebin(2);
-    projx_cutg_b7f6->Draw("");
+    projx_cutg_b7f6->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b7f6->Fit("gaus");
     fitx = (TF1*)projx_cutg_b7f6->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b7f6->GetMaximumBin(); 
+    centroidx = projx_cutg_b7f6->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c8->cd(23);
@@ -5020,16 +5202,18 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b7f6 = banana_b7f6->ProjectionY("projy_cutg_b7f6",1,banana_b7f6->GetNbinsY(),"[cutg_b7f6]");              
-    projy_cutg_b7f6->Rebin(2);
-    projy_cutg_b7f6->Draw("");
+    projy_cutg_b7f6->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b7f6->Fit("gaus");
     fity = (TF1*)projy_cutg_b7f6->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b7f6" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;
+    double gainb7f6_E  = 5.0*f6_e_energy[0]/centroidx;
+    double gainb7f6_dE = 2.5*f6_delta_e_energy[0]/centroidy;
+
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb7f6_E = " <<  gainb7f6_E << " keV/ch" << endl;
+    cout << " gainb7f6_dE = " << gainb7f6_dE << " keV/ch"<< endl;
+    cout << endl;
 
     c8->cd(8);
     gPad->SetLogz();
@@ -5038,37 +5222,36 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    // The b7f7 60Ni(a,a) elastic peak
-    banana_b7f7->GetXaxis()->SetRangeUser(9000,14000);
-    banana_b7f7->GetYaxis()->SetRangeUser(3700,6200);
+    // The b7f7 186W(a,a') channel
+    banana_b7f7->GetXaxis()->SetRangeUser(0,24000);
+    banana_b7f7->GetYaxis()->SetRangeUser(2000,10000);
     banana_b7f7->Draw();
+    QKinz_f7_graph->Draw("p same");
 
-    TCutG *cutg_b7f7 = new TCutG("cutg_b7f7",21);
+    TCutG *cutg_b7f7 = new TCutG("cutg_b7f7",19);
     cutg_b7f7->SetVarX(" E detector 7 strip 7");
     cutg_b7f7->SetVarY("#DeltaE ");
     cutg_b7f7->SetTitle("Graph");
     cutg_b7f7->SetFillStyle(1000);
-    cutg_b7f7->SetPoint(0,10850.3,4941.76);
-    cutg_b7f7->SetPoint(1,11123.3,4802.21);
-    cutg_b7f7->SetPoint(2,11455.5,4710.96);
-    cutg_b7f7->SetPoint(3,11728.4,4684.12);
-    cutg_b7f7->SetPoint(4,11953.9,4684.12);
-    cutg_b7f7->SetPoint(5,12226.8,4689.49);
-    cutg_b7f7->SetPoint(6,12381.1,4743.16);
-    cutg_b7f7->SetPoint(7,12464.1,4834.41);
-    cutg_b7f7->SetPoint(8,12416.7,4995.44);
-    cutg_b7f7->SetPoint(9,12298,5118.9);
-    cutg_b7f7->SetPoint(10,12072.6,5247.72);
-    cutg_b7f7->SetPoint(11,11740.3,5317.5);
-    cutg_b7f7->SetPoint(12,11408,5355.07);
-    cutg_b7f7->SetPoint(13,11123.3,5344.34);
-    cutg_b7f7->SetPoint(14,10957.1,5349.71);
-    cutg_b7f7->SetPoint(15,10802.9,5290.66);
-    cutg_b7f7->SetPoint(16,10731.7,5177.94);
-    cutg_b7f7->SetPoint(17,10731.7,5097.43);
-    cutg_b7f7->SetPoint(18,10767.3,5000.81);
-    cutg_b7f7->SetPoint(19,10850.3,4936.4);
-    cutg_b7f7->SetPoint(20,10850.3,4941.76);
+    cutg_b7f7->SetPoint(0,15960,4083.24);
+   	cutg_b7f7->SetPoint(1,15839.6,4186.6);
+   	cutg_b7f7->SetPoint(2,15657.1,4368.19);
+   	cutg_b7f7->SetPoint(3,15486.2,4396.13);
+   	cutg_b7f7->SetPoint(4,15342.5,4460.39);
+   	cutg_b7f7->SetPoint(5,15226,4482.74);
+   	cutg_b7f7->SetPoint(6,14965.8,4535.82);
+   	cutg_b7f7->SetPoint(7,14818.3,4530.23);
+   	cutg_b7f7->SetPoint(8,14690.1,4401.72);
+   	cutg_b7f7->SetPoint(9,14666.8,4276);
+   	cutg_b7f7->SetPoint(10,14791.1,4155.87);
+   	cutg_b7f7->SetPoint(11,14973.6,4041.33);
+   	cutg_b7f7->SetPoint(12,15303.7,3932.38);
+   	cutg_b7f7->SetPoint(13,15606.6,3868.12);
+   	cutg_b7f7->SetPoint(14,15870.7,3856.95);
+   	cutg_b7f7->SetPoint(15,16037.7,3926.79);
+   	cutg_b7f7->SetPoint(16,16026,4016.19);
+   	cutg_b7f7->SetPoint(17,15956.1,4091.62);
+   	cutg_b7f7->SetPoint(18,15960,4083.24);
     cutg_b7f7->Draw("same");
 
     // Plot the projection on the E detector axis (x axis), b7f7
@@ -5079,11 +5262,13 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the E detector
     TH1D *projx_cutg_b7f7 = banana_b7f7->ProjectionX("projx_cutg_b7f7",1,banana_b7f7->GetNbinsX(),"[cutg_b7f7]");              
-    projx_cutg_b7f7->Rebin(2);
-    projx_cutg_b7f7->Draw("");
+    projx_cutg_b7f7->GetXaxis()->SetRangeUser(14000,17000);
     projx_cutg_b7f7->Fit("gaus");
     fitx = (TF1*)projx_cutg_b7f7->GetListOfFunctions()->FindObject("gaus");
     centroidx = fitx->GetParameter(1);
+    // Now finding the bin with the maximum number of counts, and use that as the peak instead
+    binmax    = projx_cutg_b7f7->GetMaximumBin(); 
+    centroidx = projx_cutg_b7f7->GetXaxis()->GetBinCenter(binmax);
 
     // Plot the projection on the Delta E detector axis (y axis)
     c8->cd(24);
@@ -5093,19 +5278,41 @@ void fits_TCutG_186W_aa_bananas(){
     gPad->SetTopMargin(0.07);
     // Grab the centroid for the Delta E detector
     TH1D *projy_cutg_b7f7 = banana_b7f7->ProjectionY("projy_cutg_b7f7",1,banana_b7f7->GetNbinsY(),"[cutg_b7f7]");              
-    projy_cutg_b7f7->Rebin(2);
-    projy_cutg_b7f7->Draw("");
+    projy_cutg_b7f7->GetXaxis()->SetRangeUser(3000,5000);
     projy_cutg_b7f7->Fit("gaus");
     fity = (TF1*)projy_cutg_b7f7->GetListOfFunctions()->FindObject("gaus");
     centroidy = fity->GetParameter(1);
 
-    // Write the two centroids to file
-    outfile << " b7f7" << endl;
-    outfile << centroidx <<  "," << centroidy << endl;
-    outfile << endl;    
+    double gainb7f7_E  = 5.0*f7_e_energy[0]/centroidx;
+    double gainb7f7_dE = 2.5*f7_delta_e_energy[0]/centroidy;
 
+    cout << " First gains, Delta E and E: " << endl;
+    cout << " gainb7f7_E = " <<  gainb7f7_E << " keV/ch" << endl;
+    cout << " gainb7f7_dE = " << gainb7f7_dE << " keV/ch"<< endl;
+    cout << endl;
 
-    outfile.close();
-*/
+    // Open output file to write the gains
+    ofstream newgainsfile("newgains.txt");
+
+    newgainsfile << gainb0f0_E << '\t' << gainb0f1_E << '\t' << gainb0f2_E << '\t' << gainb0f3_E << '\t' << gainb0f4_E << '\t' << gainb0f5_E << '\t' << gainb0f6_E << '\t' << gainb0f7_E << endl;
+    newgainsfile << gainb1f0_E << '\t' << gainb1f1_E << '\t' << gainb1f2_E << '\t' << gainb1f3_E << '\t' << gainb1f4_E << '\t' << gainb1f5_E << '\t' << gainb1f6_E << '\t' << gainb1f7_E << endl;
+    newgainsfile << gainb2f0_E << '\t' << gainb2f1_E << '\t' << gainb2f2_E << '\t' << gainb2f3_E << '\t' << gainb2f4_E << '\t' << gainb2f5_E << '\t' << gainb2f6_E << '\t' << gainb2f7_E << endl;
+    newgainsfile << gainb3f0_E << '\t' << gainb3f1_E << '\t' << gainb3f2_E << '\t' << gainb3f3_E << '\t' << gainb3f4_E << '\t' << gainb3f5_E << '\t' << gainb3f6_E << '\t' << gainb3f7_E << endl;
+    newgainsfile << gainb4f0_E << '\t' << gainb4f1_E << '\t' << gainb4f2_E << '\t' << gainb4f3_E << '\t' << gainb4f4_E << '\t' << gainb4f5_E << '\t' << gainb4f6_E << '\t' << gainb4f7_E << endl;
+    newgainsfile << gainb5f0_E << '\t' << gainb5f1_E << '\t' << gainb5f2_E << '\t' << gainb5f3_E << '\t' << gainb5f4_E << '\t' << gainb5f5_E << '\t' << gainb5f6_E << '\t' << gainb5f7_E << endl;
+    newgainsfile << gainb6f0_E << '\t' << gainb6f1_E << '\t' << gainb6f2_E << '\t' << gainb6f3_E << '\t' << gainb6f4_E << '\t' << gainb6f5_E << '\t' << gainb6f6_E << '\t' << gainb6f7_E << endl;
+    newgainsfile << gainb7f0_E << '\t' << gainb7f1_E << '\t' << gainb7f2_E << '\t' << gainb7f3_E << '\t' << gainb7f4_E << '\t' << gainb7f5_E << '\t' << gainb7f6_E << '\t' << gainb7f7_E << endl;
+    newgainsfile << endl;
+    newgainsfile << gainb0f0_dE << '\t' << gainb0f1_dE << '\t' << gainb0f2_dE << '\t' << gainb0f3_dE << '\t' << gainb0f4_dE << '\t' << gainb0f5_dE << '\t' << gainb0f6_dE << '\t' << gainb0f7_dE << endl;
+    newgainsfile << gainb1f0_dE << '\t' << gainb1f1_dE << '\t' << gainb1f2_dE << '\t' << gainb1f3_dE << '\t' << gainb1f4_dE << '\t' << gainb1f5_dE << '\t' << gainb1f6_dE << '\t' << gainb1f7_dE << endl;
+    newgainsfile << gainb2f0_dE << '\t' << gainb2f1_dE << '\t' << gainb2f2_dE << '\t' << gainb2f3_dE << '\t' << gainb2f4_dE << '\t' << gainb2f5_dE << '\t' << gainb2f6_dE << '\t' << gainb2f7_dE << endl;
+    newgainsfile << gainb3f0_dE << '\t' << gainb3f1_dE << '\t' << gainb3f2_dE << '\t' << gainb3f3_dE << '\t' << gainb3f4_dE << '\t' << gainb3f5_dE << '\t' << gainb3f6_dE << '\t' << gainb3f7_dE << endl;
+    newgainsfile << gainb4f0_dE << '\t' << gainb4f1_dE << '\t' << gainb4f2_dE << '\t' << gainb4f3_dE << '\t' << gainb4f4_dE << '\t' << gainb4f5_dE << '\t' << gainb4f6_dE << '\t' << gainb4f7_dE << endl;
+    newgainsfile << gainb5f0_dE << '\t' << gainb5f1_dE << '\t' << gainb5f2_dE << '\t' << gainb5f3_dE << '\t' << gainb5f4_dE << '\t' << gainb5f5_dE << '\t' << gainb5f6_dE << '\t' << gainb5f7_dE << endl;
+    newgainsfile << gainb6f0_dE << '\t' << gainb6f1_dE << '\t' << gainb6f2_dE << '\t' << gainb6f3_dE << '\t' << gainb6f4_dE << '\t' << gainb6f5_dE << '\t' << gainb6f6_dE << '\t' << gainb6f7_dE << endl;
+    newgainsfile << gainb7f0_dE << '\t' << gainb7f1_dE << '\t' << gainb7f2_dE << '\t' << gainb7f3_dE << '\t' << gainb7f4_dE << '\t' << gainb7f5_dE << '\t' << gainb7f6_dE << '\t' << gainb7f7_dE << endl;
+
+    newgainsfile.close();
+
 
 }
