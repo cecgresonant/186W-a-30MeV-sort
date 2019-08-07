@@ -141,7 +141,7 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f0_graph->SetMarkerStyle(2);
     QKinz_f0_graph->SetMarkerSize(1.);
-    QKinz_f0_graph->Draw("same");
+    QKinz_f0_graph->Draw("p same");
 
     c1->cd(2);
     gPad->SetLogz();
@@ -1278,7 +1278,6 @@ void SiRi_QKinz_186W_aa(){
     banana_b7f7->Draw();
 
     QKinz_f7_graph->Draw("p same");
-
 
 
 } // End of script
