@@ -7,8 +7,8 @@
 #   parameter gain_e = ...
 # and so on
 #gain file gainshifts_01.dat
-gain file gainshifts_plain.txt
-#gain file gainshifts_186W_a_d-t.txt
+#gain file gainshifts_plain.txt
+gain file gainshifts_186W_a_d-t.txt
 
 # Two rectangles to cut away SiRi noise/electrons.
 # Contains E-minimum 1, DE-minimum 1, E-minimum 2, DE-minimum 2.
@@ -32,9 +32,9 @@ rangefile zrange_a.dat
 
 # Thickness gate for alpha banana
 # for calibrated energies
-#parameter thick_range = 130 12 0
+parameter thick_range = 130 14 0
 # for uncalibrated energies
-parameter thick_range = 68 13 0
+#parameter thick_range = 68 13 0
 
 # fit of rkinz column 1 as function of rkinz column 6
 #  60Ni(a,a') @ 30 MeV, thickness 2 mg/cm**2
@@ -77,6 +77,6 @@ data file datafiles/sirius-20160429-094446-big-003.data
 
 # at the end, spectra are dumped to the root file
 # root output file
-export root offline_60Ni_plain.root
-#export root offline_60Ni_sirical-d.root
+#export root offline_60Ni_plain.root
+export root offline_60Ni_sirical-d.root
 
