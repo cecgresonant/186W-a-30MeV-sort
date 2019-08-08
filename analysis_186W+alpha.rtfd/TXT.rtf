@@ -493,6 +493,36 @@ The resolution goes from sigma = 170 keV (f7, the worst) to 151 keV (f3, the bes
 
 \f2\b\fs28 \cf0 \cb1 \CocoaLigature1 \
 \
+For all detectors: sigma 152.3 keV, 358 keV FWHM\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf2 \ul \ulc2 CACTUS calibration, for all channels
+\f0\b0\fs24 \cf0 \ulnone \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\b\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 For the gamma calibration, I will use peaks from the contaminants 12C and 16O: \
+12C(alpha, pg)15N\
+16O(alpha,pg)19F\
+\
+Will now make a sorting with gate on the proton banana, making a new batch file for this channel: \
+run_186W_protongate.batch\
+\
+To optimise for the 16O(alpha,pg)19F reaction, I use conversion coefficients for this reaction in the run_186W_protongate.batch file. \
+Now put a gate in user_sort.cpp on the 2779-keV 9/2+ level in 19F to get gamma spectra from it. It goes 100% to the 5/2+ level at 197 keV, emitting a gamma ray of 2582.7 keV. \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 {{\NeXTGraphic Screenshot 2019-08-08 at 11.50.08.png \width14220 \height9120 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}
+\fs28 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
 \
 \
 \
