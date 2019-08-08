@@ -454,10 +454,10 @@ bool UserXY::Sort(const Event& event)
   //      std::cout << id << std::endl;
         float na_e = calib( (int)event.na[i].adc, gain_na[id], shift_na[id] );
         const int   na_e_int = (int)na_e;
-        // PUT GATE ON PARTICLE PEAK 
+        // POSSIBLE TO PUT GATE ON PARTICLE PEAK 
         //if(ex_int>6000 && ex_int<6500)  
         m_nai_e->Fill( na_e_int, id );
-
+        
         if( event.na[i].tdc <= 0 )
             continue;
         const float na_t = calib( (int)event.na[i].tdc/8, gain_tna[id], shift_tna[id] ); 
@@ -474,7 +474,9 @@ bool UserXY::Sort(const Event& event)
 #if defined(MAKE_CACTUS_TIME_ENERGY_PLOTS) && (MAKE_CACTUS_TIME_ENERGY_PLOTS>0)
         //if(ex_int>8765 && ex_int<9000)      // gate on peak at 8904 keV in 28Si
         //if(ex_int>6085 && ex_int<6450)
-        if(e_int>8000 && e_int<8980 && de_int>1040 && de_int<1280){// gate on 9/2+ peak in 19F
+        //if(e_int>8000 && e_int<8980 && de_int>1040 && de_int<1280){// gate on 9/2+ peak in 19F
+        //if(e_int>9230 && e_int<9900 && de_int>980 && de_int<1240){// gate on the region in 19F around Ex = 1300-1500 keV
+        if(e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520){// gate on the 5/2+ level in 15N at Ex = 5270 keV
             m_nai_e_t[id] ->Fill( na_e_int,  na_t_int );
         }
         //if(ex_int>8765 && ex_int<9000 && id<28) {     // gate on peak at 8904 keV in 28Si, only NaI
