@@ -1,4 +1,5 @@
 *.data
+lib/
 datafiles/
 QKinz_runs/
 figures/
