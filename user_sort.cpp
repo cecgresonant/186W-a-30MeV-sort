@@ -474,7 +474,9 @@ bool UserXY::Sort(const Event& event)
 #if defined(MAKE_CACTUS_TIME_ENERGY_PLOTS) && (MAKE_CACTUS_TIME_ENERGY_PLOTS>0)
         //if(ex_int>8765 && ex_int<9000)      // gate on peak at 8904 keV in 28Si
         //if(ex_int>6085 && ex_int<6450)
+        if(e_int>8000 && e_int<8980 && de_int>1040 && de_int<1280){// gate on 9/2+ peak in 19F
             m_nai_e_t[id] ->Fill( na_e_int,  na_t_int );
+        }
         //if(ex_int>8765 && ex_int<9000 && id<28) {     // gate on peak at 8904 keV in 28Si, only NaI
         //if(id<26){
         //if(ex_int>6085 && ex_int<6450){
