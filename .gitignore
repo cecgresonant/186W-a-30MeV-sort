@@ -17,10 +17,15 @@ offline_186W_p.root
 offline_186W_p_gate_15N.root
 offline_186W_d.root
 offline_186W_aa.root
+offline_186W_p_gate_15N_CACTUScalib.root
+offline_186W_p_gate_15N_plainCACTUScal.root
+offline_186W_p_gate_19F_2779keVpeak.root
+offline_186W_p_gate_19F_and_15N_peaks.root
 sorting
 user_sort.o
 peaks2D_C.d
 peaks2D_C.so
 peaks2D_C_ACLiC_dict_rdict.pcm
 newgains.txt
+cactus_gains.txt
 analysis_186W+alpha.rtfd/*.png
