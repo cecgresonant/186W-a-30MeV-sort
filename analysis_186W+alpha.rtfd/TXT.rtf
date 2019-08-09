@@ -537,10 +537,37 @@ The one at lowest E energy is the 15N peak, the one at highest E energy is the 1
 }¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf0 \
 \
-The peak at the highest energy is hopefully the 5269-keV line!!
-\fs28 \
+The peak at the highest energy is hopefully the 5269-keV line!! Here is the projection on the Egamma axis: \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic gate_15N_projection_Egamma.png \width18040 \height12980 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 Example of fit: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 {{\NeXTGraphic Screenshot 2019-08-08 at 19.11.06.png \width18140 \height12580 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 \cf0 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 Gains and shifts in the excel file calibration_186W_a.xlsx, sheet CACTUS calibration\
+=> put into the gain-shift file and sort again.\
+\
+Sorted with gates on the 19F Ex=2779-keV peak and the 15N Ex=5270-keV peak: \
+offline_186W_p_gate_19F_and_15N_peaks.root\
+\
+Obtaining the calibration peaks with the script fits_CACTUS_peaks_protongate.cpp \
+Here I use the 5269-keV line from the 1st excited state in 15N (gate in this region in the proton banana: if(e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520)) and the 1598-keV line from the 4377-keV 7/2+ level in 19F, which is also within the gate:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 {{\NeXTGraphic nai00_02_peaks_15N_19F.png \width27960 \height15500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 The other strong peak is the 2583-keV line in the cascade from the 4377-keV 7/2+ level in 19F. We also see the 4180.6-keV line from the same level (left of the single-escape peak from the 5269-keV line). \
 \
 }
