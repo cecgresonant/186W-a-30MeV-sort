@@ -21,6 +21,7 @@ offline_186W_p_gate_15N_CACTUScalib.root
 offline_186W_p_gate_15N_plainCACTUScal.root
 offline_186W_p_gate_19F_2779keVpeak.root
 offline_186W_p_gate_19F_and_15N_peaks.root
+offline_186W_p_gate_19F_1346keVpeak.root
 sorting
 user_sort.o
 peaks2D_C.d
