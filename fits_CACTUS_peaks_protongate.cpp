@@ -3,7 +3,7 @@
 // and fit the line at 1598 keV (from the 4377-keV level in 19F) and 5269 keV (from 15N 1st Ex).
 // This is to get the CACTUS calibration. 
 // Cecilie, Aug 9, 2019
-// Last update: August 9, 2019
+// Last update: August 10, 2019
 
 #include <fstream>
 #include <iostream>
