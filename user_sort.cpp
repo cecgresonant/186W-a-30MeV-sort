@@ -4,7 +4,7 @@
 /* Target thickness 0.31 mg/cm2, backward angles */
 /* For 60Ni calibration run, compress the banana */
 /* spectra by a factor of 2 extra                */
-/* Last update by Cecilie, March 5, 2019         */
+/* Last update by Cecilie, August 12, 2019       */
 /*************************************************/
 
 
@@ -473,11 +473,11 @@ bool UserXY::Sort(const Event& event)
 
 #if defined(MAKE_CACTUS_TIME_ENERGY_PLOTS) && (MAKE_CACTUS_TIME_ENERGY_PLOTS>0)
         //if(e_int>8000 && e_int<8980 && de_int>1040 && de_int<1280){// gate on 9/2+ peak in 19F
-        //if(e_int>9270 && e_int<10540 && de_int>950 && de_int<1180){// gate on the region in 19F around Ex = 1300-1500 keV
-        if(e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520){// gate on the 5/2+ level in 15N at Ex = 5270 keV
+        //if(e_int>9280 && e_int<10510 && de_int>960 && de_int<1170){// gate on the region in 19F around Ex = 1300-1500 keV
+        //if(e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520){// gate on the 5/2+ level in 15N at Ex = 5270 keV
         //if((e_int>7930 && e_int<9030 && de_int>1040 && de_int<1300) || (e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520)){ // gates on the 9/2+ peak in 19F and 5/2+ level in 15N at Ex = 5270 keV     
             m_nai_e_t[id] ->Fill( na_e_int,  na_t_int );
-        }
+        //}
         //if(ex_int>8765 && ex_int<9000 && id<28) {     // gate on peak at 8904 keV in 28Si, only NaI
         //if(id<26){
         //if(ex_int>6085 && ex_int<6450){
@@ -492,13 +492,12 @@ bool UserXY::Sort(const Event& event)
        
 		/*** HERE COMES THE MAIN MATRIX FOR NaI ***/
 		int weight = 1;
-        //if( id !=29 && na_t_c>195 && na_t_c<215 ) {// 28Si. Exclude ch 29, has some "time" but this must be cross talk
-        if( id !=29 && na_t_c>197 && na_t_c<207 ) {// 70Zn. Exclude ch 29, has some "time" but this must be cross talk
+        if( na_t_c>189 && na_t_c<211 ) {// 186W
             m_alfna->Fill( na_e_int, ex_int, 1 );
             //if(ex_int>1000 && ex_int<3300)
                 //m_nai_e->Fill( na_e_int, id );
 
-        } else if( id !=29 && na_t_c>220 && na_t_c<235 ) {
+        } else if( na_t_c>244 && na_t_c<266 ) {
             m_alfna->Fill( na_e_int, ex_int, -1 );
             m_alfna_bg->Fill( na_e_int, ex_int );
             weight = -1;
