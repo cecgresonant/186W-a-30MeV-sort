@@ -29,7 +29,7 @@ void th22mama(TH2* m, const char* filename, const char* comment="none")
     "!COMMENT=" << comment << "\n"
     "!TIME=" << tmp << "\n"
     "!CALIBRATION EkeV=6";
-    const float cal[6] = { xax->GetBinLowEdge(1), xax->GetBinWidth(1), 0,
+    double cal[6] = { xax->GetBinLowEdge(1), xax->GetBinWidth(1), 0,
         yax->GetBinLowEdge(1), yax->GetBinWidth(1), 0 };
     for(int i=0; i<6; ++i) {
         snprintf(tmp, sizeof(tmp), ",%13.6E", cal[i]);
