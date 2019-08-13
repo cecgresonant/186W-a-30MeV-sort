@@ -19,8 +19,8 @@ parameter ede_rect = 500 250 30 500
 #parameter ede_rect = 500 2500 2000 2500
 
 # cactus energy correction parameters for cactus time
-#parameter tnai_corr_enai  = 3.04485 15082.3 51.4706 -0.00123952
-parameter tnai_corr_enai = 0 0 1 0
+parameter tnai_corr_enai  = -0.769586 17935.8 99.2202 -0.000521331
+#parameter tnai_corr_enai = 0 0 1 0
 
 # siri energy correction parameters for cactus time
 #parameter tnai_corr_esi  = 7.53798e+00 -5.51500e+04 -2.83302e+03 1.10038e-03
@@ -110,9 +110,10 @@ data file datafiles/sirius-20160429-070605.data
 # at the end, spectra are dumped to the root file
 # root output file
 #export root offline_186W_plain.root
-#export root offline_186W_p.root
+export root offline_186W_p.root
 #export root offline_186W_p_gate_19F_1346keVpeak.root
 #export root offline_186W_p_gate_19F_and_15N_peaks.root
-export root offline_186W_p_gate_15N_CACTUScalib.root
+#export root offline_186W_p_gate_15N_CACTUScalib.root
+#export root offline_186W_p_gate_15N_CACTUScalib_no_TNaI_shift.root
 
 
