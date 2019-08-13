@@ -28,6 +28,9 @@ user_sort.o
 peaks2D_C.d
 peaks2D_C.so
 peaks2D_C_ACLiC_dict_rdict.pcm
+th22mama_C.d
+th22mama_C.so
+th22mama_C_ACLiC_dict_rdict.pcm
 newgains.txt
 cactus_gains.txt
 analysis_186W+alpha.rtfd/*.png
