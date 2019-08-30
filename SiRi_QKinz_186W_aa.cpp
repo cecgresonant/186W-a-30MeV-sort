@@ -93,6 +93,7 @@ void SiRi_QKinz_186W_aa(){
     TH2D *banana_b7f7  = (TH2D*)file->Get("m_e_de_b7f7"); // Delta E - E matrix for b7f7
 
 
+    TH2D *banana_b3f5_fullrange  = (TH2D*)banana_b3f5->Clone("banana_b3f5_fullrange"); // Delta E - E matrix for b3f5, for plotting
 
 
     ///////////////////////////
@@ -1279,5 +1280,98 @@ void SiRi_QKinz_186W_aa(){
 
     QKinz_f7_graph->Draw("p same");
 
+
+    // Make canvas to plot the good b3f5 to show in the paper
+    TCanvas *c_paper = new TCanvas("c_paper","c_paper:the b3f5 banana",1200,550);
+    c_paper->Divide(2,1,0,0);
+    c_paper->cd(1);
+    gStyle->SetPalette(kBird);
+    gStyle->SetOptTitle(0);
+    gStyle->SetOptStat(0);
+    gPad->SetGrid(0,0);
+    gPad->SetLogz();
+    gPad->SetBottomMargin(0.12);
+    gPad->SetLeftMargin(0.14);
+    gPad->SetRightMargin(0.07);
+    gPad->SetTopMargin(0.02);
+    // The b3f5 186W(a,a') banana
+    banana_b3f5_fullrange->GetXaxis()->SetTitle("Energy deposited in E detector (keV)");
+    banana_b3f5_fullrange->GetXaxis()->SetTitleSize(0.045);
+    banana_b3f5_fullrange->GetXaxis()->SetLabelSize(0.035);
+    banana_b3f5_fullrange->GetXaxis()->SetTitleOffset(1.2);
+    banana_b3f5_fullrange->GetXaxis()->SetRangeUser(0,25200);
+    banana_b3f5_fullrange->GetYaxis()->SetTitle("Energy deposited in #DeltaE detector (keV)");
+    banana_b3f5_fullrange->GetYaxis()->SetTitleSize(0.045);
+    banana_b3f5_fullrange->GetYaxis()->SetLabelSize(0.035);
+    banana_b3f5_fullrange->GetYaxis()->SetTitleOffset(1.4);
+    banana_b3f5_fullrange->GetYaxis()->SetRangeUser(400,14400);
+    banana_b3f5_fullrange->GetZaxis()->SetLabelSize(0.035);
+    banana_b3f5_fullrange->GetZaxis()->SetRangeUser(1.1,1.E+04);
+    banana_b3f5_fullrange->Draw("colz");
+
+    c_paper->Update();
+
+    TPaletteAxis *palette = (TPaletteAxis*)banana_b3f5_fullrange->GetListOfFunctions()->FindObject("palette");
+    if(!palette) cout << "nono." << endl;
+    palette->SetX1NDC(0.925);
+    palette->SetX2NDC(0.95);
+    palette->Draw();    
+
+    TLatex t;
+    t.SetTextSize(0.045);
+    t.SetTextFont(42);
+    t.DrawLatex(9000,13000,"(a) #theta = 130#circ");
+    t.DrawLatex(20400,7200,"#alpha ");
+    t.DrawLatex(12800,2510,"t ");
+    t.DrawLatex(14100,1600,"d ");
+    t.DrawLatex(17600,1100,"p ");
+
+    c_paper->cd(2);
+    gStyle->SetPalette(kBird);
+    gStyle->SetOptTitle(0);
+    gStyle->SetOptStat(0);
+    gPad->SetGrid(0,0);
+    gPad->SetLogz();
+    gPad->SetBottomMargin(0.12);
+    gPad->SetLeftMargin(0.1);
+    gPad->SetRightMargin(0.06);
+    gPad->SetTopMargin(0.02);
+    // The b3f5 186W(a,a') banana
+    banana_b3f5->GetXaxis()->SetTitle("Energy deposited in E detector (keV)");
+    banana_b3f5->GetXaxis()->SetTitleSize(0.045);
+    banana_b3f5->GetXaxis()->SetLabelSize(0.035);
+    banana_b3f5->GetXaxis()->SetTitleOffset(1.2);
+    banana_b3f5->GetXaxis()->SetRangeUser(9600,23000);
+    banana_b3f5->GetYaxis()->SetTitle(" ");
+    banana_b3f5->GetYaxis()->SetTitleSize(0.045);
+    banana_b3f5->GetYaxis()->SetLabelSize(0.035);
+    banana_b3f5->GetYaxis()->SetTitleOffset(1.4);
+    banana_b3f5->GetYaxis()->SetRangeUser(5400,9800);
+    banana_b3f5->GetZaxis()->SetLabelSize(0.035);
+    banana_b3f5->GetZaxis()->SetRangeUser(1.1,1.E+03);
+    banana_b3f5->Draw("colz");
+
+    QKinz_f5_graph->Draw("p same");
+
+    c_paper->Update();
+
+    palette = (TPaletteAxis*)banana_b3f5->GetListOfFunctions()->FindObject("palette");
+    if(!palette) cout << "nono." << endl;
+    palette->SetX1NDC(0.925);
+    palette->SetX2NDC(0.95);
+    palette->Draw();    
+
+
+    TLegend *legend = new TLegend(0.45,0.88,0.7,0.95);
+    legend->SetBorderSize(0);
+    legend->SetFillColor(0);
+    legend->AddEntry(QKinz_f5_graph," Qkinz calculations ","P");
+    legend->SetTextSize(0.045);
+    legend->Draw();
+
+    t.DrawLatex(14000,9400,"(b) ");
+
+    c_paper->Print("banana_b3f5.pdf");
+    c_paper->Print("banana_b3f5.png");
 
 } // End of script
