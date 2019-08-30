@@ -492,12 +492,12 @@ bool UserXY::Sort(const Event& event)
        
 		/*** HERE COMES THE MAIN MATRIX FOR NaI ***/
 		int weight = 1;
-        if( na_t_c>189 && na_t_c<211 ) {// 186W
+        if( na_t_c>192 && na_t_c<209 ) {// 186W
             m_alfna->Fill( na_e_int, ex_int, 1 );
             //if(ex_int>1000 && ex_int<3300)
                 //m_nai_e->Fill( na_e_int, id );
 
-        } else if( na_t_c>244 && na_t_c<266 ) {
+        } else if( na_t_c>227 && na_t_c<244 ) {
             m_alfna->Fill( na_e_int, ex_int, -1 );
             m_alfna_bg->Fill( na_e_int, ex_int );
             weight = -1;
