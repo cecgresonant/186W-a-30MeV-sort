@@ -17,11 +17,20 @@ parameter ede_rect = 500 250 30 500
 #parameter ede_rect = 500 2500 2000 2500
 
 # cactus energy correction parameters for cactus time
+# This is parameters from the contamination gammas
 parameter tnai_corr_enai  = -1.21725 17817.3 181.239 -0.000454826
+# This is from the 186W(a,a') data, when first correcting SiRi
+#parameter tnai_corr_enai  = -14.3457 43149.7 691.764 0.00128536
 #parameter tnai_corr_enai = 0 0 1 0
 
 # siri energy correction parameters for cactus time
-parameter tnai_corr_esi  = 6.27176 -119244 -3524.72 0.000175964
+# Here with NaI correction already, from the impurity gammas
+#parameter tnai_corr_esi  = 6.27176 -119244 -3524.72 0.000175964
+# Here with no NaI correction (starting with SiRi correction)
+# BUT this does not work well when correcting the NaI walk. 
+#parameter tnai_corr_esi  = -30.3658 -6554.24 -10059.3 0.00262009
+# Here with SiRi corr. -> NaI corr. -> New SiRi corr.
+parameter tnai_corr_esi  = -8.65631 -5782.41 -10171.8 0.000671071
 #parameter tnai_corr_esi  = 0 0 1 0
 
 # Parameters for the range curve, 3He or alpha
