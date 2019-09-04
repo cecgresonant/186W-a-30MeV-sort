@@ -2,9 +2,11 @@
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 Helvetica-Bold;
 \f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 Menlo-Bold;}
 {\colortbl;\red255\green255\blue255;\red11\green33\blue100;\red102\green255\blue255;\red0\green0\blue0;
-\red12\green33\blue100;\red47\green231\blue26;\red107\green255\blue255;}
+\red12\green33\blue100;\red47\green231\blue26;\red107\green255\blue255;\red15\green90\blue123;\red12\green34\blue101;
+\red41\green6\blue19;}
 {\*\expandedcolortbl;;\cssrgb\c4305\c18938\c46806;\csgenericrgb\c40000\c100000\c100000;\csgenericrgb\c0\c0\c0;
-\cssrgb\c4489\c19156\c47019;\cssrgb\c17864\c90514\c12812;\cssrgb\c47171\c100000\c100000;}
+\cssrgb\c4489\c19156\c47019;\cssrgb\c17864\c90514\c12812;\cssrgb\c47171\c100000\c100000;\cssrgb\c3728\c42889\c55751;\cssrgb\c4674\c19375\c47232;
+\cssrgb\c21766\c3110\c9785;}
 \paperw11900\paperh16840\margl1440\margr1440\vieww17300\viewh14360\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
@@ -15,7 +17,7 @@ Oslo Cyclotron Laboratory\
 Typical intensities: 1.5 - 2.2 nA\
 RF setting: 23.76 MHz\
 Run from April 20 - 29, 2016\
-Cecilie, last update 13 Aug 2019\
+Cecilie, last update 3 Sep 2019\
 *************************************\
 \
 
@@ -616,13 +618,13 @@ Warning in <TH1D::Rebin>: ngroup=4 is not an exact divider of nbins=858.\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs28 \cf0 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 I used the centroid of the 5.27-MeV peak on the time axis as reference point (to be put in channel 200)\
+I used the centroid of the 5.27-MeV peak on the time axis as reference point (to be put in channel 200)\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs24 \cf0 {{\NeXTGraphic gate_15N_m_nai_e_t_00.png \width13960 \height9500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
-}¬}
-\fs28 \
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs24 \cf0 {{\NeXTGraphic gate_15N_m_nai_e_t_all.png \width13960 \height9500 \appleattachmentpadding0 \appleembedtype0 \appleaqc
@@ -635,10 +637,10 @@ Warning in <TH1D::Rebin>: ngroup=4 is not an exact divider of nbins=858.\
 }¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs28 \cf0 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 \
 \
-\ul \ulc5 Now doing the walk correction: \ulnone \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \ul \ulc5 Now doing the walk correction: \ulnone \
 Because some detectors are quite bad, I use the good detector m_nai_e_t_02 for obtaining the walk-correction parameters. \
 Use the following function to fit to the NaI-time "banana":\
 TF1* f3=new TF1("f3","200+[0]+[1]/(x+[2])+[3]*x")\
@@ -664,15 +666,12 @@ p3                        = -0.000454826   +/-   6.23163e-05 \
 }¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs28 \cf0 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 => \
+=> \
 \
 parameter tnai_corr_enai  = -1.21725 17817.3 181.239 -0.000454826\
 (Put this in the batch files, this should work for all reaction channels as it is for the gammas).\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 \
+\
+\
 For the SiRi e-t correction, this must be done individually for deuterons, tritons and alphas and put in the respective .batch files. \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
@@ -748,24 +747,158 @@ And the resulting (a,a\'92g) matrix:\
 }¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs28 \cf0 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 \
+\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
-\fs28 A bit generous gates leave some leftovers at the elastic peak, but give quite good statistics! (About 300 000 counts when excluding the elastic-peak leftovers and the 1n channel). The calibration is also very reasonable, the 273-keV line from the 4+ is too high (more at 300 keV), but the lines from the 738-keV 2+ level look good, within some 10-15 keV, and that\'92s not so bad considering I did not use any low-energy gammas for the gamma calibration! The excitation energy is also good, we see the fade-out of the 2+ because the 1n channel opens up at S_n = 7192 keV; the 4+ survives for another 200 keV, which it should based on the level scheme of 185W. \
+\fs28 \cf0 A bit generous gates leave some leftovers at the elastic peak, but give quite good statistics! (About 300 000 counts when excluding the elastic-peak leftovers and the 1n channel). The calibration is also very reasonable, the 273-keV line from the 4+ is too high (more at 300 keV), but the lines from the 738-keV 2+ level look good, within some 10-15 keV, and that\'92s not so bad considering I did not use any low-energy gammas for the gamma calibration! The excitation energy is also good, we see the fade-out of the 2+ because the 1n channel opens up at S_n = 7192 keV; the 4+ survives for another 200 keV, which it should based on the level scheme of 185W. \
 \
-=> Now it\'92s time to to the Oslo method!!! :)\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf8 Still not completely happy with the timing\'85 Some leftovers for the elastic peak and we are still missing the low-energy alphas. \
+=> Try now to use the 186W(a,a\'92) data set for the NaI and SiRi walk correction, and start with SiRi:
+\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic fit_siri_186W_aa.png \width22280 \height12540 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\fs24 \
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 root [3] m_siri_e_t->Draw
+\f4\b \cf6 ()
+\f3\b0 \cf3 \
+root [4] 
+\f4\b \cf7 TF1
+\f3\b0 \cf3 * f3=new 
+\f4\b \cf7 TF1\cf6 (
+\f3\b0 \cf3 "f3","200+[0]+[1]/(x+[2])+[3]*x"
+\f4\b \cf6 )
+\f3\b0 \cf3 \
+(TF1 *) 0x7ffec729f0d0\
+root [5] TFitEditor::DoFit - using function f3  0x7ffec664fba0\
 \
+****************************************\
+Minimizer is Minuit / Migrad\
+Chi2                      =        9.096\
+NDf                       =           32\
+Edm                       =  7.19612e-09\
+NCalls                    =         1196\
+p0                        =     -30.3658   +/-   3.49889     \
+p1                        =     -6554.24   +/-   7402.86     \
+p2                        =     -10059.3   +/-   1115.27     \
+p3                        =   0.00262009   +/-   0.000148905 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 parameter tnai_corr_esi  = 
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 -30.3658
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 -6554.24
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 -10059.3
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 0.00262009
+\f0\fs28 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 Now doing the NaI walk correction: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 {{\NeXTGraphic NaIcorr_after_SiRi_186W_aa.png \width25800 \height13020 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 ****************************************\
+Minimizer is Minuit / Migrad\
+Chi2                      =      1.94674\
+NDf                       =           36\
+Edm                       =  6.41286e-09\
+NCalls                    =           52\
+p0                        =     -14.3457   +/-   0.652724    \
+p1                        =      43149.7   +/-   1870.21     \
+p2                        =      691.764   +/-   31.7672     \
+p3                        =   0.00128536   +/-   7.12833e-05 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 parameter tnai_corr_enai  = 
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 -14.3457
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 43149.7
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 691.764
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 0.00128536
+\f0\fs28 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \
+HOWEVER this does not work well for m_siri_e_t, so will redo that one but keeping the NaI correction: \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 ****************************************\
+Minimizer is Minuit / Migrad\
+Chi2                      =     0.899093\
+NDf                       =           25\
+Edm                       =  5.64868e-09\
+NCalls                    =           56\
+p0                        =     -8.65631   +/-   0.966725    \
+p1                        =     -5782.41   +/-   1711.66     \
+p2                        =     -10171.8   +/-   252.829     \
+p3                        =  0.000671071   +/-   4.32006e-05 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 parameter tnai_corr_esi  = 
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 -8.65631
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 -5782.41
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 -10171.8
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f3\fs26 \cf3 \cb4 \CocoaLigature0 0.000671071
+\f0\fs28 \cf0 \cb1 \CocoaLigature1 \
 \
+
+\f2\b\fs32 \cf10 After a lot of back and forth, ended up with these parameters:
+\f0\b0 \
+\cf0 \
+parameter tnai_corr_enai  = -1.21725 17817.3 181.239 -0.000454826\
+
+\fs28 parameter tnai_corr_esi  = -8.65631 -5782.41 -10171.8 0.000671071\
 \
+and in user_sort.cpp: \
+\
+	/*** HERE COMES THE MAIN MATRIX FOR NaI ***/\
+	int weight = 1;\
+        if( na_t_c>188 && na_t_c<208 ) \{// 186W\
+            m_alfna->Fill( na_e_int, ex_int, 1 );\
+            //if(ex_int>1000 && ex_int<3300)\
+                //m_nai_e->Fill( na_e_int, id );\
+\
+        \} else if( na_t_c>245 && na_t_c<265 ) \{\
+            m_alfna->Fill( na_e_int, ex_int, -1 );\
+            m_alfna_bg->Fill( na_e_int, ex_int );\
+            weight = -1;\
+        \}\
 \
 \
 }
