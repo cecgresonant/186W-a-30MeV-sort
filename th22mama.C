@@ -1,5 +1,5 @@
 /*
- Usage: .x th22mama.C+ ( matrix, "output-filename.m") or .x th22mama.C+ ( matrix, "output-filename.m", "comment")
+ Usage: .x th22mama.C+( matrix, "output-filename.m") or .x th22mama.C+( matrix, "output-filename.m", "comment")
 */
 
 #include <TH2.h>
