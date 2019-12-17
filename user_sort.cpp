@@ -476,6 +476,7 @@ bool UserXY::Sort(const Event& event)
         //if(e_int>9280 && e_int<10510 && de_int>960 && de_int<1170){// gate on the region in 19F around Ex = 1300-1500 keV
         //if(e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520){// gate on the 5/2+ level in 15N at Ex = 5270 keV
         //if((e_int>7930 && e_int<9030 && de_int>1040 && de_int<1300) || (e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520)){ // gates on the 9/2+ peak in 19F and 5/2+ level in 15N at Ex = 5270 keV     
+        if(ex_int>500){  // Reduce the influence of the elastic peak  
             m_nai_e_t[id] ->Fill( na_e_int,  na_t_int );
         //}
         //if(ex_int>8765 && ex_int<9000 && id<28) {     // gate on peak at 8904 keV in 28Si, only NaI
@@ -483,21 +484,23 @@ bool UserXY::Sort(const Event& event)
         //if(ex_int>6085 && ex_int<6450){
             m_nai_e_t_all ->Fill( na_e_int,  na_t_int );
             m_nai_e_t_c   ->Fill( na_e_int,  na_t_c );
+        }
+        //if(e_int>10300 && e_int<20300){
+            m_siri_e_t[ei]->Fill( e_int, na_t_c );
+            m_siri_e_t_all->Fill( e_int, na_t_c );
         //}
-        m_siri_e_t[ei]->Fill( e_int, na_t_c );
-        m_siri_e_t_all->Fill( e_int, na_t_c );
 #endif /* MAKE_CACTUS_TIME_ENERGY_PLOTS */
 
         // ..................................................
        
 		/*** HERE COMES THE MAIN MATRIX FOR NaI ***/
 		int weight = 1;
-        if( na_t_c>188 && na_t_c<208 ) {// 186W
+        if( na_t_c>190 && na_t_c<212 ) {// 186W 188 - 208
             m_alfna->Fill( na_e_int, ex_int, 1 );
             //if(ex_int>1000 && ex_int<3300)
                 //m_nai_e->Fill( na_e_int, id );
 
-        } else if( na_t_c>245 && na_t_c<265 ) {
+        } else if( na_t_c>220 && na_t_c<242 ) { // also tried a peak at longer delay, na_t_c>245 && na_t_c<265
             m_alfna->Fill( na_e_int, ex_int, -1 );
             m_alfna_bg->Fill( na_e_int, ex_int );
             weight = -1;
