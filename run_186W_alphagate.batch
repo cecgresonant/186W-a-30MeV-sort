@@ -1,7 +1,7 @@
 #
 # sorting batch file, 186W(a,a')186W
 # 30-MeV alpha beam
-#
+# Cecilie, July - Dec 2019
 
 # where to load the gainshifts from; one can also use:
 #   parameter gain_e = ...
@@ -18,10 +18,15 @@ parameter ede_rect = 500 250 30 500
 
 # cactus energy correction parameters for cactus time
 # This is parameters from the contamination gammas
-parameter tnai_corr_enai  = -1.21725 17817.3 181.239 -0.000454826
+#parameter tnai_corr_enai  = -1.21725 17817.3 181.239 -0.000454826
 # This is from the 186W(a,a') data, when first correcting SiRi
 #parameter tnai_corr_enai  = -14.3457 43149.7 691.764 0.00128536
+# No correction
 #parameter tnai_corr_enai = 0 0 1 0
+# 12 Dec 2019
+# Trying the time alignment again, using only 186W but data for Ex > 500 keV. 
+# This is from the 186W(a,a') data, no SiRi corr, and fit of the nai_e_t matrix:
+parameter tnai_corr_enai  = -18.0323 15448 84.9707 -0.000868075
 
 # siri energy correction parameters for cactus time
 # Here with NaI correction already, from the impurity gammas
@@ -30,8 +35,15 @@ parameter tnai_corr_enai  = -1.21725 17817.3 181.239 -0.000454826
 # BUT this does not work well when correcting the NaI walk. 
 #parameter tnai_corr_esi  = -30.3658 -6554.24 -10059.3 0.00262009
 # Here with SiRi corr. -> NaI corr. -> New SiRi corr.
-parameter tnai_corr_esi  = -8.65631 -5782.41 -10171.8 0.000671071
+#parameter tnai_corr_esi  = -8.65631 -5782.41 -10171.8 0.000671071
+# No correction
 #parameter tnai_corr_esi  = 0 0 1 0
+# 12 Dec 2019 - updated fits - first NaI, then SiRi
+parameter tnai_corr_esi  = -6.95961 -14895.2 -8646.48 0.000575226
+
+
+
+
 
 # Parameters for the range curve, 3He or alpha
 #rangefile zrange_p.dat
