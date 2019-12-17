@@ -1,13 +1,16 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fswiss\fcharset0 Helvetica-Bold;
-\f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 Menlo-Bold;}
+\f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 Menlo-Bold;\f5\fnil\fcharset0 AndaleMono;
+\f6\fnil\fcharset0 Monaco;}
 {\colortbl;\red255\green255\blue255;\red11\green33\blue100;\red102\green255\blue255;\red0\green0\blue0;
 \red12\green33\blue100;\red47\green231\blue26;\red107\green255\blue255;\red15\green90\blue123;\red41\green6\blue19;
-\red25\green162\blue221;\red12\green34\blue101;\red12\green34\blue101;\red227\green255\blue255;\red94\green0\blue130;
+\red25\green162\blue221;\red12\green34\blue101;\red227\green255\blue255;\red94\green0\blue130;\red47\green255\blue18;
+\red0\green0\blue0;\red47\green180\blue29;\red64\green11\blue217;\red0\green0\blue0;\red0\green128\blue255;
 }
 {\*\expandedcolortbl;;\cssrgb\c4305\c18938\c46806;\csgenericrgb\c40000\c100000\c100000;\csgenericrgb\c0\c0\c0;
 \cssrgb\c4489\c19156\c47019;\cssrgb\c17864\c90514\c12812;\cssrgb\c47171\c100000\c100000;\cssrgb\c3728\c42889\c55751;\cssrgb\c21766\c3110\c9785;
-\cssrgb\c5821\c69898\c89230;\cssrgb\c4674\c19375\c47232;\cssrgb\c4674\c19375\c47232;\cssrgb\c91098\c100000\c100000;\cssrgb\c44843\c5188\c58306;
+\cssrgb\c5821\c69898\c89230;\cssrgb\c4674\c19375\c47232;\cssrgb\c91098\c100000\c100000;\cssrgb\c44843\c5188\c58306;\cssrgb\c15686\c99608\c7843;
+\csgray\c0\c90000;\cssrgb\c20239\c73899\c14948;\cssrgb\c32309\c18668\c88228;\csgray\c0;\csgenericrgb\c0\c50196\c100000;
 }
 \paperw11900\paperh16840\margl1440\margr1440\vieww21700\viewh14820\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
@@ -19,11 +22,14 @@ Oslo Cyclotron Laboratory\
 Typical intensities: 1.5 - 2.2 nA\
 RF setting: 23.76 MHz\
 Run from April 20 - 29, 2016\
-Cecilie, last update 6 Sep 2019\
+Cecilie\
+last update 17 Dec 2019 \
+- NEW TIMING USING THE 186W NaI DATA\
 *************************************\
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
-\fs24 \
+\fs24 \cf0 \
 Target borrowed from LBNL - check out what to do, probably just a thank-you note in the acknowledgment? => Ask Therese and Gry for their opinion\
 186W, 0.31 mg/cm^2, on a 24 ug/cm^2 thin carbon backing. But what about enrichments?? Check out publications from Berkeley using such a target\'85\
 => According to Andreas G\'f6rgen, those targets were typically highly enriched, so it is safe to assume ~99% enrichment in 186W. \
@@ -932,13 +938,15 @@ root [6] \
 
 \f0\fs24 \cf0 \cb1 \CocoaLigature1 \
 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f2\b\fs36 \cf10 CHECK OF CALIBRATION
 \f0\b0\fs24 \cf0 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs28 \cf0 \
-\ul \ulc11 Gamma energy\ulnone \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \ul \ulc11 Gamma energy\ulnone \
 \
 I now check the calibration for the gamma energy:\
 \
@@ -946,8 +954,9 @@ I now check the calibration for the gamma energy:\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs24 \cf0 {{\NeXTGraphic Screenshot 2019-09-06 at 10.38.17.png \width15660 \height11600 \appleattachmentpadding0 \appleembedtype0 \appleaqc
-}¬}
-\fs28 \
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
 \f3\fs26 \cf3 \cb4 \CocoaLigature0 mama>ft 1\
@@ -1052,8 +1061,7 @@ mama>\
 \f0\fs28 \cf0 \cb1 \CocoaLigature1 \
 So the 738-keV line is not so bad, only 12 keV off. As I used the 1.868-MeV line and the 5.269-MeV line for calibration it is maybe not surprising that the lowest-energy gammas are some tens of keV off. Will keep the gamma calibration as it is for now, can try to adjust later if needed. \
 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 \ul \ulc12 Excitation energy\ulnone \
+\ul Excitation energy\ulnone \
 \
 Now projecting the 4+ into the y axis (Ex axis): \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
@@ -1109,8 +1117,7 @@ mama>                             \
 }¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \fs28 \cf0 \
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 \
+\
 Then I have everything I need for doing a re-calibration of the Ex axis (note that this is with a compression 2 on the Ex axis on 
 \f3\fs26 \cf3 \cb4 \CocoaLigature0 alfna_186W.m
 \f0\fs28 \cf0 \cb1 \CocoaLigature1 : \
@@ -1223,7 +1230,7 @@ Cal. coeff. a2 (keV/ch2) on y-axis < 0.0000E+00>:\
 Dimension on x-axis (max=4096) <2000>:\
 Dimension on y-axis (max=2048)  < 250>:\
 Filename                       <TEST>:
-\f4\b \cf13 \cb14 alfna_186W_recal
+\f4\b \cf12 \cb13 alfna_186W_recal
 \f3\b0 \cf3 \cb4 \
 mama>\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
@@ -1232,4 +1239,119 @@ mama>\
 This is now the new matrix I will use for the Oslo method (folder 186W_aa_OsloMethod)\
 \
 \
+UPDATE 10 DEC 2019: \
+DOUBLE CHECKED THE NaI TIMES, REDID THE TIME SHIFT AND THE WALK CORRECTION:\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 root [5] m_nai_e_t->Draw\cf16 ()\cf14 \
+root [6] \cf17 TF1\cf14 * f3=new \cf17 TF1\cf16 (\cf14 "f3","200+[0]+[1]/(x+[2])+[3]*x"\cf16 )\cf14 \
+(TF1 *) 0x7fd1a5b2e470\
+root [7] m_nai_e_t->Rebin2D\cf16 (\cf14 2,2\cf16 )\cf14 \
+(TH2 *) 0x7fd1
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 {{\NeXTGraphic Screenshot 2019-12-12 at 11.49.03.png \width20080 \height14060 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 a2d03800\
+root [8] TFitEditor::DoFit - using function f3  0x7fd1a5c0fb60\
+\
+****************************************\
+Minimizer is Minuit / Migrad\
+Chi2                      =      15.1067\
+NDf                       =           49\
+Edm                       =  1.24672e-07\
+NCalls                    =          322\
+p0                        =     -18.0323   +/-   0.732061    \
+p1                        =        15448   +/-   794.377     \
+p2                        =      84.9707   +/-   13.5075     \
+p3                        = -0.000868075   +/-   0.00016031  \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \cb1 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs32 \cf0 parameter tnai_corr_enai  = 
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 -18.0323
+\f0\fs32 \cf0 \cb1 \CocoaLigature1  
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 15448
+\f0\fs32 \cf0 \cb1 \CocoaLigature1  
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 84.9707
+\f0\fs32 \cf0 \cb1 \CocoaLigature1  
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 -0.000868075\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \cb1 \CocoaLigature1 \
+\
+Now sort again with this for the NaI correction and no SiRi correction, to do the final SiRi correction also:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 {{\NeXTGraphic new_siri_timewalkcorrection.png \width19400 \height11900 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 ****************************************\
+Minimizer is Minuit / Migrad\
+Chi2                      =     0.895688\
+NDf                       =           24\
+Edm                       =  1.27469e-06\
+NCalls                    =          174\
+p0                        =     -6.95961   +/-   1.92669     \
+p1                        =     -14895.2   +/-   6676.68     \
+p2                        =     -8646.48   +/-   669.464     \
+p3                        =  0.000575226   +/-   7.31789e-05 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \cb1 \CocoaLigature1 \
+parameter tnai_corr_esi  = 
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 -6.95961
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 -14895.2
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 -8646.48
+\f0\fs28 \cf0 \cb1 \CocoaLigature1  
+\f5\fs30 \cf14 \cb15 \CocoaLigature0 0.000575226
+\f0\fs28 \cf0 \cb1 \CocoaLigature1 \
+\
+This is the new m_nai_e_t_c with 20-channel wide gates:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 {{\NeXTGraphic new_time_gates.png \width16420 \height12180 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 \
+In the sorting code:\
+\
+		/*** HERE COMES THE MAIN MATRIX FOR NaI ***/\
+		int weight = 1;\
+        if( na_t_c>190 && na_t_c<212 ) \{// 186W 188 - 208\
+            m_alfna->Fill( na_e_int, ex_int, 1 );\
+            //if(ex_int>1000 && ex_int<3300)\
+                //m_nai_e->Fill( na_e_int, id );\
+\
+        \} else if( na_t_c>220 && na_t_c<242 ) \{ // also tried a peak at longer delay, na_t_c>245 && na_t_c<265\
+            m_alfna->Fill( na_e_int, ex_int, -1 );\
+            m_alfna_bg->Fill( na_e_int, ex_int );\
+            weight = -1;\
+        \}\
+        \
+This cleans up leftovers from the elastic peak quite considerably, but still keeping good counts in the matrix: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 {{\NeXTGraphic new_alfna_matrix.png \width16480 \height11820 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 \
+\
+\
+Write to MAMA format: \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f6 \cf18 \cb19 \CocoaLigature0 root [2] .x th22mama.C+( m_alfna, "alfna_new_186W.m")\
+Info in <TMacOSXSystem::ACLiC>: creating shared library /Users/anncecil/Documents/186W-a-30MeV-sort/./th22mama_C.so\
+matrix is 2000x500; comment='none'\
+root [3] \
 }
