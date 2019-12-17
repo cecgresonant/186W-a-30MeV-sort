@@ -1044,9 +1044,9 @@ void check_CACTUScal(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    TH1D *px28 = banana_NaI28->ProjectionX("px28",185,215);
+    TH1D *px28 = banana_NaI28->ProjectionX("px28",185,235);
     px28->GetYaxis()->SetTitle("Counts");
-    px28->GetYaxis()->SetRangeUser(1,2400);
+    px28->GetYaxis()->SetRangeUser(1,5100);
     px28->Rebin(4)->Draw();
     cout << " **************************** " << endl;
     cout << " Peaks, m_nai_e_t_28: " << endl;
@@ -1082,9 +1082,9 @@ void check_CACTUScal(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
-    TH1D *px29 = banana_NaI29->ProjectionX("px29",185,215);
+    TH1D *px29 = banana_NaI29->ProjectionX("px29",185,240);
     px29->GetYaxis()->SetTitle("Counts");
-    px29->GetYaxis()->SetRangeUser(1,2100);
+    px29->GetYaxis()->SetRangeUser(1,5100);
     px29->Rebin(4)->Draw();
     cout << " **************************** " << endl;
     cout << " Peaks, m_nai_e_t_29: " << endl;
