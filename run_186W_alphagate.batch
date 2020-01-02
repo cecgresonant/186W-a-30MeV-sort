@@ -129,5 +129,8 @@ data file datafiles/sirius-20160429-070605.data
 # at the end, spectra are dumped to the root file
 # root output file
 #export root offline_186W_plain.root
-export root offline_186W_aa.root
+#export root offline_186W_aa.root
+#export root offline_186W_aa_rnpeak_before_prompt.root
+#export root offline_186W_aa_rnpeak_twoafter_prompt.root
+export root offline_186W_aa_rnpeak_after_prompt.root
 
