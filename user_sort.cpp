@@ -495,12 +495,14 @@ bool UserXY::Sort(const Event& event)
        
 		/*** HERE COMES THE MAIN MATRIX FOR NaI ***/
 		int weight = 1;
-        if( na_t_c>190 && na_t_c<212 ) {// 186W 188 - 208
+        if( na_t_c>190 && na_t_c<210 ) {// 186W 188 - 208; 190 -212
             m_alfna->Fill( na_e_int, ex_int, 1 );
             //if(ex_int>1000 && ex_int<3300)
                 //m_nai_e->Fill( na_e_int, id );
 
-        } else if( na_t_c>220 && na_t_c<242 ) { // also tried a peak at longer delay, na_t_c>245 && na_t_c<265
+        } else if( na_t_c>220 && na_t_c<240 ) { // also tried a peak at longer delay, na_t_c>245 && na_t_c<265, file offline_186W_aa_rnpeak_twoafter_prompt.root, with more statistics
+
+        //} else if( na_t_c>160 && na_t_c<180 ) { // Testing the peak coming before the prompt
             m_alfna->Fill( na_e_int, ex_int, -1 );
             m_alfna_bg->Fill( na_e_int, ex_int );
             weight = -1;
