@@ -6,12 +6,12 @@
 \red12\green33\blue100;\red47\green231\blue26;\red107\green255\blue255;\red15\green90\blue123;\red41\green6\blue19;
 \red25\green162\blue221;\red12\green34\blue101;\red227\green255\blue255;\red94\green0\blue130;\red47\green255\blue18;
 \red0\green0\blue0;\red47\green180\blue29;\red64\green11\blue217;\red0\green0\blue0;\red0\green128\blue255;
-}
+\red15\green90\blue123;}
 {\*\expandedcolortbl;;\cssrgb\c4305\c18938\c46806;\csgenericrgb\c40000\c100000\c100000;\csgenericrgb\c0\c0\c0;
 \cssrgb\c4489\c19156\c47019;\cssrgb\c17864\c90514\c12812;\cssrgb\c47171\c100000\c100000;\cssrgb\c3728\c42889\c55751;\cssrgb\c21766\c3110\c9785;
 \cssrgb\c5821\c69898\c89230;\cssrgb\c4674\c19375\c47232;\cssrgb\c91098\c100000\c100000;\cssrgb\c44843\c5188\c58306;\cssrgb\c15686\c99608\c7843;
 \csgray\c0\c90000;\cssrgb\c20239\c73899\c14948;\cssrgb\c32309\c18668\c88228;\csgray\c0;\csgenericrgb\c0\c50196\c100000;
-}
+\cssrgb\c3728\c42889\c55751;}
 \paperw11900\paperh16840\margl1440\margr1440\vieww21700\viewh14820\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
@@ -23,8 +23,9 @@ Typical intensities: 1.5 - 2.2 nA\
 RF setting: 23.76 MHz\
 Run from April 20 - 29, 2016\
 Cecilie\
-last update 17 Dec 2019 \
+last update 02 January 2020 \
 - NEW TIMING USING THE 186W NaI DATA\
+- TESTING DIFFERENT TIME GATES (SUBTRACTION OF RANDOMS)\
 *************************************\
 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
@@ -1239,7 +1240,7 @@ mama>\
 This is now the new matrix I will use for the Oslo method (folder 186W_aa_OsloMethod)\
 \
 \
-UPDATE 10 DEC 2019: \
+UPDATE 10 DEC 2019, 17 Dec 2019, 02 Jan 2020: \
 DOUBLE CHECKED THE NaI TIMES, REDID THE TIME SHIFT AND THE WALK CORRECTION:\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
@@ -1354,4 +1355,37 @@ Write to MAMA format: \
 Info in <TMacOSXSystem::ACLiC>: creating shared library /Users/anncecil/Documents/186W-a-30MeV-sort/./th22mama_C.so\
 matrix is 2000x500; comment='none'\
 root [3] \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0 \cf0 \cb1 \CocoaLigature1 \
+MORE TESTS ON THE TIME GATES: \
+\
+Using a new gate on the prompt peak, and varying the gate on the random coincidences in user_sort.cpp: \
+\
+	/*** HERE COMES THE MAIN MATRIX FOR NaI ***/\
+	int weight = 1;\
+       if( na_t_c>190 && na_t_c<210 ) \{// 186W 188 - 208; 190 -212\
+            m_alfna->Fill( na_e_int, ex_int, 1 );\
+            //if(ex_int>1000 && ex_int<3300)\
+                //m_nai_e->Fill( na_e_int, id );\
+\
+        \} else if( na_t_c>220 && na_t_c<240 ) \{ // also tried a peak at longer delay, na_t_c>245 && na_t_c<265, file offline_186W_aa_rnpeak_twoafter_prompt.root, with more statistics\
+\
+        //\} else if( na_t_c>160 && na_t_c<180 ) \{ // Testing the peak coming before the prompt\
+            m_alfna->Fill( na_e_int, ex_int, -1 );\
+            m_alfna_bg->Fill( na_e_int, ex_int );\
+            weight = -1;\
+        \}\
+ \
+\
+Three different files: \
+	- offline_186W_aa_rnpeak_before_prompt.root\
+	- offline_186W_aa_rnpeak_after_prompt.root\
+	- offline_186W_aa_rnpeak_twoafter_prompt.root\
+\
+
+\f2\b \cf20 To get some measure of the uncertainty due to different time gates, I keep all three to include in the total uncertainties in the end. \
+
+\f0\b0 \cf0 \
 }
