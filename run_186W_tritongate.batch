@@ -1,5 +1,5 @@
 #
-# sorting batch file, 186W(a,d)188Re
+# sorting batch file, 186W(a,t)188Re
 # 30-MeV alpha beam
 # Cecilie
 #
@@ -27,7 +27,8 @@ parameter tnai_corr_esi  = 0 0 1 0
 
 # Parameters for the range curve, 3He or alpha
 #rangefile zrange_p.dat
-rangefile zrange_d.dat
+#rangefile zrange_d.dat
+rangefile zrange_t.dat
 #rangefile zrange_he3.dat
 #rangefile zrange_a.dat
 
@@ -38,15 +39,15 @@ parameter thick_range = 127 16 0
 #parameter thick_range = 65 40 0
 
 # fit of rkinz column 1 as function of rkinz column 6
-#  186W(a,d) @ 30 MeV, thickness 0.31 mg/cm**2
-parameter ex_from_ede    = 14551.283 -1.000915 -0.000000804 \
-   14556.803 -1.000073 -0.000000818 \
-   14561.938 -0.999144 -0.000000833 \
-   14567.338 -0.998259 -0.000000845 \
-   14572.350 -0.997292 -0.000000860 \
-   14576.298 -0.996112 -0.000000882 \
-   14580.493 -0.994982 -0.000000900 \
-   14584.253 -0.993772 -0.000000921 
+#  186W(a,t) @ 30 MeV, thickness 0.31 mg/cm**2
+parameter ex_from_ede    = 14782.102 -1.006365 -0.000000833 \
+   14789.398 -1.005401 -0.000000847 \
+   14796.227 -1.004337 -0.000000863 \
+   14803.241 -1.003299 -0.000000876 \
+   14809.785 -1.002166 -0.000000891 \
+   14815.178 -1.000815 -0.000000914 \
+   14820.732 -0.999496 -0.000000934 \
+   14825.760 -0.998085 -0.000000956 
 
 
 # empirical excitation energy correction for the above, e.g. from known peaks
@@ -109,5 +110,5 @@ data file datafiles/sirius-20160429-070605.data
 # at the end, spectra are dumped to the root file
 # root output file
 #export root offline_186W_plain.root
-export root offline_186W_d.root
+export root offline_186W_t.root
 

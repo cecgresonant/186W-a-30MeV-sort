@@ -1,4 +1,5 @@
 *.data
+.DS_Store
 lib/
 lib/.depend-Event.dep
 datafiles/
@@ -6,6 +7,9 @@ QKinz_runs/
 figures/
 alpha_peaks_60Ni_b0.csv
 alpha_peaks_60Ni.csv
+analysis_186W+alpha.pdf
+banana_b3f5.pdf
+banana_b3f5.png
 calibration_186W_a.xlsx
 ~$calibration_186W_a.xlsx
 calibration_186W_d.xlsx
@@ -19,11 +23,13 @@ offline_186W_p_gate_15N.root
 offline_186W_d.root
 offline_186W_aa.root
 offline_186W_p_gate_15N_CACTUScalib.root
+offline_186W_t.root
 offline_186W_p_gate_15N_plainCACTUScal.root
 offline_186W_p_gate_19F_2779keVpeak.root
 offline_186W_p_gate_19F_and_15N_peaks.root
 offline_186W_p_gate_19F_1346keVpeak.root
 offline_186W_p_gate_15N_CACTUScalib_no_TNaI_shift.root
+Re188_matrix.png
 sorting
 user_sort.o
 peaks2D_C.d
@@ -32,6 +38,7 @@ peaks2D_C_ACLiC_dict_rdict.pcm
 th22mama_C.d
 th22mama_C.so
 th22mama_C_ACLiC_dict_rdict.pcm
+timegates_nld_gsf.png
 newgains.txt
 cactus_gains.txt
 analysis_186W+alpha.rtfd/*.png

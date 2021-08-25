@@ -144,8 +144,8 @@ UserXY::UserXY()
 
 void UserXY::CreateSpectra()
 {
-    //const int max_e = 20000, max_de = 10000; // For protons, deuterons, tritons
-    const int max_e = 40000, max_de = 20000; // For alphas
+    const int max_e = 20000, max_de = 10000; // For protons, deuterons, tritons
+    //const int max_e = 40000, max_de = 20000; // For alphas
     m_back = Mat( "m_back", "back detector energies",
                   2000, 0, max_e, "E(Si) [keV]", 8, 0, 8, "detector nr." );
     m_front = Mat( "m_front", "front detector energies",
@@ -476,7 +476,7 @@ bool UserXY::Sort(const Event& event)
         //if(e_int>9280 && e_int<10510 && de_int>960 && de_int<1170){// gate on the region in 19F around Ex = 1300-1500 keV
         //if(e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520){// gate on the 5/2+ level in 15N at Ex = 5270 keV
         //if((e_int>7930 && e_int<9030 && de_int>1040 && de_int<1300) || (e_int>6050 && e_int<7200 && de_int>1200 && de_int<1520)){ // gates on the 9/2+ peak in 19F and 5/2+ level in 15N at Ex = 5270 keV     
-        if(ex_int>500){  // Reduce the influence of the elastic peak  
+        //if(ex_int>500){  // Reduce the influence of the elastic peak  
             m_nai_e_t[id] ->Fill( na_e_int,  na_t_int );
         //}
         //if(ex_int>8765 && ex_int<9000 && id<28) {     // gate on peak at 8904 keV in 28Si, only NaI
@@ -484,7 +484,7 @@ bool UserXY::Sort(const Event& event)
         //if(ex_int>6085 && ex_int<6450){
             m_nai_e_t_all ->Fill( na_e_int,  na_t_int );
             m_nai_e_t_c   ->Fill( na_e_int,  na_t_c );
-        }
+        //}
         //if(e_int>10300 && e_int<20300){
             m_siri_e_t[ei]->Fill( e_int, na_t_c );
             m_siri_e_t_all->Fill( e_int, na_t_c );

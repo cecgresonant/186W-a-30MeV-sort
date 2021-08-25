@@ -139,6 +139,7 @@ void fits_CACTUS_peaks_protongate(){
     gPad->SetRightMargin(0.03);
     gPad->SetTopMargin(0.07);
 
+
     // NaI channel 02
     banana_NaI02->GetXaxis()->SetRangeUser(0,8500);
     banana_NaI02->GetYaxis()->SetRangeUser(150,280);
