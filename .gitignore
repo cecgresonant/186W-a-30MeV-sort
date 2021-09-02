@@ -1,7 +1,10 @@
 *.data
 .DS_Store
-lib/
-lib/.depend-Event.dep
+lib/*.o
+lib/.depend-*
+lib/libsorting.a
+lib/MamaWriter_cpp.d
+lib/MamaWriter_cpp.so
 datafiles/
 QKinz_runs/
 figures/
