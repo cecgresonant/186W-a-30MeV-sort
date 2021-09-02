@@ -5,6 +5,7 @@ This experiment was done with the SiRi silicon telescope array mounted in backwa
 
 To compile the sorting code, do:
 >make very-clean
+
 and then
 >make
 
